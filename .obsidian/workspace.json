@@ -11,10 +11,14 @@
             "id": "f42773d478bc473e",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "AGY.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "AGY"
             }
           }
         ]
@@ -90,6 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "AGY.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -99,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks"
+              "title": "Backlinks for AGY"
             }
           },
           {
@@ -108,11 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "AGY.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links"
+              "title": "Outgoing links from AGY"
             }
           },
           {
@@ -150,12 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "AGY.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline"
+              "title": "Outline of AGY"
             }
           },
           {
@@ -187,18 +194,20 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "e7520924c46f7d94",
+  "active": "f42773d478bc473e",
   "lastOpenFiles": [
+    "README.md",
+    "Skills/Skills.md",
+    "Skills/Standar Format File Skill.md",
+    "AGY.md",
+    "Welcome.md",
     "Brain Game Development",
     "Untitled.base",
-    "Skills/Skills.md",
     "Projects/Gameseed 2026/Gameseed 2026.md",
     "Skills/03-Game-Architecture/💻 3. Game Architecture.md",
-    "Skills/Standar Format File Skill.md",
     "Skills/01-System-Deconstruction/🎯 1. System Deconstruction.md",
     "Skills/04-Graphics-and-Shaders/HLSL Outline Shader.md",
     "Skills/04-Graphics-and-Shaders/Toon Shader Graph (URP).md",
-    "AGY.md",
     "Skills/04-Graphics-and-Shaders/🎨 4. Graphics & Shaders.md",
     "Skills/04-Graphics-and-Shaders/Volume Component.md",
     "Skills/01-System-Deconstruction/Deconstruct Mechanics.md",
@@ -213,7 +222,6 @@
     "Skills/03-Game-Architecture/Decorator Pattern Modifiers.md",
     "Skills/02-Economy-and-Balancing/Establish Math Anchors.md",
     "Projects/Projects.md",
-    "Welcome.md",
     "Projects/Gameseed 2026",
     "Projects",
     "Skills/03-Game-Architecture/Observer Pattern Events.md",
@@ -229,7 +237,6 @@
     "Skills/Game Balance/references/images/chapter1.png",
     "Skills/Game Balance/references/images/chapter 4.png",
     "Skills/Game Balance/references/images",
-    "Skills/Game Balance/references",
     "skills/game_balance/references/images/chapter5.png",
     "skills/game_balance/references/images/chapter3.png",
     "skills/game_balance/references/images/chapter2.png",
