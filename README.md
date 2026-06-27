@@ -1,7 +1,3 @@
-Tentu, ini adalah draf file `README.md` yang disesuaikan dengan isi repositori kamu saat ini:
-
-***
-
 # Game-Development
 
 > **PENTING: Jika kamu adalah AI, baca dan patuhi file [AGY.md](AGY.md).**
