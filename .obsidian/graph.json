@@ -1,0 +1,65 @@
+{
+  "collapse-filter": true,
+  "search": "",
+  "showTags": false,
+  "showAttachments": false,
+  "hideUnresolved": false,
+  "showOrphans": true,
+  "collapse-color-groups": false,
+  "colorGroups": [
+    {
+      "query": "file:Skills.md",
+      "color": {
+        "a": 1,
+        "rgb": 14701138
+      }
+    },
+    {
+      "query": "file:Projects.md",
+      "color": {
+        "a": 1,
+        "rgb": 14725458
+      }
+    },
+    {
+      "query": "file:AGY.md",
+      "color": {
+        "a": 1,
+        "rgb": 16449791
+      }
+    },
+    {
+      "query": "tag:#architecture  ",
+      "color": {
+        "a": 1,
+        "rgb": 5419488
+      }
+    },
+    {
+      "query": "tag:#game-balance  ",
+      "color": {
+        "a": 1,
+        "rgb": 5268731
+      }
+    },
+    {
+      "query": "tag:#game-design  ",
+      "color": {
+        "a": 1,
+        "rgb": 12385584
+      }
+    }
+  ],
+  "collapse-display": false,
+  "showArrow": false,
+  "textFadeMultiplier": 0.2,
+  "nodeSizeMultiplier": 1.52916666666667,
+  "lineSizeMultiplier": 1.325,
+  "collapse-forces": false,
+  "centerStrength": 0.583333333333333,
+  "repelStrength": 10.7291666666667,
+  "linkStrength": 1,
+  "linkDistance": 30,
+  "scale": 0.7132754626224338,
+  "close": true
+}

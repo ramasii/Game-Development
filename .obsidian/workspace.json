@@ -1,0 +1,239 @@
+{
+  "main": {
+    "id": "bf1ca2ee88a0e60f",
+    "type": "split",
+    "children": [
+      {
+        "id": "a2ddd31a51934ad6",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f42773d478bc473e",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "de6e82ba92684d30",
+    "type": "split",
+    "children": [
+      {
+        "id": "99e6966eb8da067c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "128d5ba411da2e3d",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "607c989ba283ec6f",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "95cdd650b657ac6c",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "da11180e6fb24c03",
+    "type": "split",
+    "children": [
+      {
+        "id": "75ce6c72e563e20a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "169d6c4da94103dc",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "8acf2fbf9177e9ff",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "d73b6a2a001cfd17",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "1123713e7e3a6963",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "07dd76fa17b95a2b",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          },
+          {
+            "id": "e7520924c46f7d94",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
+          }
+        ],
+        "currentTab": 5
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "graph:Open graph view": false,
+      "switcher:Open quick switcher": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false,
+      "obsidian-git:Open Git source control": false
+    }
+  },
+  "active": "e7520924c46f7d94",
+  "lastOpenFiles": [
+    "Brain Game Development",
+    "Untitled.base",
+    "Skills/Skills.md",
+    "Projects/Gameseed 2026/Gameseed 2026.md",
+    "Skills/03-Game-Architecture/💻 3. Game Architecture.md",
+    "Skills/Standar Format File Skill.md",
+    "Skills/01-System-Deconstruction/🎯 1. System Deconstruction.md",
+    "Skills/04-Graphics-and-Shaders/HLSL Outline Shader.md",
+    "Skills/04-Graphics-and-Shaders/Toon Shader Graph (URP).md",
+    "AGY.md",
+    "Skills/04-Graphics-and-Shaders/🎨 4. Graphics & Shaders.md",
+    "Skills/04-Graphics-and-Shaders/Volume Component.md",
+    "Skills/01-System-Deconstruction/Deconstruct Mechanics.md",
+    "Skills/04-Graphics-and-Shaders/URP Renderer Feature.md",
+    "Skills/04-Graphics-and-Shaders",
+    "Skills/02-Economy-and-Balancing/Apply Balance Foundations.md",
+    "Skills/01-System-Deconstruction/Identify Core Loops.md",
+    "Skills/03-Game-Architecture/Advanced Architecture Patterns.md",
+    "Skills/03-Game-Architecture/Runtime State Separation.md",
+    "Skills/02-Economy-and-Balancing/📊 2. Economy & Balancing.md",
+    "Skills/03-Game-Architecture/Layered Architecture Stabilization.md",
+    "Skills/03-Game-Architecture/Decorator Pattern Modifiers.md",
+    "Skills/02-Economy-and-Balancing/Establish Math Anchors.md",
+    "Projects/Projects.md",
+    "Welcome.md",
+    "Projects/Gameseed 2026",
+    "Projects",
+    "Skills/03-Game-Architecture/Observer Pattern Events.md",
+    "Skills/02-Economy-and-Balancing/Spreadsheet Setup.md",
+    "Skills/02-Economy-and-Balancing/Model Progress Curves.md",
+    "Skills/03-Game-Architecture",
+    "Skills/02-Economy-and-Balancing",
+    "Skills/01-System-Deconstruction",
+    "Skills/Game Balance/references/Balancing Spreadsheet.pdf",
+    "Skills/Game Balance/references/images/chapter5.png",
+    "Skills/Game Balance/references/images/chapter3.png",
+    "Skills/Game Balance/references/images/chapter2.png",
+    "Skills/Game Balance/references/images/chapter1.png",
+    "Skills/Game Balance/references/images/chapter 4.png",
+    "Skills/Game Balance/references/images",
+    "Skills/Game Balance/references",
+    "skills/game_balance/references/images/chapter5.png",
+    "skills/game_balance/references/images/chapter3.png",
+    "skills/game_balance/references/images/chapter2.png",
+    "skills/game_balance/references/images/chapter1.png",
+    "skills/game_balance/references/images/chapter 4.png"
+  ]
+}
