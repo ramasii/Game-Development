@@ -31,8 +31,7 @@
               "title": "📊 2. Economy & Balancing"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -205,8 +204,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "33ac119cc81af8e7",
+  "active": "f42773d478bc473e",
   "lastOpenFiles": [
+    "Skills/02-Economy-and-Balancing/📊 2. Economy & Balancing.md",
     "Skills/03-Game-Architecture/💻 3. Game Architecture.md",
     "Skills/04-Graphics-and-Shaders/🎨 4. Graphics & Shaders.md",
     "Skills/03-Game-Architecture/Centralized State Manager (GameManager Singleton & Event).md",
@@ -231,7 +231,6 @@
     "Skills/01-System-Deconstruction/Identify Core Loops.md",
     "Skills/03-Game-Architecture/Advanced Architecture Patterns.md",
     "Skills/03-Game-Architecture/Runtime State Separation.md",
-    "Skills/02-Economy-and-Balancing/📊 2. Economy & Balancing.md",
     "Skills/03-Game-Architecture/Layered Architecture Stabilization.md",
     "Skills/03-Game-Architecture/Decorator Pattern Modifiers.md",
     "Skills/02-Economy-and-Balancing/Establish Math Anchors.md",
