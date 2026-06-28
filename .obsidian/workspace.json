@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Skills/Standar Format File Skill.md",
+                "file": "Temporary.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Standar Format File Skill"
+              "title": "Temporary"
             }
           }
         ],
@@ -211,11 +211,17 @@
   },
   "active": "33ac119cc81af8e7",
   "lastOpenFiles": [
+    "Skills/04-Graphics-and-Shaders/HLSL Outline Shader.md",
+    "Skills/03-Game-Architecture/Runtime State Separation.md",
+    "Skills/03-Game-Architecture/Observer Pattern Events.md",
+    "Skills/03-Game-Architecture/Decorator Pattern Modifiers.md",
+    "Skills/03-Game-Architecture/Layered Architecture Stabilization.md",
+    "Skills/03-Game-Architecture/Advanced Architecture Patterns.md",
+    "Skills/Standar Format File Skill.md",
     "Skills/Skills.md",
     "Projects/Projects.md",
     "Books/Books.md",
     "Temporary.md",
-    "Skills/Standar Format File Skill.md",
     "AGY.md",
     "Books/An Architectural Approach to Level Design Second Edition.pdf",
     "Skills/02-Economy-and-Balancing/📊 2. Economy & Balancing.md",
@@ -232,17 +238,11 @@
     "Untitled.base",
     "Projects/Gameseed 2026/Gameseed 2026.md",
     "Skills/01-System-Deconstruction/🎯 1. System Deconstruction.md",
-    "Skills/04-Graphics-and-Shaders/HLSL Outline Shader.md",
     "Skills/04-Graphics-and-Shaders/Toon Shader Graph (URP).md",
     "Skills/04-Graphics-and-Shaders/Volume Component.md",
     "Skills/01-System-Deconstruction/Deconstruct Mechanics.md",
     "Skills/04-Graphics-and-Shaders/URP Renderer Feature.md",
     "Skills/04-Graphics-and-Shaders",
-    "Skills/02-Economy-and-Balancing/Apply Balance Foundations.md",
-    "Skills/01-System-Deconstruction/Identify Core Loops.md",
-    "Skills/03-Game-Architecture/Advanced Architecture Patterns.md",
-    "Skills/03-Game-Architecture/Runtime State Separation.md",
-    "Skills/03-Game-Architecture/Layered Architecture Stabilization.md",
     "Projects/Gameseed 2026",
     "Projects",
     "Skills/03-Game-Architecture",
