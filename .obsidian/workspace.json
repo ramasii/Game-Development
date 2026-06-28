@@ -25,14 +25,12 @@
             "id": "33ac119cc81af8e7",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "pdf",
               "state": {
-                "file": "Temporary.md",
-                "mode": "preview",
-                "source": false
+                "file": "Books/An Architectural Approach to Level Design Second Edition.pdf"
               },
-              "icon": "lucide-file",
-              "title": "Temporary"
+              "icon": "lucide-file-text",
+              "title": "An Architectural Approach to Level Design Second Edition"
             }
           }
         ],
@@ -93,7 +91,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 584.5
   },
   "right": {
     "id": "da11180e6fb24c03",
@@ -209,8 +207,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "33ac119cc81af8e7",
+  "active": "128d5ba411da2e3d",
   "lastOpenFiles": [
+    "Temporary.md",
     "Skills/04-Graphics-and-Shaders/HLSL Outline Shader.md",
     "Skills/03-Game-Architecture/Runtime State Separation.md",
     "Skills/03-Game-Architecture/Observer Pattern Events.md",
@@ -221,7 +220,6 @@
     "Skills/Skills.md",
     "Projects/Projects.md",
     "Books/Books.md",
-    "Temporary.md",
     "AGY.md",
     "Books/An Architectural Approach to Level Design Second Edition.pdf",
     "Skills/02-Economy-and-Balancing/📊 2. Economy & Balancing.md",
