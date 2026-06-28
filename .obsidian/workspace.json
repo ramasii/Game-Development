@@ -11,10 +11,12 @@
             "id": "f42773d478bc473e",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "pdf",
+              "state": {
+                "file": "Books/An Architectural Approach to Level Design Second Edition.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "An Architectural Approach to Level Design Second Edition"
             }
           },
           {
@@ -23,16 +25,15 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Skills/02-Economy-and-Balancing/📊 2. Economy & Balancing.md",
+                "file": "AGY.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "📊 2. Economy & Balancing"
+              "title": "AGY"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -205,11 +206,11 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "33ac119cc81af8e7",
+  "active": "f42773d478bc473e",
   "lastOpenFiles": [
     "Books/Books.md",
-    "Skills/02-Economy-and-Balancing/📊 2. Economy & Balancing.md",
     "AGY.md",
+    "Skills/02-Economy-and-Balancing/📊 2. Economy & Balancing.md",
     "Books/An Architectural Approach to Level Design Second Edition.pdf",
     "Books/An Architectural Approach to Level Design.pdf",
     "Books",
