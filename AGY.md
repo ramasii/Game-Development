@@ -36,6 +36,10 @@
 Berpengalaman dalam membuat game 2D & 3D secara tim serta aktif berpartisipasi di Game Jam.
 > Lihat semua proyek di [[Projects]]
 
+## 📚 Books
+Koleksi buku/referensi belajar (level design, design pattern, dll).
+> Lihat daftar lengkap di [[Books]]
+
 ## 🧠 Skills
 Pustaka pengetahuan dibagi dalam 3 ranah keahlian utama.
 > Lihat panduan lengkap & cara tambah skill baru di [[Skills]]
@@ -48,6 +52,12 @@ Game Development/
 │
 ├── Welcome.md
 ├── AGY.md
+├── README.md
+│
+├── 📂 Books/
+│   ├── Books.md
+│   ├── An Architectural Approach to Level Design.pdf
+│   └── An Architectural Approach to Level Design Second Edition.pdf
 │
 ├── 📂 Projects/
 │   ├── Projects.md
@@ -56,6 +66,7 @@ Game Development/
 │
 └── 📂 Skills/
     ├── Skills.md
+    ├── Standar Format File Skill.md
     ├── 📂 01-System-Deconstruction/
     │   ├── 🎯 1. System Deconstruction.md
     │   ├── Deconstruct Mechanics.md
@@ -75,5 +86,8 @@ Game Development/
         ├── Layered Architecture Stabilization.md
         ├── Decorator Pattern Modifiers.md
         ├── Observer Pattern Events.md
-        └── Advanced Architecture Patterns.md
+        ├── Advanced Architecture Patterns.md
+        ├── Decoupled Audio System (Event Channel & Pooling).md
+        ├── Simple FSM Berbasis Enum (Game State Prototyping).md
+        └── Centralized State Manager (GameManager Singleton & Event).md
 ```

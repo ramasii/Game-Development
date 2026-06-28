@@ -11,14 +11,10 @@
             "id": "f42773d478bc473e",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "AGY.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "AGY"
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
             }
           },
           {
@@ -35,7 +31,8 @@
               "title": "📊 2. Economy & Balancing"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -208,10 +205,12 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "f42773d478bc473e",
+  "active": "33ac119cc81af8e7",
   "lastOpenFiles": [
-    "Books/An Architectural Approach to Level Design Second Edition.pdf",
+    "Books/Books.md",
     "Skills/02-Economy-and-Balancing/📊 2. Economy & Balancing.md",
+    "AGY.md",
+    "Books/An Architectural Approach to Level Design Second Edition.pdf",
     "Books/An Architectural Approach to Level Design.pdf",
     "Books",
     "Skills/03-Game-Architecture/💻 3. Game Architecture.md",
@@ -221,7 +220,6 @@
     "Skills/03-Game-Architecture/Decoupled Audio System (Event Channel & Pooling).md",
     "Skills/Skills.md",
     "README.md",
-    "AGY.md",
     "Skills/Standar Format File Skill.md",
     "Welcome.md",
     "Brain Game Development",
