@@ -16,18 +16,6 @@
               "icon": "lucide-git-fork",
               "title": "Graph view"
             }
-          },
-          {
-            "id": "33ac119cc81af8e7",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Books/An Architectural Approach to Level Design Second Edition.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "An Architectural Approach to Level Design Second Edition"
-            }
           }
         ]
       }
@@ -204,6 +192,7 @@
   },
   "active": "f42773d478bc473e",
   "lastOpenFiles": [
+    "Skills/05-Level-and-Spatial-Design/Architectural Drawing Toolkit untuk Level Design.md",
     "Skills/05-Level-and-Spatial-Design/Prospect & Refuge Spatial Design.md",
     "Skills/Skills.md",
     "Books/An Architectural Approach to Level Design Second Edition.pdf",
