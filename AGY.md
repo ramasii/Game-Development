@@ -41,7 +41,7 @@ Koleksi buku/referensi belajar (level design, design pattern, dll).
 > Lihat daftar lengkap di [[Books]]
 
 ## 🧠 Skills
-Pustaka pengetahuan dibagi dalam 3 ranah keahlian utama.
+Pustaka pengetahuan dibagi dalam 4 ranah keahlian utama.
 > Lihat panduan lengkap & cara tambah skill baru di [[Skills]]
 
 ---
@@ -67,6 +67,7 @@ Game Development/
 └── 📂 Skills/
     ├── Skills.md
     ├── Standar Format File Skill.md
+    │
     ├── 📂 01-System-Deconstruction/
     │   ├── 🎯 1. System Deconstruction.md
     │   ├── Deconstruct Mechanics.md
@@ -80,14 +81,21 @@ Game Development/
     │   ├── Model Progress Curves.md
     │   └── Spreadsheet Setup.md
     │
-    └── 📂 03-Game-Architecture/
-        ├── 💻 3. Game Architecture.md
-        ├── Runtime State Separation.md
-        ├── Layered Architecture Stabilization.md
-        ├── Decorator Pattern Modifiers.md
-        ├── Observer Pattern Events.md
-        ├── Advanced Architecture Patterns.md
-        ├── Decoupled Audio System (Event Channel & Pooling).md
-        ├── Simple FSM Berbasis Enum (Game State Prototyping).md
-        └── Centralized State Manager (GameManager Singleton & Event).md
+    ├── 📂 03-Game-Architecture/
+    │   ├── 💻 3. Game Architecture.md
+    │   ├── Runtime State Separation.md
+    │   ├── Layered Architecture Stabilization.md
+    │   ├── Decorator Pattern Modifiers.md
+    │   ├── Observer Pattern Events.md
+    │   ├── Advanced Architecture Patterns.md
+    │   ├── Decoupled Audio System (Event Channel & Pooling).md
+    │   ├── Simple FSM Berbasis Enum (Game State Prototyping).md
+    │   └── Centralized State Manager (GameManager Singleton & Event).md
+    │
+    └── 📂 04-Graphics-and-Shaders/
+        ├── 🎨 4. Graphics & Shaders.md
+        ├── HLSL Outline Shader.md
+        ├── Toon Shader Graph (URP).md
+        ├── URP Renderer Feature.md
+        └── Volume Component.md
 ```
