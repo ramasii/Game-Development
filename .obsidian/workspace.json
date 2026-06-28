@@ -11,12 +11,14 @@
             "id": "f42773d478bc473e",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "markdown",
               "state": {
-                "file": "Books/An Architectural Approach to Level Design Second Edition.pdf"
+                "file": "AGY.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-file-text",
-              "title": "An Architectural Approach to Level Design Second Edition"
+              "icon": "lucide-file",
+              "title": "AGY"
             }
           },
           {
@@ -208,10 +210,10 @@
   },
   "active": "f42773d478bc473e",
   "lastOpenFiles": [
+    "Books/An Architectural Approach to Level Design Second Edition.pdf",
     "Books/Books.md",
     "AGY.md",
     "Skills/02-Economy-and-Balancing/📊 2. Economy & Balancing.md",
-    "Books/An Architectural Approach to Level Design Second Edition.pdf",
     "Books/An Architectural Approach to Level Design.pdf",
     "Books",
     "Skills/03-Game-Architecture/💻 3. Game Architecture.md",
@@ -239,7 +241,6 @@
     "Skills/03-Game-Architecture/Runtime State Separation.md",
     "Skills/03-Game-Architecture/Layered Architecture Stabilization.md",
     "Skills/03-Game-Architecture/Decorator Pattern Modifiers.md",
-    "Skills/02-Economy-and-Balancing/Establish Math Anchors.md",
     "Projects/Gameseed 2026",
     "Projects",
     "Skills/03-Game-Architecture",
