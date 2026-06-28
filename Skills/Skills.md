@@ -28,3 +28,6 @@ Implementasi teknis tingkat lanjut, manajemen state, dan kode pemrograman modula
 
 ### [[🎨 4. Graphics & Shaders]]
 Pemrograman visual di URP: custom renderer feature, HLSL shader, dan volume system.
+
+### [[🏛️ 5. Level & Spatial Design]]
+Teori desain ruang & arsitektural yang diterapkan ke level design — spasial, alur, dan pengalaman bermain.

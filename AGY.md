@@ -41,7 +41,7 @@ Koleksi buku/referensi belajar (level design, design pattern, dll).
 > Lihat daftar lengkap di [[Books]]
 
 ## 🧠 Skills
-Pustaka pengetahuan dibagi dalam 4 ranah keahlian utama.
+Pustaka pengetahuan dibagi dalam 5 ranah keahlian utama.
 > Lihat panduan lengkap & cara tambah skill baru di [[Skills]]
 
 ---
@@ -92,10 +92,14 @@ Game Development/
     │   ├── Simple FSM Berbasis Enum (Game State Prototyping).md
     │   └── Centralized State Manager (GameManager Singleton & Event).md
     │
-    └── 📂 04-Graphics-and-Shaders/
-        ├── 🎨 4. Graphics & Shaders.md
-        ├── HLSL Outline Shader.md
-        ├── Toon Shader Graph (URP).md
-        ├── URP Renderer Feature.md
-        └── Volume Component.md
+    ├── 📂 04-Graphics-and-Shaders/
+    │   ├── 🎨 4. Graphics & Shaders.md
+    │   ├── HLSL Outline Shader.md
+    │   ├── Toon Shader Graph (URP).md
+    │   ├── URP Renderer Feature.md
+    │   └── Volume Component.md
+    │
+    └── 📂 05-Level-and-Spatial-Design/
+        ├── 🏛️ 5. Level & Spatial Design.md
+        └── Prospect & Refuge Spatial Design.md
 ```
