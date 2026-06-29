@@ -16,8 +16,21 @@
               "icon": "lucide-git-fork",
               "title": "Graph view"
             }
+          },
+          {
+            "id": "0b51e877607097e3",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Books/An Architectural Approach to Level Design Second Edition.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "An Architectural Approach to Level Design Second Edition"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -190,7 +203,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "f42773d478bc473e",
+  "active": "0b51e877607097e3",
   "lastOpenFiles": [
     "Skills/05-Level-and-Spatial-Design/Level Design Workflow (Whiteblocking & Modular).md",
     "Skills/05-Level-and-Spatial-Design/Tutorial Level Building Blocks.md",
