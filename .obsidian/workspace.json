@@ -16,21 +16,8 @@
               "icon": "lucide-git-fork",
               "title": "Graph view"
             }
-          },
-          {
-            "id": "0b51e877607097e3",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Books/An Architectural Approach to Level Design Second Edition.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "An Architectural Approach to Level Design Second Edition"
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -203,14 +190,14 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "0b51e877607097e3",
+  "active": "f42773d478bc473e",
   "lastOpenFiles": [
+    "Books/An Architectural Approach to Level Design Second Edition.pdf",
     "Skills/05-Level-and-Spatial-Design/Level Design Workflow (Whiteblocking & Modular).md",
     "Skills/05-Level-and-Spatial-Design/Tutorial Level Building Blocks.md",
     "Skills/05-Level-and-Spatial-Design/Architectural Drawing Toolkit untuk Level Design.md",
     "Skills/05-Level-and-Spatial-Design/Prospect & Refuge Spatial Design.md",
     "Skills/Skills.md",
-    "Books/An Architectural Approach to Level Design Second Edition.pdf",
     "Skills/05-Level-and-Spatial-Design/🏛️ 5. Level & Spatial Design.md",
     "Skills/05-Level-and-Spatial-Design",
     "Temporary.md",
@@ -236,7 +223,6 @@
     "Welcome.md",
     "Brain Game Development",
     "Untitled.base",
-    "Projects/Gameseed 2026/Gameseed 2026.md",
     "Skills/04-Graphics-and-Shaders",
     "Projects/Gameseed 2026",
     "Projects",

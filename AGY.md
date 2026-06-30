@@ -32,6 +32,9 @@
 - Tantangan dalam berkomunikasi dan berkolaborasi dalam tim.
 - Kecenderungan untuk mengerjakan segala hal sendirian (*lone wolf*).
 
+- Sebagai programmer, kesulitan menentukan *art style* yang konsisten untuk game.
+- Kesulitan menentukan desain UI dan UX yang baik.
+
 ## 🚀 Proyek
 Berpengalaman dalam membuat game 2D & 3D secara tim serta aktif berpartisipasi di Game Jam.
 > Lihat semua proyek di [[Projects]]
