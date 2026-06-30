@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "AGY.md",
-                "mode": "preview",
+                "file": "Temporary.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "AGY"
+              "title": "Temporary"
             }
           },
           {
@@ -27,15 +27,16 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Skills/Standar Format File Skill.md",
+                "file": "Temporary.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Standar Format File Skill"
+              "title": "Temporary"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -208,13 +209,15 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "f42773d478bc473e",
+  "active": "c3b0c6284775c153",
   "lastOpenFiles": [
+    "Skills/Standar Format File Skill.md",
+    "Temporary.md",
+    "README.md",
+    "AGY.md",
     "Skills/03-Game-Architecture/💻 3. Game Architecture.md",
     "Skills/Skills.md",
     "Skills/03-Game-Architecture/Single Source of Truth (SSOT).md",
-    "Skills/Standar Format File Skill.md",
-    "Temporary.md",
     "Books/An Architectural Approach to Level Design Second Edition.pdf",
     "Skills/05-Level-and-Spatial-Design/Level Design Workflow (Whiteblocking & Modular).md",
     "Skills/05-Level-and-Spatial-Design/Tutorial Level Building Blocks.md",
@@ -230,7 +233,6 @@
     "Skills/03-Game-Architecture/Advanced Architecture Patterns.md",
     "Projects/Projects.md",
     "Books/Books.md",
-    "AGY.md",
     "Skills/02-Economy-and-Balancing/📊 2. Economy & Balancing.md",
     "Books/An Architectural Approach to Level Design.pdf",
     "Books",
@@ -238,7 +240,6 @@
     "Skills/03-Game-Architecture/Centralized State Manager (GameManager Singleton & Event).md",
     "Skills/03-Game-Architecture/Simple FSM Berbasis Enum (Game State Prototyping).md",
     "Skills/03-Game-Architecture/Decoupled Audio System (Event Channel & Pooling).md",
-    "README.md",
     "Welcome.md",
     "Brain Game Development",
     "Untitled.base",

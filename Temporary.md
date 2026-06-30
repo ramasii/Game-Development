@@ -1,97 +1,86 @@
-# 🧠 Prinsip Single Source of Truth (SSOT) dalam Clean Code
+Kerangka kerja **Kihon, Kata, dan Kumite** yang diadopsi dari seni bela diri Karate adalah model mental yang luar biasa kuat untuk merancang **kurva belajar pemain (_player learning curve_)** dan **desain pertempuran (_encounter design_)**.
 
-Dalam dunia _software engineering_ dan praktik _Clean Code_, **Single Source of Truth (SSOT)** adalah prinsip arsitektur yang menyatakan bahwa setiap elemen data atau logika bisnis yang spesifik hanya boleh dibuat, disimpan, dan diedit di **satu tempat saja**.
+Jika _Kishōtenketsu_ berfokus pada struktur pengenalan _gimmick_ dalam sebuah level (populer di game platformer), maka _Kihon-Kata-Kumite_ lebih berfokus pada **penguasaan mekanik berbasis aksi, refleks, dan memori otot pemain**.
 
-Ketika bagian lain dari program membutuhkan data atau logika tersebut, mereka harus merujuk ke satu sumber utama ini, bukan membuat salinan (_copy_) atau representasi baru.
+Berikut adalah penjelasan mendalam, contoh konkret, panduan langkah demi langkah, serta kapan kamu harus menggunakannya.
 
-### 1. Mengapa SSOT Diperlukan dalam Clean Code?
+### Penjelasan & Contoh Konkret: Mekanik _Parry_ (Tangkisan)
 
-_Clean Code_ berfokus pada kode yang mudah dibaca, mudah dirawat (_maintainable_), dan mudah diubah. Tanpa penerapan SSOT, kode Anda akan mengalami masalah berikut:
+Mari kita gunakan contoh mekanik **Parry (Menangkis serangan tepat sebelum kena untuk memicu serangan balik)**, sebuah mekanik yang membutuhkan _timing_ ketat.
 
-- **Duplikasi Data (Redundansi):** Jika data yang sama disimpan di tiga variabel berbeda, Anda harus memperbarui ketiganya saat terjadi perubahan. Jika lupa memperbarui salah satu saja, akan terjadi bug sinkronisasi.
+#### 1. Kihon (Dasar / Fondasi)
+
+- **Penjelasan:** Pemain mempelajari mekanik dasar dalam kondisi terisolasi dan bebas dari bahaya (_zero-risk environment_).
     
-- **Sulit Melacak Bug:** Saat hasil kalkulasi salah, Anda akan kesulitan mencari tahu fungsi mana yang menghitungnya jika logika tersebut tersebar di banyak tempat.
+- **Contoh Gamenya:** Pemain dikurung di sebuah ruangan "Laboratorium/Tutorial" bersama satu robot latih. Robot ini hanya mengayunkan pedangnya setiap 3 detik sekali dengan sangat lambat dan memiliki indikator visual menyala merah saat akan menyerang. Jika pemain gagal menangkis, mereka tidak mati dan darahnya tidak berkurang.
     
-- **Efek Samping (Side Effects) Tak Terduga:** Mengubah kode di satu modul tiba-tiba merusak modul lain karena adanya ketergantungan data yang tidak terpusat.
-    
-
-### 2. Cara Menerapkan Prinsip SSOT dalam Kode
-
-#### A. Gunakan Data Turunan (_Derived Data / Computed Properties_)
-
-Jangan menyimpan data state yang sebenarnya bisa dihitung langsung dari data yang sudah ada.
-
-_❌ **Salah (Non-SSOT):** Menyimpan status kelulusan/kematian secara manual._
-
-C#
-
-```
-public class Player {
-    public int Health = 100;
-    public bool IsDead = false; // Duplikasi kebenaran. Jika Health = 0 tapi IsDead lupa diubah, sistem rusak.
-}
-```
-
-- can **Benar (Menerapkan SSOT):** Menjadikan status sebagai properti yang dihitung secara dinamis.*
+- **Goal:** Pemain paham tombol apa yang harus ditekan dan tahu bahwa karakter mereka _bisa_ menangkis.
     
 
-C#
+#### 2. Kata (Bentuk / Pola)
 
-```
-public class Player {
-    public int Health = 100;
+- **Penjelasan:** Mekanik dasar tadi mulai dimasukkan ke dalam level nyata, tetapi rintangannya masih memiliki pola yang terstruktur, ritmis, dan mudah diprediksi.
     
-    // Sumber kebenaran tunggal untuk status kematian adalah nilai Health itu sendiri
-    public bool IsDead => Health <= 0; 
-}
-```
-
-#### B. Sentralisasi State (_Centralized State Management_)
-
-Pusatkan status utama aplikasi pada satu manajer khusus (misalnya menggunakan pola _Singleton_ untuk komponen manajerial).
-
-Sebagai contoh, jika Anda membuat sistem _Game State_:
-
-- Jangan biarkan komponen UI, Player, dan Audio melacak sendiri-sendiri apakah game sedang `Paused` atau `Gameplay`.
+- **Contoh Gamenya:** Pemain menjelajahi koridor level. Mereka bertemu dengan musuh tipe _Sentry_. Musuh ini menyerang dengan pola tetap yang berirama: _Sabet, Sabet, Istirahat_ (Tek, Tek, Pausa). Pemain melatih memori otot mereka untuk menyamakan ritme tangkisan dengan pola visual dan audio musuh. Jika gagal, pemain menerima sedikit _damage_.
     
-- Pusatkan status tersebut di satu kelas bernama `GameManager`. Komponen lain hanya berhak membaca dari satu sumber tersebut.
+- **Goal:** Membangun kepercayaan diri dan memori otot pemain melalui pengulangan pola yang konsisten.
     
 
-#### C. Gunakan Sistem Event / Signals (_Decoupling_)
+#### 3. Kumite (Pertarungan Bebas / Aplikasi Nyata)
 
-Agar komponen lain bisa mengetahui perubahan dari sumber kebenaran tanpa harus ikut campur memodifikasi datanya, gunakan pendekatan _Event-Driven_.
-
-- **Alur Logika:** `GameManager` mengubah state miliknya $\rightarrow$ `GameManager` memicu event `OnStateChanged` $\rightarrow$ UI, Player, dan Audio merespons event tersebut secara mandiri.
+- **Penjelasan:** Semua batasan dan keteraturan dilepas. Pemain dilempar ke situasi yang dinamis, tidak terprediksi, berisiko tinggi, dan memaksa mereka menggunakan insting.
     
-- Dengan cara ini, kebenaran perubahan state tetap dipegang oleh satu objek saja (`GameManager`).
+- **Contoh Gamenya:** _Boss Fight_. Sang Boss tidak lagi memiliki ritme serangan yang lambat atau konstan. Boss bisa melakukan _feint_ (pura-pura menyerang lalu menunda tebasan), menyerang secara acak, atau mengombinasikan serangan jarak jauh dan dekat secara simultan. Pemain tidak bisa lagi sekadar menghafal pola kaku; mereka harus membaca situasi secara real-time dan mengeksekusi _parry_ berdasarkan insting murni. Kegagalan di tahap ini fatal (bisa langsung mati).
     
-
-#### D. Hindari _Hardcoded Strings_ (Gunakan Enums atau Constants)
-
-String yang ditulis manual di banyak tempat (misalnya nama scene, nama animasi, atau ID database) sangat melanggar SSOT. Jika nama scene berubah, Anda harus menggantinya di seluruh file kode secara manual.
-
-- **Penerapan SSOT:** Kumpulkan semua teks statis ke dalam sebuah struktur data terpusat (seperti `Enum` atau kelas `Static Constants`).
+- **Goal:** Menguji kepuasan tertinggi pemain atas penguasaan mekanik (_sense of mastery_).
     
 
-C#
+### Step-by-Step Cara Membuat Game Design-nya
 
-```
-// Sumber kebenaran tunggal untuk nama-nama State
-public enum GameState {
-    MainMenu,
-    Gameplay,
-    Paused,
-    GameOver
-}
-```
+Jika kamu sedang membuka Game Design Document (GDD) atau sedang menyusun level, ikuti 4 langkah taktis ini:
 
-### 3. Keuntungan Menerapkan SSOT
+#### Langkah 1: Isolasi "Mekanik Inti" (Tahap Kihon)
 
-1. **Refactoring yang Aman:** Jika Anda perlu mengubah struktur data atau logika perhitungan, Anda hanya perlu mengubahnya di satu file atau satu fungsi saja.
+- Tentukan satu aksi utama yang ingin kamu ajarkan (misal: _Grappling Hook_, _Dodge Roll_, atau _Double Jump_).
     
-2. **Satu Sumber untuk Debugging:** Jika nilai data menyimpang, Anda langsung tahu persis ke kelas mana Anda harus pergi untuk memperbaikinya.
+- Rancang satu ruangan atau area khusus di awal level yang **membersihkan semua variabel pengganggu**. Hilangkan musuh lain, hilangkan jurang maut, hilangkan batas waktu (_timer_).
     
-3. **Meningkatkan Keterbacaan (Readability):** Developer lain tidak akan bingung memilih variabel mana yang harus digunakan, karena hanya ada satu variabel resmi untuk data tersebut.
+- Berikan objek interaksi yang statis. Biarkan pemain menekan tombol tersebut berkali-kali sampai mereka paham jarak (_range_), animasi, dan _delay_ dari mekanik tersebut.
     
 
-> 💡 **Kesimpulan:** Single Source of Truth dalam Clean Code mengajarkan kita untuk tidak malas mendesain arsitektur di awal. Dengan memastikan setiap informasi penting hanya memiliki **satu pemilik sah**, kode Anda akan terhindar dari _spaghetti code_ dan siap menghadapi perubahan skala proyek yang lebih besar.
+#### Langkah 2: Buat Skenario "If-This-Then-That" Berpola (Tahap Kata)
+
+- Buatlah rintangan atau musuh yang bergerak dengan **satu variabel mekanis yang konstan**. Misal: Platform yang bergerak ke kiri-kanan dengan kecepatan stabil, atau musuh yang menembakkan satu peluru setiap 2 detik.
+    
+- Letakkan rintangan ini di tempat yang memiliki risiko rendah-menengah (misal: jika jatuh, pemain hanya kembali ke awal koridor, bukan mati).
+    
+- Ulangi tantangan ini sebanyak 2-3 kali dengan sedikit variasi spasial (misal: jarak antar platform agak diperjauh) agar memori otot pemain terkunci.
+    
+
+#### Langkah 3: Rusak Prediktabilitas & Berikan Tekanan (Tahap Kumite)
+
+- Sekarang, gabungkan mekanik tersebut dengan elemen lain untuk menciptakan tekanan emosional.
+    
+- **Cara merusak prediktabilitas:** Gabungkan dua tipe musuh yang polanya berlawanan (satu menyerang dari atas, satu dari bawah), atau berikan elemen lingkungan yang memaksa pemain bergerak cepat (misal: lantai yang runtuh atau gas beracun yang mengejar).
+    
+- Di tahap ini, pemain harus dipaksa mengambil keputusan dalam hitungan milidetik.
+    
+
+#### Langkah 4: Evaluasi Kurva Kesulitan (_Playtest_)
+
+- Lakukan _playtest_. Jika pemain frustrasi di Tahap 3 (Kumite), artinya jembatan di Tahap 2 (Kata) kurang lama atau polanya terlalu melompat kesulitannya.
+    
+- Jika pemain merasa bosan di Tahap 2, artinya repetisi pola terlalu banyak dan kamu harus mempercepat transisi menuju Tahap 3.
+    
+
+### Kapan Kamu Harus Menggunakan Teori Ini?
+
+Teori _Kihon-Kata-Kumite_ tidak melulu cocok untuk semua jenis game. Kamu wajib menggunakannya pada kondisi berikut:
+
+1. **Game Bergenre High-Skill / Action-Heavy:** Sangat cocok untuk game seperti _Hack and Slash_ (Devil May Cry), _Fighting Games_ (Street Fighter), _Platformer presisi_ (Celeste), atau game bergenre _Soulslike_ (Sekiro/Elden Ring) di mana mekanik utamanya membutuhkan presisi tinggi.
+    
+2. **Mekanik Game Memiliki "Skill Ceiling" yang Tinggi:** Jika mekanik di gamemu mudah dipelajari tapi sulit dikuasai (_Easy to learn, Hard to master_). Kerangka kerja ini memastikan pemain pemula tidak langsung menyerah di 10 menit pertama.
+    
+3. **Desain Musuh dan Boss (_Encounter Design_):** Ketika kamu bertugas membuat variasi musuh. Musuh kroco/biasa didesain dengan prinsip _Kata_ (punya telegraf serangan yang jelas dan ritmis), sedangkan Boss didesain dengan prinsip _Kumite_ (agresif dan adaptif).
+    
+4. **Menghindari "Infodump" (Tutorial Teks Panjang):** Jika kamu ingin pemain menguasai sistem kombo atau mekanik rumit tanpa memaksa mereka membaca halaman tutorial teks yang membosankan saat game baru dimulai.
