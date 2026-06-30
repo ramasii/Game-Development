@@ -13,12 +13,26 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Temporary.md",
+                "file": "Skills/03-Game-Architecture/💻 3. Game Architecture.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "💻 3. Game Architecture"
+            }
+          },
+          {
+            "id": "c3b0c6284775c153",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Skills/Standar Format File Skill.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Temporary"
+              "title": "Standar Format File Skill"
             }
           }
         ]
@@ -196,22 +210,23 @@
   },
   "active": "f42773d478bc473e",
   "lastOpenFiles": [
+    "Skills/Skills.md",
+    "Skills/03-Game-Architecture/Single Source of Truth (SSOT).md",
+    "Skills/Standar Format File Skill.md",
+    "Temporary.md",
     "Books/An Architectural Approach to Level Design Second Edition.pdf",
     "Skills/05-Level-and-Spatial-Design/Level Design Workflow (Whiteblocking & Modular).md",
     "Skills/05-Level-and-Spatial-Design/Tutorial Level Building Blocks.md",
     "Skills/05-Level-and-Spatial-Design/Architectural Drawing Toolkit untuk Level Design.md",
     "Skills/05-Level-and-Spatial-Design/Prospect & Refuge Spatial Design.md",
-    "Skills/Skills.md",
     "Skills/05-Level-and-Spatial-Design/🏛️ 5. Level & Spatial Design.md",
     "Skills/05-Level-and-Spatial-Design",
-    "Temporary.md",
     "Skills/04-Graphics-and-Shaders/HLSL Outline Shader.md",
     "Skills/03-Game-Architecture/Runtime State Separation.md",
     "Skills/03-Game-Architecture/Observer Pattern Events.md",
     "Skills/03-Game-Architecture/Decorator Pattern Modifiers.md",
     "Skills/03-Game-Architecture/Layered Architecture Stabilization.md",
     "Skills/03-Game-Architecture/Advanced Architecture Patterns.md",
-    "Skills/Standar Format File Skill.md",
     "Projects/Projects.md",
     "Books/Books.md",
     "AGY.md",

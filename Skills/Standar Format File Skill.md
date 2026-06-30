@@ -10,6 +10,7 @@ Setiap file skill baru wajib mengikuti anatomi struktur **Modular Technical Docu
 ### 2. Deskripsi Singkat (`## 🎯 Apa Ini?`)
 *   Section wajib di awal catatan yang selalu menggunakan emoji target (`🎯`).
 *   Berisi 1–2 kalimat rangkuman mengenai fungsi utama komponen atau materi tersebut.
+*   Informasi kapan harus menggunakan skill ini.
 
 ### 3. Komponen & Arsitektur Teknis (H2 - Menyesuaikan Materi)
 Gunakan sub-section modular di bawah ini untuk membedah isi materi:

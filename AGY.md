@@ -31,7 +31,6 @@
 - Kesulitan menemukan/mengembangkan ide game yang pas.
 - Tantangan dalam berkomunikasi dan berkolaborasi dalam tim.
 - Kecenderungan untuk mengerjakan segala hal sendirian (*lone wolf*).
-
 - Sebagai programmer, kesulitan menentukan *art style* yang konsisten untuk game.
 - Kesulitan menentukan desain UI dan UX yang baik.
 
@@ -56,6 +55,7 @@ Game Development/
 ├── Welcome.md
 ├── AGY.md
 ├── README.md
+├── Temporary.md
 │
 ├── 📂 Books/
 │   ├── Books.md
@@ -93,7 +93,8 @@ Game Development/
     │   ├── Advanced Architecture Patterns.md
     │   ├── Decoupled Audio System (Event Channel & Pooling).md
     │   ├── Simple FSM Berbasis Enum (Game State Prototyping).md
-    │   └── Centralized State Manager (GameManager Singleton & Event).md
+    │   ├── Centralized State Manager (GameManager Singleton & Event).md
+    │   └── Single Source of Truth (SSOT).md
     │
     ├── 📂 04-Graphics-and-Shaders/
     │   ├── 🎨 4. Graphics & Shaders.md
