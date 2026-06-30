@@ -212,6 +212,7 @@
   "active": "c3b0c6284775c153",
   "lastOpenFiles": [
     "Skills/Standar Format File Skill.md",
+    "Skills/01-System-Deconstruction/Framework Kihon-Kata-Kumite (Learning Curve & Encounter Design).md",
     "Temporary.md",
     "README.md",
     "AGY.md",
@@ -240,7 +241,6 @@
     "Skills/03-Game-Architecture/Centralized State Manager (GameManager Singleton & Event).md",
     "Skills/03-Game-Architecture/Simple FSM Berbasis Enum (Game State Prototyping).md",
     "Skills/03-Game-Architecture/Decoupled Audio System (Event Channel & Pooling).md",
-    "Welcome.md",
     "Brain Game Development",
     "Untitled.base",
     "Skills/04-Graphics-and-Shaders",
