@@ -1,46 +1,97 @@
-Berdasarkan buku **"An Architectural Approach to Level Design"** karya Christopher Totten, terdapat beberapa kategori keahlian (*skills*) mendalam yang dapat kamu buat untuk *neural blueprint* AI milikmu. Buku ini pada dasarnya melatih AI untuk tidak hanya membangun ruangan, tetapi memahami **hubungan antara ruang, psikologi manusia, dan mekanik permainan**.
+# 🧠 Prinsip Single Source of Truth (SSOT) dalam Clean Code
 
-Berikut adalah draf beberapa *skill* yang bisa kamu masukkan ke folder `Skills/` di repositorimu:
+Dalam dunia _software engineering_ dan praktik _Clean Code_, **Single Source of Truth (SSOT)** adalah prinsip arsitektur yang menyatakan bahwa setiap elemen data atau logika bisnis yang spesifik hanya boleh dibuat, disimpan, dan diedit di **satu tempat saja**.
 
-### 1. Skill: Spatial Layout & Architectural Representation
-Kemampuan untuk merencanakan struktur level menggunakan standar arsitektur guna memastikan skala dan alur yang tepat sebelum masuk ke tahap produksi digital.
+Ketika bagian lain dari program membutuhkan data atau logika tersebut, mereka harus merujuk ke satu sumber utama ini, bukan membuat salinan (_copy_) atau representasi baru.
 
-*   **Core Capabilities:**
-    *   **Representasi 2D/3D**: Mampu menggunakan teknik gambar *Plan* (denah), *Section* (potongan), *Elevation* (tampak), dan *Axonometric* untuk memvisualisasikan level dari berbagai sudut pandang.
-    *   **Metric-Centric Design**: Merancang ruang berdasarkan metrik pergerakan karakter (misalnya: tinggi lompatan, kecepatan lari) agar desain tetap fungsional dan tidak memiliki "lompatan yang mustahil".
-    *   **Materiality Analysis**: Menggunakan material bangunan tidak hanya untuk estetika, tetapi untuk memberikan bobot struktural dan emosional pada lingkungan game.
+### 1. Mengapa SSOT Diperlukan dalam Clean Code?
 
-### 2. Skill: Emotional Space & Survival Instincts
-Kemampuan untuk memanipulasi geometri ruang guna membangkitkan emosi spesifik dari pemain, seperti rasa aman, takut, atau penasaran, dengan memanfaatkan insting bertahan hidup manusia.
+_Clean Code_ berfokus pada kode yang mudah dibaca, mudah dirawat (_maintainable_), dan mudah diubah. Tanpa penerapan SSOT, kode Anda akan mengalami masalah berikut:
 
-*   **Core Capabilities:**
-    *   **Prospect & Refuge**: Mengatur keseimbangan antara ruang terbuka untuk melihat musuh (*prospect*) dan ruang tertutup untuk bersembunyi (*refuge*).
-    *   **Shadow & Ambiguity**: Memanfaatkan pencahayaan, bayangan, dan ruang negatif untuk menciptakan ketegangan atau rasa bahaya.
-    *   **Verticality Management**: Menggunakan ketinggian secara strategis untuk memberikan keuntungan taktis atau menciptakan rasa pusing (*vertigo*) bagi pemain.
+- **Duplikasi Data (Redundansi):** Jika data yang sama disimpan di tiga variabel berbeda, Anda harus memperbarui ketiganya saat terjadi perubahan. Jika lupa memperbarui salah satu saja, akan terjadi bug sinkronisasi.
+    
+- **Sulit Melacak Bug:** Saat hasil kalkulasi salah, Anda akan kesulitan mencari tahu fungsi mana yang menghitungnya jika logika tersebut tersebar di banyak tempat.
+    
+- **Efek Samping (Side Effects) Tak Terduga:** Mengubah kode di satu modul tiba-tiba merusak modul lain karena adanya ketergantungan data yang tidak terpusat.
+    
 
-### 3. Skill: Visual Communication & Teaching Levels
-Kemampuan untuk mengajari pemain cara bermain melalui lingkungan (tutorial non-intrusi) tanpa menggunakan GUI atau teks penjelasan yang berlebihan.
+### 2. Cara Menerapkan Prinsip SSOT dalam Kode
 
-*   **Core Capabilities:**
-    *   **Symbolic Art Assets**: Menetapkan aset lingkungan yang berulang sebagai simbol (misalnya: warna tertentu untuk objek yang bisa dipanjat) untuk membangun literasi prosedural pada pemain.
-    *   **Architectural Weenies**: Menempatkan *landmark* atau bangunan tinggi di kejauhan untuk menarik perhatian pemain dan membantu navigasi (metode Walt Disney).
-    *   **Montessori & Constructivism Learning**: Menyusun tantangan dari yang paling sederhana hingga kompleks secara bertahap agar pemain dapat belajar melalui percobaan dan kegagalan.
+#### A. Gunakan Data Turunan (_Derived Data / Computed Properties_)
 
-### 4. Skill: Environmental Storytelling & Narrative Spaces
-Kemampuan untuk menyisipkan narasi ke dalam arsitektur dan tata letak aset lingkungan sehingga pemain dapat memahami cerita tanpa kata-kata.
+Jangan menyimpan data state yang sebenarnya bisa dihitung langsung dari data yang sudah ada.
 
-*   **Core Capabilities:**
-    *   **Embedded Narrative**: Menanamkan informasi cerita langsung pada objek atau arsitektur (seperti bekas darah, posisi kursi yang terbalik, atau gaya bangunan kuno).
-    *   **Evocative Spaces**: Menciptakan suasana yang menggugah ingatan pemain terhadap genre atau tema tertentu menggunakan elemen visual yang familiar.
-    *   **Dramatic Pacing**: Mengatur ritme level mengikuti struktur *Dramatic Arc* (puncak ketegangan dan momen tenang) guna menjaga keterikatan emosional pemain.
+_❌ **Salah (Non-SSOT):** Menyimpan status kelulusan/kematian secara manual._
 
-### 5. Skill: Iterative Workflow & Whiteblocking
-Kemampuan untuk mengelola proses pengembangan level yang efisien, mulai dari konsep kasar hingga produk akhir yang siap dipasangi aset seni.
+C#
 
-*   **Core Capabilities:**
-    *   **Whiteblocking/Grayboxing**: Membangun prototipe level menggunakan geometri sederhana (*primitives*) untuk menguji mekanik dan *flow* permainan sebelum aset seni final dibuat.
-    *   **Modular Design**: Menciptakan set potongan bangunan yang dapat digunakan kembali (*prefabricated*) untuk mempercepat konstruksi level yang konsisten.
-    *   **Playtest Evaluation**: Menganalisis hasil pengujian pemain untuk memperbaiki *bottleneck* atau bagian level yang membingungkan secara iteratif.
+```
+public class Player {
+    public int Health = 100;
+    public bool IsDead = false; // Duplikasi kebenaran. Jika Health = 0 tapi IsDead lupa diubah, sistem rusak.
+}
+```
 
-**Saran Penggunaan:**
-Kamu bisa memilih salah satu judul di atas (misalnya `Skills/Emotional-Level-Design.md`) dan meminta saya untuk membuatkan isinya secara mendetail berdasarkan prinsip-prinsip arsitektur Totten. Jangan lupa untuk selalu mematuhi instruksi dalam file **AGY.md** yang kamu miliki.
+- can **Benar (Menerapkan SSOT):** Menjadikan status sebagai properti yang dihitung secara dinamis.*
+    
+
+C#
+
+```
+public class Player {
+    public int Health = 100;
+    
+    // Sumber kebenaran tunggal untuk status kematian adalah nilai Health itu sendiri
+    public bool IsDead => Health <= 0; 
+}
+```
+
+#### B. Sentralisasi State (_Centralized State Management_)
+
+Pusatkan status utama aplikasi pada satu manajer khusus (misalnya menggunakan pola _Singleton_ untuk komponen manajerial).
+
+Sebagai contoh, jika Anda membuat sistem _Game State_:
+
+- Jangan biarkan komponen UI, Player, dan Audio melacak sendiri-sendiri apakah game sedang `Paused` atau `Gameplay`.
+    
+- Pusatkan status tersebut di satu kelas bernama `GameManager`. Komponen lain hanya berhak membaca dari satu sumber tersebut.
+    
+
+#### C. Gunakan Sistem Event / Signals (_Decoupling_)
+
+Agar komponen lain bisa mengetahui perubahan dari sumber kebenaran tanpa harus ikut campur memodifikasi datanya, gunakan pendekatan _Event-Driven_.
+
+- **Alur Logika:** `GameManager` mengubah state miliknya $\rightarrow$ `GameManager` memicu event `OnStateChanged` $\rightarrow$ UI, Player, dan Audio merespons event tersebut secara mandiri.
+    
+- Dengan cara ini, kebenaran perubahan state tetap dipegang oleh satu objek saja (`GameManager`).
+    
+
+#### D. Hindari _Hardcoded Strings_ (Gunakan Enums atau Constants)
+
+String yang ditulis manual di banyak tempat (misalnya nama scene, nama animasi, atau ID database) sangat melanggar SSOT. Jika nama scene berubah, Anda harus menggantinya di seluruh file kode secara manual.
+
+- **Penerapan SSOT:** Kumpulkan semua teks statis ke dalam sebuah struktur data terpusat (seperti `Enum` atau kelas `Static Constants`).
+    
+
+C#
+
+```
+// Sumber kebenaran tunggal untuk nama-nama State
+public enum GameState {
+    MainMenu,
+    Gameplay,
+    Paused,
+    GameOver
+}
+```
+
+### 3. Keuntungan Menerapkan SSOT
+
+1. **Refactoring yang Aman:** Jika Anda perlu mengubah struktur data atau logika perhitungan, Anda hanya perlu mengubahnya di satu file atau satu fungsi saja.
+    
+2. **Satu Sumber untuk Debugging:** Jika nilai data menyimpang, Anda langsung tahu persis ke kelas mana Anda harus pergi untuk memperbaikinya.
+    
+3. **Meningkatkan Keterbacaan (Readability):** Developer lain tidak akan bingung memilih variabel mana yang harus digunakan, karena hanya ada satu variabel resmi untuk data tersebut.
+    
+
+> 💡 **Kesimpulan:** Single Source of Truth dalam Clean Code mengajarkan kita untuk tidak malas mendesain arsitektur di awal. Dengan memastikan setiap informasi penting hanya memiliki **satu pemilik sah**, kode Anda akan terhindar dari _spaghetti code_ dan siap menghadapi perubahan skala proyek yang lebih besar.
