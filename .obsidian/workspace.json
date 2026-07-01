@@ -25,13 +25,18 @@
             "id": "c3b0c6284775c153",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "Projects/Ideas/Project Aegis/Project Aegis.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Project Aegis"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -204,14 +209,14 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "128d5ba411da2e3d",
+  "active": "c3b0c6284775c153",
   "lastOpenFiles": [
-    "Projects/Ideas/Ideas.md",
     "Projects/Projects.md",
+    "Projects/Ideas/Ideas.md",
+    "Projects/Ideas/Project Aegis/Project Aegis.md",
     "Projects/Ideas",
     "AGY.md",
     "Temporary.md",
-    "Projects/Ideas/Project Aegis/Project Aegis.md",
     "Projects/Ideas/Project Aegis",
     "Projects/Gameseed 2026/Gameseed 2026.md",
     "Skills/01-System-Deconstruction/Designing FTUE (First-Time User Experience).md",
