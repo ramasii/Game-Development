@@ -234,3 +234,67 @@ Jika kamu ingin membuat game Roguelite dengan **"rasa baru"** (misalnya menggabu
 
 1. Target utamamu adalah tipe **"The Professor"**. Pastikan game-mu memberikan ruang bagi mereka untuk menganalisis strategi dan menciptakan sinergi kombo yang rumit.
 2. Jangan buat game yang terlalu bergantung pada keberuntungan murni (*RNG*). Berikan mereka alat (*tools*) taktis untuk memanipulasi atau memitigasi keacakan tersebut, karena tipe Profesor ingin merasa bahwa kemenangan mereka adalah hasil dari kejeniusan strategi mereka sendiri, bukan sekadar beruntung.
+
+---
+
+Sebagai seorang **Senior Programmer** dengan kemampuan dasar **3D modeling**, kamu sebenarnya berada di posisi yang **sangat menguntungkan** untuk membuat game Roguelite di pasar Steam.
+
+Game Roguelite yang sukses di Steam (seperti _Balatro_, _Vampire Survivors_, atau _Slay the Spire_) tidak memenangkan pasar karena grafisnya yang luar biasa, melainkan karena **arsitektur sistemnya yang solid, algoritma sinergi yang cerdas, dan gameplay loop yang adiktif**. Ini adalah wilayah kekuasaan seorang programmer.
+
+Karena kamu bukan _pure game designer_ dan memiliki _skill_ 3D dasar, strategi terbaikmu adalah **mengambil mekanik klasik yang sudah terbukti sukses/familiar, lalu membangun kompleksitas di sistem coding-nya**, dengan gaya visual **Minimalist/Stylized 3D (Low-Poly)**.
+
+Berikut adalah 3 ide game dengan daya tarik pasar tinggi yang paling cocok dengan _skill set_ yang kamu miliki:
+
+### 1. Roguelite + Automation / Factory (Tipe: "The Logician")
+
+Pasar PC/Steam sangat terobsesi dengan game otomasi (_Factorio_, _Shapez 2_, _Satisfactory_). Game jenis ini murni digerakkan oleh logika pemrograman.
+
+- **Konsep:** Pemain menyusun ban berjalan (_conveyor belts_), pipa, dan mesin logika (IF/THEN) di sebuah ruang bawah tanah untuk memproses sumber daya menjadi senjata secara otomatis guna menghalau gelombang musuh. Setiap _run_, jenis mesin dan cetak biru (_blueprint_) yang didapatkan acak.
+    
+- **Mengapa Cocok untuk Kamu?**
+    
+    - **Programming (Sangat Tinggi):** Kamu bisa menyalurkan keahlianmu untuk membuat arsitektur sistem yang kompleks: manajemen _state_, sistem _node_, optimasi performa saat ratusan _item_ bergerak di layar.
+        
+    - **3D Modeling (Sangat Rendah):** Kamu hanya perlu memodelkan objek-objek geometris sederhana seperti kotak mesin, ban berjalan, pipa, dan kubus sumber daya. Gaya visual _clean low-poly_ atau _industrial minimalist_ justru terlihat sangat profesional untuk genre ini.
+        
+    - **Game Design Barrier:** Aturan dasarnya adalah efisiensi input-output logis (sangat intuitif bagi programmer).
+        
+
+### 2. Physics-Based Board Game Roguelite (Tipe: "The Streamer Bait")
+
+Mengambil permainan papan klasik (seperti Catur, Domino, atau Ular Tangga) dan menambahkan simulasi fisika 3D yang _satisfying_ serta kacau.
+
+- **Konsep:** Game catur atau domino, tetapi setiap pion memiliki _health bar_, efek fisika saat bertabrakan, dan jimat (_charms_) Roguelite. Misalnya, saat bidak Kuda melompat, ia memicu efek gempa bumi fisik yang bisa menjatuhkan bidak musuh di sekitarnya keluar dari papan.
+    
+- **Mengapa Cocok untuk Kamu?**
+    
+    - **Programming:** Fokus pada pemrograman _physics_, interaksi antar-objek, dan algoritma AI musuh yang menantang. Menghitung sinergi matematika antar-item (_Broken Build_) akan menjadi tugas utama kamu.
+        
+    - **3D Modeling:** Kamu hanya perlu membuat aset bidak papan permainan tradisional (pion catur, balok domino, atau dadu). Ini adalah objek-objek dasar yang sangat mudah dimodelkan dalam 3D, bahkan bisa dibuat terlihat mewah dengan teknik _texturing/shading_ yang tepat (misal: efek marmer, kayu gloss, atau neon).
+        
+    - **Daya Tarik Pasar:** Game berbasis fisika sangat _streamable_ (mudah viral di TikTok/Twitch) karena sering menghasilkan momen kocak yang tak terduga.
+        
+
+### 3. Minesweeper 3D / Dungeon Grid Raider (Tipe: "The Algorithmic Raider")
+
+Mengubah game logika murni seperti _Minesweeper_ atau _Sudoku_ menjadi penjelajahan ruang bawah tanah taktis dalam sudut pandang orang ketiga (_isometric/orthographic 3D_).
+
+- **Konsep:** Pemain mengendalikan karakter yang berjalan di atas lantai kotak-kotak (_grid_). Setiap kotak yang dibuka akan memunculkan angka (menunjukkan jumlah bahaya di sekitarnya). Pemain harus menggunakan logika untuk menghindari monster raksasa atau menjebak monster tersebut menggunakan angka-angka tersebut.
+    
+- **Mengapa Cocok untuk Kamu?**
+    
+    - **Programming:** Mengandalkan _Procedural Generation_ tingkat tinggi untuk membuat papan permainan, algoritma _pathfinding_, dan sistem _turn-based_ yang presisi.
+        
+    - **3D Modeling:** Lingkungannya berbentuk modular _grid_ (dinding, lantai, perangkap, peti harta) yang bisa dibuat dengan teknik _modular asset kit_ sederhana. Karakter utama dan musuh bisa menggunakan gaya visual _stylized cube_ (seperti voxel atau chibi low-poly) yang tidak membutuhkan anatomi rumit.
+        
+
+### Strategi Memulai untuk Skenariomu:
+
+1. **Gunakan Engine yang Kuat di Sistem:** Unity atau Godot sangat cocok untuk tipe game _systems-driven_ seperti ini.
+    
+2. **Jangan Buat Desain dari Nol:** Jangan buang waktu memikirkan aturan main baru yang revolusioner. Ambil aturan _Minesweeper_, _Catur_, atau _Otomasi_, lalu tambahkan elemen Roguelite (_permadeath, random items, meta-progression_). Desainnya sudah 50% selesai dan divalidasi oleh sejarah.
+    
+3. **Tonjolkan "Juice" lewat Coding:** Karena grafis 3D kamu sederhana, gantilah dengan _game feel_ atau _juice_ yang diprogram dengan baik: efek kamera bergetar (_camera shake_), partikel ledakan yang memuaskan, angka _damage_ yang muncul dengan animasi dinamis, dan transisi menu yang mulus.
+    
+
+Dari tiga pendekatan di atas, apakah kamu lebih tertarik ke arah game yang menguji logika murni seperti **Automation**, game yang seru dan kacau seperti **Physics Board Game**, atau game taktis seperti **3D Grid Raider**?
