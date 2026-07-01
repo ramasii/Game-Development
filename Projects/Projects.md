@@ -1,6 +1,8 @@
 # 📁 Projects
 
-Halaman ini adalah **indeks semua proyek aktif dan arsip** yang sedang atau pernah dikerjakan. Setiap proyek punya folder sendiri dengan dokumentasi lengkapnya.
+Halaman ini adalah **indeks semua proyek aktif, ide game, dan arsip** yang sedang atau pernah dikerjakan. Setiap proyek punya folder sendiri dengan dokumentasi lengkapnya.
+
+*   💡 **[[Projects/Ideas/Ideas|Ide Proyek]]**: Halaman koleksi ide dan konsep game baru sebelum masuk tahap produksi penuh.
 
 ---
 

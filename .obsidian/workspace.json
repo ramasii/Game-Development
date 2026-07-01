@@ -13,30 +13,25 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Temporary.md",
+                "file": "Projects/Ideas/Project Aegis/Project Aegis.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Temporary"
+              "title": "Project Aegis"
             }
           },
           {
             "id": "c3b0c6284775c153",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Projects/Project Aegis/Project Aegis Game Design.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Project Aegis Game Design"
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -211,15 +206,17 @@
   },
   "active": "128d5ba411da2e3d",
   "lastOpenFiles": [
-    "Projects/Project Aegis",
-    "Projects/Gameseed 2026/Gameseed 2026.md",
+    "Projects/Ideas/Ideas.md",
     "Projects/Projects.md",
-    "Projects/Project Aegis/Project Aegis Game Design.md",
-    "Skills/01-System-Deconstruction/Designing FTUE (First-Time User Experience).md",
+    "Projects/Ideas",
+    "AGY.md",
     "Temporary.md",
+    "Projects/Ideas/Project Aegis/Project Aegis.md",
+    "Projects/Ideas/Project Aegis",
+    "Projects/Gameseed 2026/Gameseed 2026.md",
+    "Skills/01-System-Deconstruction/Designing FTUE (First-Time User Experience).md",
     "Books/Books.md",
     "Skills/01-System-Deconstruction/Framework Kihon-Kata-Kumite (Learning Curve & Encounter Design).md",
-    "AGY.md",
     "Skills/Standar Format File Skill.md",
     "README.md",
     "Skills/03-Game-Architecture/💻 3. Game Architecture.md",
@@ -245,8 +242,6 @@
     "Untitled.base",
     "Skills/04-Graphics-and-Shaders",
     "Projects/Gameseed 2026",
-    "Projects",
-    "Skills/03-Game-Architecture",
     "Skills/Game Balance/references/images/chapter5.png",
     "Skills/Game Balance/references/images/chapter3.png",
     "Skills/Game Balance/references/images/chapter2.png",
