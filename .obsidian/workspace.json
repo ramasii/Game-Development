@@ -31,8 +31,7 @@
               "title": "Temporary"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -205,7 +204,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c3b0c6284775c153",
+  "active": "f42773d478bc473e",
   "lastOpenFiles": [
     "Temporary.md",
     "Projects/Ideas/Project Aegis/Project Aegis.md",
