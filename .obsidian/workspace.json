@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Skills/02-Economy-and-Balancing/Spreadsheet Setup.md",
+                "file": "README.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Spreadsheet Setup"
+              "title": "README"
             }
           },
           {
@@ -210,12 +210,13 @@
   },
   "active": "f42773d478bc473e",
   "lastOpenFiles": [
+    "AGY.md",
+    "Skills/02-Economy-and-Balancing/Spreadsheet Setup.md",
     "Projects/Gameseed 2026/Gameseed 2026.md",
     "Temporary.md",
     "Projects/Ideas/Project Aegis/Project Aegis.md",
     "Projects/Projects.md",
     "Projects/Ideas/Ideas.md",
-    "AGY.md",
     "Projects/Ideas/Format Game Design.md",
     "Projects/Ideas",
     "Projects/Ideas/Project Aegis",
@@ -239,7 +240,6 @@
     "Skills/03-Game-Architecture/Observer Pattern Events.md",
     "Skills/03-Game-Architecture/Decorator Pattern Modifiers.md",
     "Skills/03-Game-Architecture/Layered Architecture Stabilization.md",
-    "Skills/03-Game-Architecture/Advanced Architecture Patterns.md",
     "Books/An Architectural Approach to Level Design.pdf",
     "Books",
     "Brain Game Development",
