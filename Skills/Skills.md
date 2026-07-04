@@ -31,3 +31,6 @@ Pemrograman visual di URP: custom renderer feature, HLSL shader, dan volume syst
 
 ### [[🏛️ 5. Level & Spatial Design]]
 Teori desain ruang & arsitektural yang diterapkan ke level design — spasial, alur, dan pengalaman bermain.
+
+### [[🎮 6. Game Design]]
+Ilmu desain game: merancang mekanik, sistem, dan pengalaman pemain yang engaging dan adiktif.
