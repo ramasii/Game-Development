@@ -90,7 +90,7 @@ Pilih tester playtest yang sesuai arketipe target
 ```
 
 ## 🛠️ Cara Pakai
-1. Di awal proyek, tentukan dulu: "Game ini untuk The Professor, The Ninja, atau keduanya?" — menulis ini di GDD ([[Format Game Design]]) agar seluruh tim punya referensi yang sama.
+1. Di awal proyek, tentukan dulu: "Game ini untuk The Professor, The Ninja, atau keduanya?" — menulis ini di GDD agar seluruh tim punya referensi yang sama.
 2. Setiap keputusan desain yang ambigu, tanya: "Apa yang dipilih persona target kita di sini?"
 3. Saat rekrut tester playtest, cari yang profil motivasinya sesuai arketipe target — feedback dari tipe pemain yang salah bisa menyesatkan.
 4. Jika mau menjangkau keduanya: rancang *core loop* untuk The Professor, tapi pastikan *game feel* dan kontrol cukup responsif untuk memuaskan The Ninja juga.

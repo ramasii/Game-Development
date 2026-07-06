@@ -20,8 +20,19 @@
               "icon": "lucide-file",
               "title": "Temporary"
             }
+          },
+          {
+            "id": "f42773d478bc473e",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -33,7 +44,6 @@
       {
         "id": "99e6966eb8da067c",
         "type": "tabs",
-        "dimension": 61.91919191919192,
         "children": [
           {
             "id": "128d5ba411da2e3d",
@@ -73,23 +83,6 @@
               "state": {},
               "icon": "lucide-bookmark",
               "title": "Bookmarks"
-            }
-          }
-        ]
-      },
-      {
-        "id": "b4dfbeb3c09ecd70",
-        "type": "tabs",
-        "dimension": 38.08080808080808,
-        "children": [
-          {
-            "id": "f42773d478bc473e",
-            "type": "leaf",
-            "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
             }
           }
         ]
@@ -202,19 +195,21 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "graph:Open graph view": false,
       "switcher:Open quick switcher": false,
       "canvas:Create new canvas": false,
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
       "bases:Create new base": false,
-      "obsidian-git:Open Git source control": false
+      "obsidian-git:Open Git source control": false,
+      "graph:Open graph view": false
     }
   },
   "active": "f42773d478bc473e",
   "lastOpenFiles": [
+    "Skills/06-Game-Design/Player Persona & Motivasi (Quantic Foundry).md",
     "Temporary.md",
+    "Projects/Ideas/Format Game Design.md",
     "Books/Chord Relationships and Emotion.pdf",
     "Books/Books.md",
     "Books/An Architectural Approach to Level Design.pdf",
@@ -228,9 +223,7 @@
     "Research/Research.md",
     "Research",
     "Projects/Ideas/Ideas.md",
-    "Projects/Ideas/Format Game Design.md",
     "Skills/Skills.md",
-    "Skills/06-Game-Design/Player Persona & Motivasi (Quantic Foundry).md",
     "Projects/Projects.md",
     "Projects/Gameseed 2026/Gameseed 2026.md",
     "Skills/06-Game-Design/Merancang Sistem Sinergi & Item Roguelite.md",
