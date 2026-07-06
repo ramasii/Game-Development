@@ -68,6 +68,9 @@ Game Development/
 │   └── 📂 Gameseed 2026/        ✅ Arsip
 │       └── Gameseed 2026.md
 │
+├── 📂 Research/
+│   └── Riset Pasar - Roguelite & Indie Steam 2026.md
+│
 └── 📂 Skills/
     ├── Skills.md
     │
