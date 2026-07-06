@@ -11,12 +11,14 @@
             "id": "df95f0794a545446",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "Pasted image 20260706185949.png"
+                "file": "Books/Books.md",
+                "mode": "preview",
+                "source": false
               },
-              "icon": "lucide-image",
-              "title": "Pasted image 20260706185949"
+              "icon": "lucide-file",
+              "title": "Books"
             }
           }
         ]
@@ -210,12 +212,14 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "df95f0794a545446",
+  "active": "f42773d478bc473e",
   "lastOpenFiles": [
-    "Temporary.md",
-    "Pasted image 20260706185949.png",
-    "Projects/Ideas/ManaForge - Overdrive.md",
     "Books/Books.md",
+    "Temporary.md",
+    "README.md",
+    "Images/Chords Relationships.png",
+    "Images",
+    "Projects/Ideas/ManaForge - Overdrive.md",
     "Books/Chord Relationships and Emotion.pdf",
     "Books/An Architectural Approach to Level Design Second Edition.pdf",
     "Research/Riset Pasar - Roguelite & Indie Steam 2026.md",
@@ -233,7 +237,6 @@
     "Skills/06-Game-Design/🎮 6. Game Design.md",
     "Skills/06-Game-Design/Roguelite Design Pillars (4 Pilar Utama).md",
     "Skills/06-Game-Design",
-    "README.md",
     "Skills/02-Economy-and-Balancing/Spreadsheet Setup.md",
     "Projects/Ideas/Project Aegis/Project Aegis.md",
     "Projects/Ideas",
@@ -247,7 +250,6 @@
     "Skills/05-Level-and-Spatial-Design",
     "Books/An Architectural Approach to Level Design.pdf",
     "Books",
-    "Brain Game Development",
     "Skills/Game Balance/references/images/chapter5.png",
     "Skills/Game Balance/references/images/chapter3.png",
     "Skills/Game Balance/references/images/chapter2.png",
