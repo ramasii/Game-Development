@@ -33,7 +33,7 @@
       {
         "id": "99e6966eb8da067c",
         "type": "tabs",
-        "dimension": 60.60606060606061,
+        "dimension": 72.19413549039434,
         "children": [
           {
             "id": "128d5ba411da2e3d",
@@ -80,7 +80,7 @@
       {
         "id": "d9ea339e320ff545",
         "type": "tabs",
-        "dimension": 39.39393939393939,
+        "dimension": 27.80586450960566,
         "children": [
           {
             "id": "f42773d478bc473e",
@@ -214,8 +214,9 @@
   },
   "active": "df95f0794a545446",
   "lastOpenFiles": [
-    "Temporary.md",
+    "Projects/Ideas/Ideas.md",
     "Projects/Ideas/ManaForge - Overdrive.md",
+    "Temporary.md",
     "Projects/Ideas/Format Game Design.md",
     "Skills/Skills.md",
     "Skills/06-Game-Design/Player Persona & Motivasi (Quantic Foundry).md",
@@ -227,7 +228,6 @@
     "Skills/06-Game-Design/🎮 6. Game Design.md",
     "Skills/06-Game-Design/Roguelite Design Pillars (4 Pilar Utama).md",
     "Skills/06-Game-Design",
-    "Projects/Ideas/Ideas.md",
     "README.md",
     "Skills/02-Economy-and-Balancing/Spreadsheet Setup.md",
     "Projects/Ideas/Project Aegis/Project Aegis.md",
