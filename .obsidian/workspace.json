@@ -13,26 +13,15 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "AGY.md",
+                "file": "Skills/06-Game-Design/Player Persona & Motivasi (Quantic Foundry).md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "AGY"
-            }
-          },
-          {
-            "id": "c3b0c6284775c153",
-            "type": "leaf",
-            "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "title": "Player Persona & Motivasi (Quantic Foundry)"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -205,11 +194,13 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c3b0c6284775c153",
+  "active": "f42773d478bc473e",
   "lastOpenFiles": [
-    "AGY.md",
-    "Skills/06-Game-Design/Merancang Sistem Sinergi & Item Roguelite.md",
     "Temporary.md",
+    "Projects/Projects.md",
+    "AGY.md",
+    "Projects/Gameseed 2026/Gameseed 2026.md",
+    "Skills/06-Game-Design/Merancang Sistem Sinergi & Item Roguelite.md",
     "Skills/06-Game-Design/Hybrid Genre Design untuk Roguelite.md",
     "Skills/06-Game-Design/🎮 6. Game Design.md",
     "Skills/06-Game-Design/Player Persona & Motivasi (Quantic Foundry).md",
@@ -219,9 +210,7 @@
     "Projects/Ideas/Format Game Design.md",
     "README.md",
     "Skills/02-Economy-and-Balancing/Spreadsheet Setup.md",
-    "Projects/Gameseed 2026/Gameseed 2026.md",
     "Projects/Ideas/Project Aegis/Project Aegis.md",
-    "Projects/Projects.md",
     "Projects/Ideas",
     "Projects/Ideas/Project Aegis",
     "Skills/01-System-Deconstruction/Designing FTUE (First-Time User Experience).md",

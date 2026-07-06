@@ -38,6 +38,11 @@
 Berpengalaman dalam membuat game 2D & 3D secara tim serta aktif berpartisipasi di Game Jam.
 > Lihat semua proyek di [[Projects]]
 
+**Proyek Aktif:** *Tidak ada saat ini.*
+
+**Proyek Selesai:**
+- ✅ **Gameseed 2026** — TTT: Never Late Go to School (3D Platformer Parkour, Cel-shaded, Unity 6)
+
 ## 📚 Books
 Koleksi buku/referensi belajar (level design, design pattern, dll).
 > Lihat daftar lengkap di [[Books]]
@@ -59,7 +64,9 @@ Game Development/
 │   └── Books.md
 │
 ├── 📂 Projects/
-│   └── Projects.md
+│   ├── Projects.md
+│   └── 📂 Gameseed 2026/        ✅ Arsip
+│       └── Gameseed 2026.md
 │
 └── 📂 Skills/
     ├── Skills.md
