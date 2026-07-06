@@ -43,6 +43,10 @@ Berpengalaman dalam membuat game 2D & 3D secara tim serta aktif berpartisipasi d
 **Proyek Selesai:**
 - ✅ **Gameseed 2026** — TTT: Never Late Go to School (3D Platformer Parkour, Cel-shaded, Unity 6)
 
+## 🔬 Research
+Kumpulan hasil riset sebagai bahan referensi pengembangan game.
+> Lihat semua riset di [[Research]]
+
 ## 📚 Books
 Koleksi buku/referensi belajar (level design, design pattern, dll).
 > Lihat daftar lengkap di [[Books]]
@@ -69,6 +73,7 @@ Game Development/
 │       └── Gameseed 2026.md
 │
 ├── 📂 Research/
+│   ├── Research.md
 │   └── Riset Pasar - Roguelite & Indie Steam 2026.md
 │
 └── 📂 Skills/

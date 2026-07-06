@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "AGY.md",
+                "file": "Research/Riset Pasar - Roguelite & Indie Steam 2026.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "AGY"
+              "title": "Riset Pasar - Roguelite & Indie Steam 2026"
             }
           }
         ]
@@ -212,8 +212,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "df95f0794a545446",
+  "active": "128d5ba411da2e3d",
   "lastOpenFiles": [
+    "AGY.md",
+    "Research/Research.md",
     "Research/Riset Pasar - Roguelite & Indie Steam 2026.md",
     "Research",
     "Projects/Ideas/ManaForge - Overdrive.md",
@@ -222,7 +224,6 @@
     "Skills/Skills.md",
     "Skills/06-Game-Design/Player Persona & Motivasi (Quantic Foundry).md",
     "Projects/Projects.md",
-    "AGY.md",
     "Projects/Gameseed 2026/Gameseed 2026.md",
     "Skills/06-Game-Design/Merancang Sistem Sinergi & Item Roguelite.md",
     "Skills/06-Game-Design/Hybrid Genre Design untuk Roguelite.md",
