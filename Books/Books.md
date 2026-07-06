@@ -13,7 +13,15 @@ Halaman ini adalah **indeks referensi buku/bacaan** yang dipakai sebagai bahan b
 
 ---
 
+## 🎵 Musik & Audio
+
+| Judul | Catatan |
+|---|---|
+| [[Chord Relationships and Emotion.pdf]] | Referensi visual hubungan akor dan emosi yang ditimbulkan — dipakai sebagai rujukan di note [[Teori Musik untuk Game (BGM & Adaptive Audio)]] |
+
+---
+
 ## 📝 Rangkuman & Insight
 *Belum ada rangkuman yang ditulis dari buku-buku di atas.*
 
-> Kalau sudah baca salah satu buku, insight pentingnya bisa dirangkum di sini, atau dipecah jadi skill baru di [[Skills]] (misal kalau topiknya cocok masuk ke kategori System Deconstruction untuk pembahasan level/ritme permainan).
+> Kalau sudah baca salah satu buku, insight pentingnya bisa dirangkum di sini, atau dipecah jadi skill baru di [[Skills]].

@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Books/Books.md",
-                "mode": "preview",
+                "file": "Temporary.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Books"
+              "title": "Temporary"
             }
           }
         ]
@@ -212,15 +212,16 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "f42773d478bc473e",
+  "active": "df95f0794a545446",
   "lastOpenFiles": [
+    "Books/Chord Relationships and Emotion.pdf",
     "Books/Books.md",
+    "Books/An Architectural Approach to Level Design.pdf",
     "Temporary.md",
     "README.md",
     "Images/Chords Relationships.png",
     "Images",
     "Projects/Ideas/ManaForge - Overdrive.md",
-    "Books/Chord Relationships and Emotion.pdf",
     "Books/An Architectural Approach to Level Design Second Edition.pdf",
     "Research/Riset Pasar - Roguelite & Indie Steam 2026.md",
     "AGY.md",
@@ -248,7 +249,6 @@
     "Skills/03-Game-Architecture/Single Source of Truth (SSOT).md",
     "Skills/05-Level-and-Spatial-Design/Level Design Workflow (Whiteblocking & Modular).md",
     "Skills/05-Level-and-Spatial-Design",
-    "Books/An Architectural Approach to Level Design.pdf",
     "Books",
     "Skills/Game Balance/references/images/chapter5.png",
     "Skills/Game Balance/references/images/chapter3.png",
