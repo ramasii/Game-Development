@@ -20,8 +20,19 @@
               "icon": "lucide-file",
               "title": "Temporary"
             }
+          },
+          {
+            "id": "f42773d478bc473e",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -33,7 +44,6 @@
       {
         "id": "99e6966eb8da067c",
         "type": "tabs",
-        "dimension": 72.19413549039434,
         "children": [
           {
             "id": "128d5ba411da2e3d",
@@ -73,23 +83,6 @@
               "state": {},
               "icon": "lucide-bookmark",
               "title": "Bookmarks"
-            }
-          }
-        ]
-      },
-      {
-        "id": "d9ea339e320ff545",
-        "type": "tabs",
-        "dimension": 27.80586450960566,
-        "children": [
-          {
-            "id": "f42773d478bc473e",
-            "type": "leaf",
-            "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
             }
           }
         ]
@@ -212,12 +205,12 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "df95f0794a545446",
+  "active": "f42773d478bc473e",
   "lastOpenFiles": [
+    "Temporary.md",
     "Books/Chord Relationships and Emotion.pdf",
     "Books/Books.md",
     "Books/An Architectural Approach to Level Design.pdf",
-    "Temporary.md",
     "README.md",
     "Images/Chords Relationships.png",
     "Images",
