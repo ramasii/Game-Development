@@ -1,0 +1,157 @@
+# 📋 GDD: ManaForge — Overdrive
+
+---
+
+## 🎮 1. Konsep & Identitas Game
+
+- **Premis**: Game ini adalah Roguelite Factory di mana pemain membangun pabrik otomatis dari blueprint acak untuk memproduksi senjata magis dan mempertahankan inti energi (*Core*) dari serbuan monster yang datang bergelombang.
+- **Genre**: Roguelite + Automation / Factory Defense
+- **Target Platform**: PC / Steam (Early Access)
+- **USP**: Rasa candu *Factorio* dikemas dalam run 30–45 menit seperti *Vampire Survivors* — setiap run pabrikmu berbeda total karena blueprint mesin yang kamu dapat selalu acak. Bukan kamu yang menembak musuh, tapi pabrik yang kamu bangun.
+- **Referensi & Inspirasi**:
+  - *Factorio* — loop otomasi input→proses→output
+  - *Vampire Survivors* — wave defense, run pendek, metaprogression
+  - *Balatro* — sistem sinergi item yang menghasilkan broken build tak terduga
+  - *Shapez 2* — visual minimalist low-poly untuk konveyor dan mesin
+
+---
+
+## 🔄 2. Core Gameplay Loop
+
+- **Loop Utama**:
+  ```
+  Build Phase → Wave Phase → Reward Phase → (run berikutnya atau mati)
+
+  Build Phase  : Susun conveyor belt, mesin, dan turret dari blueprint yang tersedia
+  Wave Phase   : Monster menyerang — pabrik bekerja otomatis, turret menembak sendiri
+  Reward Phase : Pilih 1 dari 3 blueprint/perk acak sebagai hadiah bertahan hidup
+  Mati         : Core hancur → koin/komponen tersimpan → buka upgrade permanen di menu
+  ```
+- **Core Mechanic**: Membangun jalur logistik (conveyor belt) yang mengalirkan bahan mentah → mesin pemroses → turret otomatis. Jika jalur macet (*bottleneck*), turret kehabisan peluru dan Core bisa hancur.
+- **Daya Tarik Jangka Pendek**: Momen ketika sinergi 2–3 blueprint menghasilkan combo tak terduga — misalnya pabrik yang sengaja "bocor" justru menghasilkan koin tak terbatas. Pemain ingin langsung coba lagi setelah menemukan hint kombo baru.
+- **Daya Tarik Jangka Panjang**: Membuka faksi teknologi baru (Steampunk / Cyberpunk), blueprint langka, dan upgrade Core permanen lewat metaprogression — plus rasa penguasaan sejati saat pabrik yang dibangun berjalan sempurna tanpa bottleneck.
+
+---
+
+## ⚔️ 3. Mekanik Utama
+
+- **Mekanik 1 — Grid Placement**: Arena berbentuk grid. Pemain menempatkan potongan conveyor belt (lurus, belok, splitter, merger) dan mesin di atas grid untuk membangun jalur logistik. Posisi tidak bisa diubah saat wave sedang berjalan.
+- **Mekanik 2 — Blueprint Drafting**: Setiap akhir wave, pemain memilih 1 dari 3 blueprint/perk acak. Blueprint bisa berupa mesin baru, upgrade conveyor, atau perk pasif yang mengubah aturan sistem (misal: "besi yang melewati belokan 3x bermuatan listrik").
+- **Mekanik 3 — Sinergi Item**: Perk dan mesin berinteraksi satu sama lain lewat sistem tag (`[listrik]`, `[panas]`, `[waste]`, dll). Kombinasi tag yang tepat menghasilkan efek berantai (*chain reaction*) yang jauh lebih kuat dari jumlah bagian-bagiannya.
+- **Mekanik 4 — Bottleneck & Permadeath**: Jika aliran resource ke turret tersumbat, turret berhenti menembak. Monster yang mencapai Core akan merusaknya. Core hancur = run berakhir, tapi koin dan komponen langka tetap tersimpan.
+
+> Mekanik 5 (Underground Conveyor, multi-lantai, dsb.) ditambahkan setelah prototype mekanik 1–4 terbukti fun.
+
+---
+
+## 💻 4. Arsitektur Data & Design Pattern
+
+- **Design Pattern Pilihan**:
+  - **Node/Graph System** — setiap tile grid adalah node; conveyor belt adalah edge; resource mengalir dari node ke node. Ini fondasi utama sistem pabrik.
+  - **Observer Pattern (Event Channel)** — mesin dan turret subscribe ke event resource-flow. Saat resource tiba, event dipicu otomatis tanpa polling tiap frame. Lihat [[Decoupled Audio System (Event Channel & Pooling)]] sebagai referensi implementasi pattern serupa.
+  - **Object Pooling** — item/resource di conveyor di-pool agar tidak ada GC spike saat ratusan objek bergerak bersamaan. Lihat [[Decoupled Audio System (Event Channel & Pooling)]].
+  - **ScriptableObject sebagai SSOT** — setiap blueprint/mesin/perk didefinisikan sebagai ScriptableObject. Satu asset = satu sumber kebenaran. Lihat [[Single Source of Truth (SSOT)]].
+  - **State Pattern** — GameState (BuildPhase / WavePhase / RewardPhase / GameOver) dikelola lewat FSM terpusat. Lihat [[Simple FSM Berbasis Enum (Game State Prototyping)]] dan [[Centralized State Manager (GameManager Singleton & Event)]].
+  - **Factory Pattern** — spawning mesin dan resource menggunakan Factory agar tidak ada hardcode tipe objek di luar satu tempat.
+
+- **Arsitektur & Penyimpanan Data**:
+  - Blueprint dan Perk → `ScriptableObject` dengan sistem tag sinergi
+  - Resource flow data → runtime-only, tidak perlu disimpan ke disk
+  - Metaprogression (koin, unlock permanen) → `JSON` lokal atau `PlayerPrefs` untuk MVP
+  - Game state → Singleton `GameManager` dengan event broadcast
+
+- **Mermaid Diagram**:
+    ```mermaid
+    graph TD
+        GM[GameManager\nState Machine] -->|OnStateChanged| UI[UI Manager]
+        GM -->|OnStateChanged| WM[Wave Manager]
+        GM -->|OnStateChanged| BM[Build Manager]
+
+        BM -->|PlaceTile| Grid[Grid System\nNode Graph]
+        Grid -->|ResourceFlow| Pool[Object Pool\nResource Items]
+        Pool -->|OnResourceArrived| Machine[Machine Node\nScriptableObject]
+        Machine -->|OnOutputReady| Turret[Turret Node]
+        Turret -->|OnFire| Pool
+
+        WM -->|SpawnWave| EnemyPool[Enemy Object Pool]
+        EnemyPool -->|OnEnemyReachCore| GM
+
+        RM[Reward Manager] -->|DraftBlueprint| SO[Blueprint\nScriptableObject]
+        SO -->|ApplyPerk| Grid
+    ```
+
+---
+
+## 🏛️ 5. Desain FTUE
+
+- **Pendekatan FTUE**: **Contextual UI Hint + Sandbox Room (Kihon)**
+  - Sebelum run pertama, pemain masuk ke ruang tutorial terisolasi tanpa musuh dan tanpa batas waktu (*Kihon* — zero risk, zero pressure).
+  - UI hint muncul hanya di atas elemen yang relevan saat giliran pemain berinteraksi dengannya (bukan wall of text di awal).
+  - Urutan pengenalan mekanik mengikuti prinsip **Constructivist** (tiap mekanik baru menumpuk di atas yang sudah dikuasai):
+    1. Tempatkan satu conveyor lurus → resource mengalir sendiri (*"oh, begini cara kerjanya"*)
+    2. Tambahkan Smelter → resource berubah jadi output baru
+    3. Hubungkan ke Turret → turret mulai menembak otomatis
+    4. Wave kecil datang → pemain merasakan loop penuh untuk pertama kali
+  - Reward tutorial: 1 blueprint gratis pilihan pemain → langsung masuk run pertama yang sesungguhnya.
+  - Lihat [[Tutorial Level Building Blocks]] dan [[Framework Kihon-Kata-Kumite (Learning Curve & Encounter Design)]].
+
+---
+
+## 🚀 6. Struktur Folder Modular & Optimisasi Performa
+
+- **Struktur Folder (Feature-Based)**:
+  ```
+  Assets/
+  ├── _Project/
+  │   ├── Scripts/
+  │   │   ├── Core/            ← GameManager, GameState, EventChannels
+  │   │   ├── Grid/            ← GridSystem, TileNode, ConveyorBelt
+  │   │   ├── Machines/        ← BaseMachine, Smelter, Turret, Splitter
+  │   │   ├── Resources/       ← ResourceItem, ObjectPool
+  │   │   ├── Waves/           ← WaveManager, EnemySpawner, EnemyAI
+  │   │   ├── Blueprints/      ← BlueprintDraft, PerkSystem, SynergyTags
+  │   │   ├── Metaprogression/ ← UnlockManager, SaveSystem
+  │   │   └── UI/              ← HUD, BuildMenu, RewardPanel
+  │   ├── ScriptableObjects/
+  │   │   ├── Blueprints/
+  │   │   ├── Machines/
+  │   │   └── Events/
+  │   ├── Prefabs/
+  │   ├── Art/
+  │   │   ├── Machines/        ← Low-poly geometric models
+  │   │   ├── Environment/
+  │   │   └── VFX/
+  │   └── Audio/
+  ```
+
+- **Rencana Optimisasi**:
+  - *CPU/Memori*: **Object Pooling** wajib untuk semua resource item di conveyor (bisa ratusan objek bergerak serentak). Pertimbangkan **Unity DOTS/ECS** jika jumlah tile mencapai 1000+.
+  - *Grid Update*: Jangan update semua tile setiap frame — gunakan **event-driven dirty flag**: tile hanya update saat ada perubahan input/output.
+  - *Rendering*: Semua mesin menggunakan **GPU Instancing** karena geometry sama, hanya posisi berbeda. Hemat draw call drastis.
+  - *UI*: **Canvas Splitting** — HUD statis (wave counter, Core HP) dipisah dari UI dinamis (build menu, perk draft) agar tidak trigger rebuild canvas setiap frame.
+
+---
+
+## 📏 7. Scope & Feasibility
+
+- **Estimasi Durasi**:
+  - Prototype core mechanic (grid placement + conveyor flow): **2 minggu**
+  - MVP playable (3 jenis mesin, 10 blueprint, 5 wave, metaprogression dasar): **2 bulan**
+  - Early Access (20+ blueprint, 2 faksi, 15 wave, Steam page): **4–6 bulan**
+
+- **Ukuran Tim**: Ideal **2–3 orang** (1 programmer, 1 artist/generalist, 1 game designer). Bisa dimulai solo untuk fase prototype.
+
+- **Risiko Teknis**:
+  - **Grid + Node flow system** adalah komponen paling kompleks — harus dirancang dengan benar di awal karena semua sistem lain bergantung padanya.
+  - **Performa saat pabrik besar** — ratusan resource item bergerak bisa jadi bottleneck; Object Pooling + ECS harus disiapkan sejak MVP.
+  - **Balance sinergi** — terlalu banyak perk yang berinteraksi bisa menciptakan combo yang completely break game; butuh spreadsheet sinergi dan playtesting intensif.
+
+- **Risiko Desain**:
+  - Core loop belum divalidasi — apakah "tidak bisa menembak sendiri, hanya bisa membangun" terasa menyenangkan bagi pemain yang terbiasa action roguelite? Wajib diuji di playtest awal.
+  - Build Phase vs Wave Phase timing perlu dibalance — terlalu banyak waktu build = boring, terlalu sedikit = stressful tanpa arah.
+
+- **Kriteria "Go/No-Go"**:
+  - ✅ Prototype conveyor grid terasa *satisfying* dibangun (mekanisnya "klik") dalam 2 minggu pertama.
+  - ✅ Satu sinergi 2-perk menghasilkan momen "WOW/broken build" saat playtesting internal.
+  - ✅ Rata-rata run 30–45 menit — tidak terlalu pendek (tidak berasa), tidak terlalu panjang (tidak bisa restart cepat).
+  - ❌ Jika setelah 2 minggu mekanik grid belum fun → pivot ke konsep lain (Minesweeper Dungeon atau Chess Physics).
