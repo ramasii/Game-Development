@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Books/Books.md",
+                "file": "Skills/07-Audio-and-Music/CR Reference & Emotion Lookup.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Books"
+              "title": "CR Reference & Emotion Lookup"
             }
           }
         ]
@@ -212,7 +212,7 @@
       "graph:Open graph view": false
     }
   },
-  "active": "f42773d478bc473e",
+  "active": "a3b26436b6f143c1",
   "lastOpenFiles": [
     "Books/Books.md",
     "Skills/07-Audio-and-Music/Teori Musik Dasar untuk Game BGM.md",
