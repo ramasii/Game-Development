@@ -15,9 +15,9 @@ Halaman ini adalah **indeks referensi buku/bacaan** yang dipakai sebagai bahan b
 
 ## 🎵 Musik & Audio
 
-| Judul | Catatan |
-|---|---|
-| [[Chord Relationships and Emotion.pdf]] | Referensi visual hubungan akor dan emosi yang ditimbulkan — dipakai sebagai rujukan di note [[Teori Musik untuk Game (BGM & Adaptive Audio)]] |
+| Judul                                   | Catatan                                                                                                                          |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| [[Chord Relationships and Emotion.pdf]] | Referensi visual hubungan akor dan emosi yang ditimbulkan — dipakai sebagai rujukan di note [[Teori Musik Dasar untuk Game BGM]] |
 
 ---
 
