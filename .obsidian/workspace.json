@@ -11,10 +11,14 @@
             "id": "a3b26436b6f143c1",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "Temporary.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "Temporary"
             }
           }
         ]
@@ -210,6 +214,8 @@
   },
   "active": "a3b26436b6f143c1",
   "lastOpenFiles": [
+    "Skills/03-Game-Architecture/Beat-Matching & DSP Scheduling (Unity).md",
+    "AGY.md",
     "Skills/07-Audio-and-Music/🎵 7. Audio & Music.md",
     "Skills/07-Audio-and-Music/Adaptive Audio (Vertical Layering & Horizontal Resequencing).md",
     "Skills/07-Audio-and-Music/Chord Progression & Emosi untuk Game.md",
@@ -227,7 +233,6 @@
     "Projects/Ideas/ManaForge - Overdrive.md",
     "Books/An Architectural Approach to Level Design Second Edition.pdf",
     "Research/Riset Pasar - Roguelite & Indie Steam 2026.md",
-    "AGY.md",
     "Research/Research.md",
     "Research",
     "Projects/Ideas/Ideas.md",
@@ -245,7 +250,6 @@
     "Projects/Ideas/Project Aegis",
     "Skills/01-System-Deconstruction/Designing FTUE (First-Time User Experience).md",
     "Skills/01-System-Deconstruction/Framework Kihon-Kata-Kumite (Learning Curve & Encounter Design).md",
-    "Skills/Standar Format File Skill.md",
     "Skills/05-Level-and-Spatial-Design",
     "Skills/Game Balance/references/images/chapter5.png",
     "Skills/Game Balance/references/images/chapter3.png",

@@ -34,3 +34,6 @@ Teori desain ruang & arsitektural yang diterapkan ke level design — spasial, a
 
 ### [[🎮 6. Game Design]]
 Ilmu desain game: merancang mekanik, sistem, dan pengalaman pemain yang engaging dan adiktif.
+
+### [[🎵 7. Audio & Music]]
+Teori dan implementasi musik & audio untuk game — BGM, adaptive audio, dan sinkronisasi musik dengan game engine.

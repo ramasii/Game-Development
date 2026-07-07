@@ -52,7 +52,7 @@ Koleksi buku/referensi belajar (level design, design pattern, dll).
 > Lihat daftar lengkap di [[Books]]
 
 ## 🧠 Skills
-Pustaka pengetahuan dibagi dalam 6 ranah keahlian utama.
+Pustaka pengetahuan dibagi dalam 7 ranah keahlian utama.
 > Lihat panduan lengkap & cara tambah skill baru di [[Skills]]
 
 ---
@@ -94,6 +94,9 @@ Game Development/
     ├── 📂 05-Level-and-Spatial-Design/
     │   └── 🏛️ 5. Level & Spatial Design.md
     │
-    └── 📂 06-Game-Design/
-        └── 🎮 6. Game Design.md
+    ├── 📂 06-Game-Design/
+    │   └── 🎮 6. Game Design.md
+    │
+    └── 📂 07-Audio-and-Music/
+        └── 🎵 7. Audio & Music.md
 ```
