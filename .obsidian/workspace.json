@@ -54,7 +54,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "FSM",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -75,7 +75,8 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       },
       {
         "id": "203cb9231598e3f6",
@@ -213,7 +214,7 @@
       "graph:Open graph view": false
     }
   },
-  "active": "a3b26436b6f143c1",
+  "active": "607c989ba283ec6f",
   "lastOpenFiles": [
     "Skills/03-Game-Architecture/Decoupled Audio System (Event Channel & Pooling).md",
     "Projects/Ideas/ManaForge - Overdrive.md",
