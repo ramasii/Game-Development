@@ -7,6 +7,8 @@ GDD lo sendiri udah kasih **Go/No-Go Gate** di minggu ke-2. Kalau grid + conveyo
 ---
 
 ### 🔧 Phase 0 — Foundation Setup `(2–3 hari)`
+	Started (8 July 2026)
+	Finished (8 July 2026)
 
 Sebelum nulis satu baris gameplay, setup dulu biar gak nyesel belakangan.
 
