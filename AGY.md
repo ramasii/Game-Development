@@ -38,7 +38,8 @@
 Berpengalaman dalam membuat game 2D & 3D secara tim serta aktif berpartisipasi di Game Jam.
 > Lihat semua proyek di [[Projects]]
 
-**Proyek Aktif:** *Tidak ada saat ini.*
+**Proyek Aktif:**
+- 🔧 **Rama's TD** — ManaForge: Overdrive (Roguelite Factory Defense, Unity 6, Solo Dev) — Phase 0: Foundation Setup
 
 **Proyek Selesai:**
 - ✅ **Gameseed 2026** — TTT: Never Late Go to School (3D Platformer Parkour, Cel-shaded, Unity 6)
@@ -69,8 +70,14 @@ Game Development/
 │
 ├── 📂 Projects/
 │   ├── Projects.md
-│   └── 📂 Gameseed 2026/        ✅ Arsip
-│       └── Gameseed 2026.md
+│   ├── 📂 Gameseed 2026/        ✅ Arsip
+│   │   └── Gameseed 2026.md
+│   ├── 📂 Ideas/
+│   │   └── Format Game Design.md
+│   └── 📂 Rama's TD/            🔧 Aktif
+│       ├── Rama's TD.md
+│       ├── ManaForge - Overdrive.md
+│       └── Roadmap.md
 │
 ├── 📂 Research/
 │   ├── Research.md
