@@ -28,7 +28,7 @@ Sebelum nulis satu baris gameplay, setup dulu biar gak nyesel belakangan.
 
 Tujuan: **validasi apakah core loop terasa fun**, bukan bikin yang bagus dulu.
 
-**Minggu 1 — Grid & Flow:**
+**⚙️ Minggu 1 — Grid & Flow:**
 
 - Grid System (Node/Graph) — tile placement di grid
 - Conveyor Belt: lurus + belok, resource mengalir dari node ke node
@@ -36,7 +36,7 @@ Tujuan: **validasi apakah core loop terasa fun**, bukan bikin yang bagus dulu.
 - 1 Mesin: Smelter (input Iron → output Iron Bar)
 - Visualisasi sederhana (bisa pakai ProBuilder yang udah ada di project lo)
 
-**Minggu 2 — Loop Pertama:**
+**⚙️ Minggu 2 — Loop Pertama:**
 
 - 1 Turret yang consume output Smelter → shoot projectile
 - Basic enemy: jalan lurus menuju Core, Core punya HP
@@ -44,19 +44,26 @@ Tujuan: **validasi apakah core loop terasa fun**, bukan bikin yang bagus dulu.
 - Bottleneck mechanic: turret berhenti kalau resource habis
 - Object Pooling untuk resource items & projectiles
 
+**🎨 Art Track — Phase 1 (Placeholder Only, jangan lebih dari ini!):**
+
+- Semua objek pakai **ProBuilder primitives** (cube, cylinder) — tidak perlu Blender
+- Tiap tipe objek beda warna Unlit material sesuai Color Language di GDD:
+	- Conveyor → `#2C2C2C` | Iron → `#4A90D9` | Smelter → `#C0392B` | Turret → `#27AE60` | Enemy → `#8E44AD`
+- Core (Arcane Forge) → cube 2×2 dengan emissive cyan, placeholder saja
+- Grid → flat plane + LineRenderer
+- **Aturan keras: tidak ada sesi Blender selama Phase 1**
+
 **✅ Kriteria Lulus Phase 1:**
 
 - Conveyor terasa _satisfying_ disambung-sambungin
 - Ada momen "oh shit bottleneck!" yang bikin panik
 - Kalau belum fun → pivot ke Minesweeper Dungeon / Chess Physics sesuai GDD
 
----
-
 ### 🎮 Phase 2 — MVP `(~2 Bulan setelah Phase 1)`
 
 Target: **satu run penuh yang bisa diplaytest orang lain.**
 
-**Core Systems:**
+**⚙️ Core Systems:**
 
 - Blueprint Drafting: pilih 1 dari 3 tiap akhir wave
 - Synergy Tag System (`[listrik]`, `[panas]`, `[waste]`)
@@ -67,42 +74,74 @@ Target: **satu run penuh yang bisa diplaytest orang lain.**
 - Permadeath + simpan koin (PlayerPrefs/JSON)
 - Metaprogression dasar: unlock upgrade permanen
 
-**FTUE Tutorial:**
+**⚙️ FTUE Tutorial:**
 
 - Sandbox room tanpa musuh (Kihon approach sesuai GDD)
 - Contextual UI hint — muncul pas diperlukan aja
 - Urutan: conveyor → smelter → turret → wave kecil
 
-**Solo Dev Tips untuk Phase ini:**
+**🎨 Art Track — Phase 2 (Basic Art, paralel sama coding):**
+
+Urutan prioritas pengerjaan aset:
+
+1. **Color System & Materials** *(Minggu 1 MVP)* — define semua material sesuai Color Language GDD sebelum bikin model apapun
+2. **Low-Poly Machine Models (Blender)**:
+	- Conveyor tile lurus + belok — paling sering keliatan, bikin duluan
+	- Smelter — kotak + cerobong kecil
+	- Turret — base + barrel yang bisa rotate
+	- Splitter — bentuk Y/T
+	- Target: **masing-masing < 500 poly**
+3. **The Arcane Forge (Core)** — trapezoid + 2–3 cerobong + pintu emissive cyan. Lihat spesifikasi lengkap di GDD Section 8
+4. **Resource Items** — geometric shape kecil, beda warna per tipe, tidak perlu detail
+5. **Enemy (1 tipe)** — stylized creature sederhana, silhouette harus jelas beda dari mesin
+6. **UI** — mockup di Figma dulu, baru implement di Unity. Screen yang dibutuhkan: HUD, Build Menu, Reward Panel
+7. **VFX Basic**:
+	- Muzzle flash turret (Particle System)
+	- Resource "pop" saat sampai di mesin
+	- Hit effect enemy
+	- Screen shake saat Core kena hit (DOTween)
+
+**Solo Dev Tips — Phase 2:**
 
 - Playtesting diri sendiri tiap minggu, catat session
 - Prioritas: **fun dulu, polish belakangan**
 - Batasi diri: jangan tambah mesin baru sebelum 10 blueprint selesai
-
----
+- Pertimbangkan beli asset pack untuk environment tiles & enemy model — hemat waktu untuk fokus ke mesin & conveyor sebagai signature visual
 
 ### 🚀 Phase 3 — Early Access `(4–6 Bulan total)`
 
 Baru masuk sini kalau MVP udah diplaytest dan core loop validated.
 
+**⚙️ Programming:**
+
 - 20+ blueprint, 2 faksi teknologi (Steampunk / Cyberpunk)
 - 15 wave
-- Audio (lo punya FL Studio, manfaatin!)
 - Polish VFX (GPU Instancing sudah disiapkan sejak MVP)
 - Canvas splitting untuk UI performance
-- Steam page & trailer
+- Steam Integration (Steamworks SDK)
 
----
+**🎨 Art Track — Phase 3 (Polish):**
+
+- Full art pass dua faksi:
+	- **Steampunk** — gear + tembaga + uap, warna coklat/emas/oranye
+	- **Cyberpunk** — neon + chrome + hologram, warna biru/ungu/putih
+- Conveyor belt animasi (UV scroll material di Shader Graph)
+- UI animations & transitions via DOTween
+- VFX polish: particle lebih detail, emissive glow, screen effects
+- **Audio (FL Studio)** — ini prioritas utama Phase 3:
+	- SFX: conveyor hum, mesin kerja, turret tembak, enemy mati, Core kena hit
+	- BGM: loop ambient industrial-magic per phase (Build = calm, Wave = intense)
+- Steam page screenshots & trailer
+
+**📅 Quick Timeline Overview (Updated):**
+
+| Phase | Durasi | Output Coding | Output Art |
+|---|---|---|---|
+| 0 - Setup | 2–3 hari | Project structure, GameManager, EventChannels | — |
+| 1 - Prototype | 2 minggu | Grid, Conveyor, Smelter, Turret, Wave, Pooling | Placeholder ProBuilder + colored materials |
+| 2 - MVP | ~2 bulan | Full run playable, Blueprint Draft, 10 perk, 5 wave | Low-poly models, UI Figma → Unity, basic VFX |
+| 3 - Early Access | 4–6 bulan total | 2 faksi, 20+ blueprint, 15 wave, Steam | Full art pass, audio FL Studio, trailer |
 
 ### 📅 Quick Timeline Overview
 
-|Phase|Durasi|Output|
-|---|---|---|
-|0 - Setup|2–3 hari|Project structure siap|
-|1 - Prototype|2 minggu|Go/No-Go decision|
-|2 - MVP|~2 bulan|Playable full run|
-|3 - Early Access|4–6 bulan total|Steam launch|
-
----
-
-Mau mulai dari Phase 0 sekarang King? Gue bisa langsung bantu setup struktur folder di Unity project lo, atau bikin `GameManager` + `GameState` FSM pertama.
+*Sudah dipindahkan ke bawah section Phase 3.*
