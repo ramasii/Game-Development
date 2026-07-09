@@ -155,3 +155,67 @@
   - ✅ Satu sinergi 2-perk menghasilkan momen "WOW/broken build" saat playtesting internal.
   - ✅ Rata-rata run 30–45 menit — tidak terlalu pendek (tidak berasa), tidak terlalu panjang (tidak bisa restart cepat).
   - ❌ Jika setelah 2 minggu mekanik grid belum fun → pivot ke konsep lain (Minesweeper Dungeon atau Chess Physics).
+
+---
+
+## 🎨 8. Visual Design & Art Direction
+
+### Art Style
+- **Referensi**: Shapez 2 — minimalist low-poly geometric
+- **Prinsip**: *Readable dulu, pretty belakangan.* Pemain harus bisa baca alur resource dari conveyor → mesin → turret dalam sekejap. Clarity > Aesthetics.
+
+### Color Language (Wajib Konsisten)
+| Elemen | Warna |
+|---|---|
+| Conveyor Belt | Abu-abu gelap `#2C2C2C` |
+| Resource: Iron | Biru `#4A90D9` |
+| Resource: Iron Bar | Oranye `#E8862A` |
+| Smelter | Merah bata `#C0392B` |
+| Turret | Hijau gelap `#27AE60` |
+| Enemy | Ungu `#8E44AD` |
+| Core (Arcane Forge) | Cyan emissive + batu gelap |
+
+### The Core — "The Arcane Forge"
+Core bukan crystal atau orb, melainkan **pabrik induk** tempat semua operasi berpusat. Secara tematik, pemain literally mempertahankan *The ManaForge* itu sendiri.
+
+**Bentuk Dasar (Low-Poly, Blender):**
+- Badan utama: trapezoid/kotak besar, sedikit lebih lebar di bawah
+- 2–3 cerobong di atas dengan ukuran bervariasi
+- Pintu forge di depan — glowing emissive cyan/oranye
+- Detail rune geometris di dinding (bevel edge + emissive material, tanpa texture)
+- Ukuran di grid: **2×2 tiles**
+
+**Color Palette Core:**
+| Bagian | Warna |
+|---|---|
+| Badan bangunan | Batu gelap `#1A1A2E` / abu tua |
+| Cerobong | Besi tua `#4A4A5A` |
+| Glow pintu | Cyan + putih emissive ("mana") |
+| Asap cerobong | Particle — ungu ke putih |
+| Rune | Emissive cyan tipis |
+
+**Visual Feedback HP (3 State):**
+- **HP Tinggi** → cerobong ngebul aktif, glow pintu terang
+- **HP Sedang** → asap melambat, glow meredup, warna bergeser ke oranye
+- **HP Kritis** → asap berhenti, glow merah berkedip (DOTween pulse)
+
+### Art Asset Pipeline per Phase
+| Phase | Target | Approach |
+|---|---|---|
+| Phase 1 (Prototype) | Placeholder 100% | ProBuilder primitives + colored Unlit materials. Tidak perlu Blender. |
+| Phase 2 (MVP) | Basic art | Low-poly Blender models, UI mockup di Figma dulu, basic Particle VFX |
+| Phase 3 (Early Access) | Polish | Full art pass 2 faksi, animated conveyor, UI DOTween, audio FL Studio |
+
+### Tool Stack Art
+| Kebutuhan | Tool |
+|---|---|
+| 3D Modeling | Blender (gratis) |
+| In-engine geometry | ProBuilder (sudah ada) |
+| UI Mockup | Figma (gratis) |
+| VFX | Unity Particle System + Shader Graph (URP) |
+| Audio | FL Studio (sudah ada) |
+
+### Tips Solo Dev — Art
+1. Beli asset pack untuk elemen non-core (environment tiles, enemy model) — fokus energi di mesin dan conveyor sebagai signature visual game.
+2. Audio setelah prototype lulus Go/No-Go — sound effect + musik drastis meningkatkan game feel, dan FL Studio sudah tersedia.
+3. Jangan perfectionist di Phase 1 & 2 — placeholder art cukup selama core loop belum validated.
