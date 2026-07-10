@@ -30,7 +30,7 @@ Tujuan: **validasi apakah core loop terasa fun**, bukan bikin yang bagus dulu.
 
 **⚙️ Minggu 1 — Grid & Flow:**
 
-- Grid System (Node/Graph) — tile placement di grid
+- ✅ Grid System (Node/Graph) — tile placement di grid
 - Conveyor Belt: lurus + belok, resource mengalir dari node ke node
 - 1 Resource type (misal: Raw Iron)
 - 1 Mesin: Smelter (input Iron → output Iron Bar)
