@@ -49,7 +49,7 @@
 
 - [x] GDD dibuat
 - [x] Roadmap dibuat
-- [ ] **Phase 0** — Struktur folder, GameManager, EventChannel, Git setup *(2–3 hari)*
+- [x] **Phase 0** — Struktur folder, GameManager, EventChannel, Git setup *(2–3 hari)*
 - [ ] **Phase 1** — Grid System, Conveyor, Loop pertama *(2 minggu — GO/NO-GO Gate)*
 - [ ] **Phase 2** — MVP: Blueprint Drafting, Sinergi, 5 Wave, FTUE *(~2 bulan)*
 - [ ] **Phase 3** — Early Access: 20+ blueprint, 2 faksi, Steam page *(4–6 bulan total)*

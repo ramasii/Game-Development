@@ -39,10 +39,13 @@
 - **Mekanik 2 — Blueprint Drafting**: Setiap akhir wave, pemain memilih 1 dari 3 blueprint/perk acak. Blueprint bisa berupa mesin baru, upgrade conveyor, atau perk pasif yang mengubah aturan sistem (misal: "besi yang melewati belokan 3x bermuatan listrik").
 - **Mekanik 3 — Sinergi Item**: Perk dan mesin berinteraksi satu sama lain lewat sistem tag (`[listrik]`, `[panas]`, `[waste]`, dll). Kombinasi tag yang tepat menghasilkan efek berantai (*chain reaction*) yang jauh lebih kuat dari jumlah bagian-bagiannya.
 - **Mekanik 4 — Bottleneck & Permadeath**: Jika aliran resource ke turret tersumbat, turret berhenti menembak. Monster yang mencapai Core akan merusaknya. Core hancur = run berakhir, tapi koin dan komponen langka tetap tersimpan.
+- **Mekanik 5 — Ore Deposit & Miner**: Sumber daya mentah tidak langsung tersedia — pemain harus menemukan **Ore Deposit** yang sudah ada di map (pre-placed oleh level designer) dan menempatkan **Miner** di atasnya untuk mulai mengekstraksi resource secara otomatis.
+  - **Ore Deposit**: Tile khusus pre-placed di map. Tidak bisa dihapus. Menandai lokasi bahan mentah (`iron`, `copper`, dst).
+  - **Miner**: Ditempatkan player tepat di atas Ore Deposit. Spawn resource item secara berkala (interval ditentukan `MinerData` ScriptableObject) ke satu arah output. Player bisa rotate arah output sebelum/sesudah placement.
+  - **Upgrade Path**: `MinerData` mendukung chain upgrade (Basic → Fast → Multi-Output). Miner level tinggi bisa punya lebih dari satu output direction (round-robin per spawn).
+  - **Flow lengkap**: `Ore Deposit → Miner → Conveyor Belt → Mesin/Turret`
 
-> Mekanik 5 (Underground Conveyor, multi-lantai, dsb.) ditambahkan setelah prototype mekanik 1–4 terbukti fun.
-
----
+> Mekanik 6 (Underground Conveyor, multi-lantai, dsb.) ditambahkan setelah prototype mekanik 1–5 terbukti fun.
 
 ## 💻 4. Arsitektur Data & Design Pattern
 
@@ -50,12 +53,13 @@
   - **Node/Graph System** — setiap tile grid adalah node; conveyor belt adalah edge; resource mengalir dari node ke node. Ini fondasi utama sistem pabrik.
   - **Observer Pattern (Event Channel)** — mesin dan turret subscribe ke event resource-flow. Saat resource tiba, event dipicu otomatis tanpa polling tiap frame. Lihat [[Decoupled Audio System (Event Channel & Pooling)]] sebagai referensi implementasi pattern serupa.
   - **Object Pooling** — item/resource di conveyor di-pool agar tidak ada GC spike saat ratusan objek bergerak bersamaan. Lihat [[Decoupled Audio System (Event Channel & Pooling)]].
-  - **ScriptableObject sebagai SSOT** — setiap blueprint/mesin/perk didefinisikan sebagai ScriptableObject. Satu asset = satu sumber kebenaran. Lihat [[Single Source of Truth (SSOT)]].
+  - **ScriptableObject sebagai SSOT** — setiap blueprint/mesin/perk didefinisikan sebagai ScriptableObject. Satu asset = satu sumber kebenaran. `MinerData` adalah contoh pertama pattern ini. Lihat [[Single Source of Truth (SSOT)]].
   - **State Pattern** — GameState (BuildPhase / WavePhase / RewardPhase / GameOver) dikelola lewat FSM terpusat. Lihat [[Simple FSM Berbasis Enum (Game State Prototyping)]] dan [[Centralized State Manager (GameManager Singleton & Event)]].
   - **Factory Pattern** — spawning mesin dan resource menggunakan Factory agar tidak ada hardcode tipe objek di luar satu tempat.
 
 - **Arsitektur & Penyimpanan Data**:
   - Blueprint dan Perk → `ScriptableObject` dengan sistem tag sinergi
+  - `MinerData` → `ScriptableObject` per tier Miner (interval, output count, upgrade chain)
   - Resource flow data → runtime-only, tidak perlu disimpan ke disk
   - Metaprogression (koin, unlock permanen) → `JSON` lokal atau `PlayerPrefs` untuk MVP
   - Game state → Singleton `GameManager` dengan event broadcast
@@ -68,8 +72,12 @@
         GM -->|OnStateChanged| BM[Build Manager]
 
         BM -->|PlaceTile| Grid[Grid System\nNode Graph]
-        Grid -->|ResourceFlow| Pool[Object Pool\nResource Items]
-        Pool -->|OnResourceArrived| Machine[Machine Node\nScriptableObject]
+        BM -->|PlaceMiner| Miner[Miner\nMinerData SO]
+
+        OreDeposit[Ore Deposit\npre-placed di map] -->|DepositTag| Miner
+        Miner -->|Get dari pool| Pool[Object Pool\nResource Items]
+        Pool -->|ResourceItem bergerak| Conv[Conveyor Belt]
+        Conv -->|OnResourceArrived| Machine[Machine Node\nScriptableObject]
         Machine -->|OnOutputReady| Turret[Turret Node]
         Turret -->|OnFire| Pool
 
@@ -79,8 +87,6 @@
         RM[Reward Manager] -->|DraftBlueprint| SO[Blueprint\nScriptableObject]
         SO -->|ApplyPerk| Grid
     ```
-
----
 
 ## 🏛️ 5. Desain FTUE
 
@@ -165,9 +171,12 @@
 - **Prinsip**: *Readable dulu, pretty belakangan.* Pemain harus bisa baca alur resource dari conveyor → mesin → turret dalam sekejap. Clarity > Aesthetics.
 
 ### Color Language (Wajib Konsisten)
+
 | Elemen | Warna |
 |---|---|
 | Conveyor Belt | Abu-abu gelap `#2C2C2C` |
+| Ore Deposit | Kuning `#F1C40F` |
+| Miner | Coklat tua / besi `#6B4F3A` |
 | Resource: Iron | Biru `#4A90D9` |
 | Resource: Iron Bar | Oranye `#E8862A` |
 | Smelter | Merah bata `#C0392B` |
