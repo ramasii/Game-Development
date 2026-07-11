@@ -36,8 +36,12 @@ Tujuan: **validasi apakah core loop terasa fun**, bukan bikin yang bagus dulu.
 - ✅ Ore Deposit — tile pre-placed di map, tandai lokasi bahan mentah
 - ✅ Miner — ditempatkan di atas Ore Deposit, spawn resource ke conveyor secara berkala
 - ✅ Object Pooling untuk resource items
-- 1 Mesin: Smelter (input Iron → output Iron Bar)
-- Visualisasi sederhana (ProBuilder primitives)
+- ✅ 1 Mesin: Smelter (input Iron → output Iron Bar)
+- ✅ Visualisasi sederhana (ProBuilder primitives)
+
+- BUG FIXING!
+	1. seberapa banyak smelter bisa menyimpan bahan mentah (iron) ketika banyak pasokan sedangkan outputnya setiap sekian detik?
+	2. resource bisa bisa mengantre seperti game factorio. seharusnya resource tidak destroy saat berada di ujung conveyor, melainkan menumpuk seperti factorio. ketika penyimpanan bahan mentah dari machine (smelter) penuh, maka resource juga bisa mengantre.
 
 **⚙️ Minggu 2 — Loop Pertama:**
 
