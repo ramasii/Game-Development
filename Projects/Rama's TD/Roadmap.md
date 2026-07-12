@@ -38,24 +38,21 @@ Tujuan: **validasi apakah core loop terasa fun**, bukan bikin yang bagus dulu.
 - ✅ Object Pooling untuk resource items
 - ✅ 1 Mesin: Smelter (input Iron → output Iron Bar)
 - ✅ Visualisasi sederhana (ProBuilder primitives)
+- ✅ Factorio-style resource queuing (berdempet, tidak despawn di ujung)
 
-- BUG FIXING!
-	1. ✅ seberapa banyak smelter bisa menyimpan bahan mentah (iron) ketika banyak pasokan sedangkan outputnya setiap sekian detik?
-	2. ✅ resource bisa bisa mengantre seperti game factorio. seharusnya resource tidak destroy saat berada di ujung conveyor, melainkan menumpuk seperti factorio. ketika penyimpanan bahan mentah dari machine (smelter) penuh, maka resource juga bisa mengantre.
-	3. ✅ sekarang resource mengantre dengan cara satu resource berhenti di atas satu conveyor. seharusnya resource antrenya berdempet seperti factorio dan game factory lain.
-	4. ✅ ketika resource ke-2 mengantre membuat unitynya ngelag parah.
-	5. ✅ posisi resource ke-3 yang mengantre sama dengan posisi resource ke-2, hasilnya yang keliatan antre cuma ada 2 resource.
-	6. ✅ resource stuck ketika bertemu resource lain di persimpangan.
-	7. ✅ miner tidak ngespawn resource padahal masih ada ruang di conveyor, cek juga untuk machine (smelter). mungkin conveyor di sebelahnya masih terisi resource dan resourcenya sedikit agak maju untuk antre sehingga menghasilkan ruang yang cukup luas.
-	8. ✅ resource item (iron_bar) menghilang saat di atas conveyor. iron bar keluar dari smelter lalu dikirim melalui conveyor, tidak sampai ujung conveyor tiba-tiba hilang. situasi saat hilang itu ketika sudah banyak resource item yang muncul, sekitar 20 lebih.
+**⚙️ Minggu 2 — Loop Pertama (target: loop terasa lengkap):**
 
-**⚙️ Minggu 2 — Loop Pertama:**
-
-- 1 Turret yang consume output Smelter → shoot projectile
-- Basic enemy: jalan lurus menuju Core, Core punya HP
-- 1 Wave kecil (5–10 musuh)
-- Bottleneck mechanic: turret berhenti kalau resource habis
-- Object Pooling untuk projectiles
+- Turret — consume Iron Bar dari conveyor → shoot projectile ke enemy
+- Basic enemy — spawn, jalan lurus ke Core
+- Core HP — kena damage saat enemy sampai, ada visual feedback
+- Wave Manager — spawn 5–10 enemy per wave, cek kondisi semua mati
+- **GameManager FSM integration** — transisi state lengkap:
+	- `BuildPhase` → player build bebas, ada tombol "Start Wave" untuk skip
+	- `WavePhase` → build dilock, enemy spawn, pabrik jalan otomatis
+	- `RewardPhase` → placeholder "Wave selesai" sebelum loop ulang
+	- `GameOver` → Core HP = 0, tampil screen sederhana
+- Basic HUD — Core HP bar, wave counter
+- Object Pooling untuk projectile enemy & turret
 
 **🎨 Art Track — Phase 1 (Placeholder Only, jangan lebih dari ini!):**
 
@@ -67,69 +64,75 @@ Tujuan: **validasi apakah core loop terasa fun**, bukan bikin yang bagus dulu.
 - Grid → flat plane + LineRenderer
 - **Aturan keras: tidak ada sesi Blender selama Phase 1**
 
-**✅ Kriteria Lulus Phase 1:**
+**✅ Kriteria Lulus Phase 1 (Go/No-Go Gate):**
 
 - Conveyor terasa _satisfying_ disambung-sambungin
-- Miner → Conveyor → Turret flow berjalan tanpa bug
-- Ada momen "oh shit bottleneck!" yang bikin panik
+- Loop **Build → Wave → Reward → Build** berjalan penuh tanpa crash
+- Ada momen "oh shit bottleneck!" yang bikin panik saat wave
 - Kalau belum fun → pivot ke Minesweeper Dungeon / Chess Physics sesuai GDD
 
 ### 🎮 Phase 2 — MVP `(~2 Bulan setelah Phase 1)`
 
-Target: **satu run penuh yang bisa diplaytest orang lain.**
+Target: **satu run penuh yang bisa diposting ke Instagram Reels dalam ~1 bulan dari sekarang.**
 
-**⚙️ Core Systems:**
+Dipecah 4 blok berurutan. Fokus utama: **selesaikan loop dulu, baru content, baru polish.**
 
-- Blueprint Drafting: pilih 1 dari 3 tiap akhir wave
-- Synergy Tag System (`[listrik]`, `[panas]`, `[waste]`)
-- 3 jenis mesin (Smelter, Splitter, 1 mesin unik)
-- 10 blueprint / perk
-- 5 wave dengan scaling difficulty
-- Reward Phase UI
-- Permadeath + simpan koin (PlayerPrefs/JSON)
-- Metaprogression dasar: unlock upgrade permanen
+---
 
-**⚙️ FTUE Tutorial:**
+**⚙️ Blok A — Complete the Loop `(~2 minggu)`**
 
-- Sandbox room tanpa musuh (Kihon approach sesuai GDD)
-- Contextual UI hint — muncul pas diperlukan aja
-- Urutan mekanik (Constructivist — tiap mekanik numpuk di atas yang sudah dikuasai):
-	1. Ore Deposit sudah ada di map → tempatkan Miner di atasnya
-	2. Sambungkan Conveyor dari output Miner
-	3. Tambahkan Smelter di ujung conveyor → resource berubah jadi output baru
-	4. Hubungkan ke Turret → turret mulai menembak otomatis
-	5. Wave kecil datang → rasakan loop penuh pertama kali
+Prioritas tertinggi. Loop harus bisa jalan penuh sebelum apapun ditambahkan.
 
-**🎨 Art Track — Phase 2 (Basic Art, paralel sama coding):**
+- RewardPhase proper: UI pilih 1 dari 3 blueprint (pool SO acak)
+- Blueprint system dasar: minimal 3 blueprint yang bisa di-draft dan langsung berpengaruh
+- Loop repeat: Build → Wave → Reward → Build dengan wave counter naik tiap round
+- Wave scaling dasar: tiap wave musuh lebih banyak / lebih kuat
 
-Urutan prioritas pengerjaan aset:
+**⚙️ Blok B — Mini Art Pass `(~1 minggu)` — 🎥 Instagram Reel Milestone**
 
-1. **Color System & Materials** *(Minggu 1 MVP)* — define semua material sesuai Color Language GDD sebelum bikin model apapun
-2. **Low-Poly Machine Models (Blender)**:
-	- Conveyor tile lurus + belok — paling sering keliatan, bikin duluan
-	- Miner — bangunan industrial kecil di atas deposit
-	- Smelter — kotak + cerobong kecil
-	- Turret — base + barrel yang bisa rotate
-	- Splitter — bentuk Y/T
-	- Target: **masing-masing < 500 poly**
-3. **Ore Deposit** — geometric crystal/rock cluster, warna kuning `#F1C40F`, tampil di bawah Miner
-4. **The Arcane Forge (Core)** — trapezoid + 2–3 cerobong + pintu emissive cyan. Lihat spesifikasi lengkap di GDD Section 8
-5. **Resource Items** — geometric shape kecil, beda warna per tipe, tidak perlu detail
-6. **Enemy (1 tipe)** — stylized creature sederhana, silhouette harus jelas beda dari mesin
-7. **UI** — mockup di Figma dulu, baru implement di Unity. Screen yang dibutuhkan: HUD, Build Menu, Reward Panel
-8. **VFX Basic**:
-	- Partikel mining saat Miner aktif (debu/spark kecil)
-	- Muzzle flash turret (Particle System)
-	- Resource "pop" saat sampai di mesin
-	- Hit effect enemy
-	- Screen shake saat Core kena hit (DOTween)
+Cukup buat layak diposting, bukan full polish. Target: ~1 bulan dari sekarang.
+
+- Model Blender low-poly untuk mesin utama: Conveyor, Miner, Smelter, Turret
+- Ore Deposit visual upgrade (crystal/rock cluster kuning)
+- Particle VFX dasar: mining spark, turret muzzle flash, enemy hit effect
+- Screen shake saat Core kena hit (DOTween)
+- SFX dasar 3–5 suara paling impactful (FL Studio)
+- **Record & upload Instagram Reel** ← milestone utama Blok ini
+
+**⚙️ Blok C — Machines & Content `(~3 minggu)`**
+
+Setelah reel diposting, fokus ke depth dan replayability.
+
+- Splitter machine (1 input → 2 output)
+- 1 mesin unik sesuai GDD (desain dulu di GDD sebelum implement)
+- 10 blueprint/perk didesain dan diimplementasi
+- Synergy tag system dasar: `[panas]`, `[listrik]`, `[waste]`
+- 5 wave dengan proper difficulty curve
+
+**⚙️ Blok D — Metaprogression `(~1-2 minggu)`**
+
+Hook agar player mau main lagi setelah run berakhir.
+
+- Coin drop saat enemy mati
+- Save system (PlayerPrefs untuk MVP)
+- 2–3 unlock permanen sebagai hook "next run"
+- Proper GameOver screen dengan coin summary
+
+---
+
+**🎨 Art Track — Phase 2:**
+
+Urutan prioritas seni mengikuti blok:
+- Blok A: warna material konsisten, UI RewardPhase sederhana
+- Blok B: low-poly Blender models, VFX, SFX — fokus yang **keliatan di kamera reel**
+- Blok C: asset mesin baru, blueprint UI polish
+- Blok D: GameOver screen, UI metaprogression
 
 **Solo Dev Tips — Phase 2:**
 
-- Playtesting diri sendiri tiap minggu, catat session
-- Prioritas: **fun dulu, polish belakangan**
-- Batasi diri: jangan tambah mesin baru sebelum 10 blueprint selesai
-- Pertimbangkan beli asset pack untuk environment tiles & enemy model — hemat waktu untuk fokus ke mesin & conveyor sebagai signature visual
+- Playtesting sendiri tiap akhir minggu — catat satu hal yang paling terasa kurang
+- Blok B art pass: prioritaskan yang keliatan di 30 detik pertama reel
+- Jangan tambah blueprint baru sebelum loop Blok A benar-benar stabil
 
 ### 🚀 Phase 3 — Early Access `(4–6 Bulan total)`
 
