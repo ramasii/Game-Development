@@ -40,8 +40,13 @@ Tujuan: **validasi apakah core loop terasa fun**, bukan bikin yang bagus dulu.
 - ✅ Visualisasi sederhana (ProBuilder primitives)
 
 - BUG FIXING!
-	1. seberapa banyak smelter bisa menyimpan bahan mentah (iron) ketika banyak pasokan sedangkan outputnya setiap sekian detik?
-	2. resource bisa bisa mengantre seperti game factorio. seharusnya resource tidak destroy saat berada di ujung conveyor, melainkan menumpuk seperti factorio. ketika penyimpanan bahan mentah dari machine (smelter) penuh, maka resource juga bisa mengantre.
+	1. ✅ seberapa banyak smelter bisa menyimpan bahan mentah (iron) ketika banyak pasokan sedangkan outputnya setiap sekian detik?
+	2. ✅ resource bisa bisa mengantre seperti game factorio. seharusnya resource tidak destroy saat berada di ujung conveyor, melainkan menumpuk seperti factorio. ketika penyimpanan bahan mentah dari machine (smelter) penuh, maka resource juga bisa mengantre.
+	3. ✅ sekarang resource mengantre dengan cara satu resource berhenti di atas satu conveyor. seharusnya resource antrenya berdempet seperti factorio dan game factory lain.
+	4. ✅ ketika resource ke-2 mengantre membuat unitynya ngelag parah.
+	5. ✅ posisi resource ke-3 yang mengantre sama dengan posisi resource ke-2, hasilnya yang keliatan antre cuma ada 2 resource.
+	6. resource stuck ketika di persimpangan.
+	7. miner tidak ngespawn resource padahal masih ada ruang di conveyor, cek juga untuk machine (smelter). mungkin conveyor di sebelahnya masih terisi resource dan resourcenya sedikit agak maju untuk antre sehingga menghasilkan ruang yang cukup luas.
 
 **⚙️ Minggu 2 — Loop Pertama:**
 
