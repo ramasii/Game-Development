@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Projects/Rama's TD/Roadmap.md",
+                "file": "Skills/02-Economy-and-Balancing/Apply Balance Foundations.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Roadmap"
+              "title": "Apply Balance Foundations"
             }
           }
         ]
@@ -213,11 +213,13 @@
       "graph:Open graph view": false
     }
   },
-  "active": "21ff75caf44fc2d0",
+  "active": "f42773d478bc473e",
   "lastOpenFiles": [
+    "Skills/02-Economy-and-Balancing/Apply Balance Foundations.md",
+    "Skills/02-Economy-and-Balancing/Establish Math Anchors.md",
+    "Projects/Rama's TD/Roadmap.md",
     "Projects/Rama's TD/ManaForge - Overdrive.md",
     "Projects/Rama's TD/Rama's TD.md",
-    "Projects/Rama's TD/Roadmap.md",
     "Projects/Projects.md",
     "AGY.md",
     "Projects/Ideas/Ideas.md",
@@ -242,8 +244,6 @@
     "Skills/03-Game-Architecture/Beat-Matching & DSP Scheduling (Unity).md",
     "Skills/07-Audio-and-Music/Adaptive Audio (Vertical Layering & Horizontal Resequencing).md",
     "Skills/07-Audio-and-Music",
-    "Skills/06-Game-Design/Player Persona & Motivasi (Quantic Foundry).md",
-    "Projects/Ideas/Format Game Design.md",
     "Books/An Architectural Approach to Level Design.pdf",
     "Images/Chords Relationships.png",
     "Images",
