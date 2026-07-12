@@ -71,6 +71,8 @@ Tujuan: **validasi apakah core loop terasa fun**, bukan bikin yang bagus dulu.
 - Ada momen "oh shit bottleneck!" yang bikin panik saat wave
 - Kalau belum fun → pivot ke Minesweeper Dungeon / Chess Physics sesuai GDD
 
+---
+
 ### 🎮 Phase 2 — MVP `(~2 Bulan setelah Phase 1)`
 
 Target: **satu run penuh yang bisa diposting ke Instagram Reels dalam ~1 bulan dari sekarang.**
@@ -134,19 +136,21 @@ Urutan prioritas seni mengikuti blok:
 - Blok B art pass: prioritaskan yang keliatan di 30 detik pertama reel
 - Jangan tambah blueprint baru sebelum loop Blok A benar-benar stabil
 
+---
+
 ### 🚀 Phase 3 — Early Access `(4–6 Bulan total)`
 
-Baru masuk sini kalau MVP udah diplaytest dan core loop validated.
+Baru masuk sini kalau Blok D MVP selesai dan ada traction dari Instagram Reel.
 
 **⚙️ Programming:**
 
 - 20+ blueprint, 2 faksi teknologi (Steampunk / Cyberpunk)
-- 15 wave
-- Polish VFX (GPU Instancing sudah disiapkan sejak MVP)
+- 15 wave dengan enemy variety
+- Polish VFX (GPU Instancing)
 - Canvas splitting untuk UI performance
 - Steam Integration (Steamworks SDK)
 
-**🎨 Art Track — Phase 3 (Polish):**
+**🎨 Art Track — Phase 3 (Full Polish):**
 
 - Full art pass dua faksi:
 	- **Steampunk** — gear + tembaga + uap, warna coklat/emas/oranye
@@ -154,20 +158,22 @@ Baru masuk sini kalau MVP udah diplaytest dan core loop validated.
 - Conveyor belt animasi (UV scroll material di Shader Graph)
 - UI animations & transitions via DOTween
 - VFX polish: particle lebih detail, emissive glow, screen effects
-- **Audio (FL Studio)** — ini prioritas utama Phase 3:
+- **Audio lengkap (FL Studio)**:
 	- SFX: conveyor hum, mining drill, mesin kerja, turret tembak, enemy mati, Core kena hit
-	- BGM: loop ambient industrial-magic per phase (Build = calm, Wave = intense)
+	- BGM: loop ambient industrial-magic per state (Build = calm, Wave = intense)
 - Steam page screenshots & trailer
 
-**📅 Quick Timeline Overview (Updated):**
+---
 
-| Phase | Durasi | Output Coding | Output Art |
-|---|---|---|---|
-| 0 - Setup | 2–3 hari | Project structure, GameManager, EventChannels | — |
-| 1 - Prototype | 2 minggu | Grid, Conveyor, OreDeposit, Miner, ObjectPool, Smelter, Turret, Wave | Placeholder ProBuilder + colored materials (termasuk Miner & Deposit) |
-| 2 - MVP | ~2 bulan | Full run playable, Blueprint Draft, 10 perk, 5 wave | Low-poly models (Miner, Mesin, Deposit), UI Figma → Unity, basic VFX |
-| 3 - Early Access | 4–6 bulan total | 2 faksi, 20+ blueprint, 15 wave, Steam | Full art pass, audio FL Studio, trailer |
+**📅 Quick Timeline Overview:**
 
-### 📅 Quick Timeline Overview
-
-*Sudah dipindahkan ke bawah section Phase 3.*
+| Phase | Durasi | Output Utama |
+|---|---|---|
+| 0 - Setup | 2–3 hari | Project structure, GameManager, EventChannels |
+| 1 Minggu 1 | 1 minggu | ✅ Grid, Conveyor, Miner, Smelter, Resource queuing |
+| 1 Minggu 2 | 1 minggu | Turret, Enemy, Wave, GameState FSM, HUD → **Go/No-Go** |
+| 2 Blok A | ~2 minggu | RewardPhase, Blueprint drafting, loop repeat |
+| 2 Blok B | ~1 minggu | Mini art pass, VFX, SFX → **🎥 Instagram Reel** |
+| 2 Blok C | ~3 minggu | Splitter, mesin baru, 10 blueprint, synergy tags |
+| 2 Blok D | ~1–2 minggu | Metaprogression, save system, GameOver proper |
+| 3 - Early Access | 4–6 bulan total | 2 faksi, 20+ blueprint, Steam launch |
