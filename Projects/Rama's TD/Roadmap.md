@@ -45,8 +45,9 @@ Tujuan: **validasi apakah core loop terasa fun**, bukan bikin yang bagus dulu.
 	3. ✅ sekarang resource mengantre dengan cara satu resource berhenti di atas satu conveyor. seharusnya resource antrenya berdempet seperti factorio dan game factory lain.
 	4. ✅ ketika resource ke-2 mengantre membuat unitynya ngelag parah.
 	5. ✅ posisi resource ke-3 yang mengantre sama dengan posisi resource ke-2, hasilnya yang keliatan antre cuma ada 2 resource.
-	6. resource stuck ketika bertemu resource lain di persimpangan.
-	7. miner tidak ngespawn resource padahal masih ada ruang di conveyor, cek juga untuk machine (smelter). mungkin conveyor di sebelahnya masih terisi resource dan resourcenya sedikit agak maju untuk antre sehingga menghasilkan ruang yang cukup luas.
+	6. ✅ resource stuck ketika bertemu resource lain di persimpangan.
+	7. ✅ miner tidak ngespawn resource padahal masih ada ruang di conveyor, cek juga untuk machine (smelter). mungkin conveyor di sebelahnya masih terisi resource dan resourcenya sedikit agak maju untuk antre sehingga menghasilkan ruang yang cukup luas.
+	8. 
 
 **⚙️ Minggu 2 — Loop Pertama:**
 
