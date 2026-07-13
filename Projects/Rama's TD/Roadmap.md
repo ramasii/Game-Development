@@ -43,7 +43,7 @@ Tujuan: **validasi apakah core loop terasa fun**, bukan bikin yang bagus dulu.
 **⚙️ Minggu 2 — Loop Pertama (target: loop terasa lengkap):**
 
 - Turret — consume Iron Bar dari conveyor → shoot projectile ke enemy
-- Basic enemy — spawn, jalan lurus ke Core
+- ✅ Basic enemy — spawn, jalan lurus ke Core
 - ✅ Core HP — kena damage saat enemy sampai, ada visual feedback
 - Wave Manager — spawn 5–10 enemy per wave, cek kondisi semua mati
 - **GameManager FSM integration** — transisi state lengkap:
