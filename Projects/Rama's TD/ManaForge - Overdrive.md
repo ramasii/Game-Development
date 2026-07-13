@@ -65,7 +65,7 @@
   - Game state → Singleton `GameManager` dengan event broadcast
 
 - **Mermaid Diagram**:
-    ```mermaid
+   ```mermaid
     graph TD
         GM[GameManager\nState Machine] -->|OnStateChanged| UI[UI Manager]
         GM -->|OnStateChanged| WM[Wave Manager]

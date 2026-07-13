@@ -36,14 +36,14 @@
 
 ## 📊 Status Proyek
 
-| Info | Detail |
-|---|---|
-| **Nama** | Rama's TD (ManaForge: Overdrive) |
-| **Genre** | Roguelite + Automation / Factory Defense |
-| **Platform** | PC / Steam |
-| **Engine** | Unity 6 |
-| **Tim** | Solo Dev |
-| **Status** | 🔧 Phase 0 — Foundation Setup |
+| Info         | Detail                                   |
+| ------------ | ---------------------------------------- |
+| **Nama**     | Rama's TD (ManaForge: Overdrive)         |
+| **Genre**    | Roguelite + Automation / Factory Defense |
+| **Platform** | PC / Steam                               |
+| **Engine**   | Unity 6                                  |
+| **Tim**      | Solo Dev                                 |
+| **Status**   | 🔧 Phase 1                               |
 
 ### 🚦 Phase Progress
 
