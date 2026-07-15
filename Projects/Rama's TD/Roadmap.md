@@ -56,6 +56,7 @@ Tujuan: **validasi apakah core loop terasa fun**, bukan bikin yang bagus dulu.
 	- `RewardPhase` → placeholder "Wave selesai" sebelum loop ulang
 	- `GameOver` → Core HP = 0, tampil screen sederhana
 - Basic HUD — Core HP bar, wave counter
+	- BUG: saat aku testing enemy sudah bisa spawn, uda ada core juga, tapi enemy tidak menyerang
 - ✅ Object Pooling untuk projectile enemy & turret
 
 **🎨 Art Track — Phase 1 (Placeholder Only, jangan lebih dari ini!):**
