@@ -49,14 +49,13 @@ Tujuan: **validasi apakah core loop terasa fun**, bukan bikin yang bagus dulu.
 - ✅ Turret — consume Iron Bar dari conveyor → shoot projectile ke enemy
 - ✅ Basic enemy — spawn, jalan lurus ke Core
 - ✅ Core HP — kena damage saat enemy sampai, ada visual feedback
-- 🟩 Wave Manager — spawn 5–10 enemy per wave, cek kondisi semua mati
-- 🟩 **GameManager FSM integration** — transisi state lengkap:
+- ✅ Wave Manager — spawn 5–10 enemy per wave, cek kondisi semua mati
+- ✅ **GameManager FSM integration** — transisi state lengkap:
 	- `BuildPhase` → player build bebas, ada tombol "Start Wave" untuk skip
 	- `WavePhase` → build dilock, enemy spawn, pabrik jalan otomatis
 	- `RewardPhase` → placeholder "Wave selesai" sebelum loop ulang
 	- `GameOver` → Core HP = 0, tampil screen sederhana
-- Basic HUD — Core HP bar, wave counter
-	- BUG: saat aku testing enemy sudah bisa spawn, uda ada core juga, tapi enemy tidak menyerang
+- ✅ Basic HUD — Core HP bar, wave counter
 - ✅ Object Pooling untuk projectile enemy & turret
 
 **🎨 Art Track — Phase 1 (Placeholder Only, jangan lebih dari ini!):**
