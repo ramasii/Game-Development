@@ -172,17 +172,18 @@
 
 ### Color Language (Wajib Konsisten)
 
-| Elemen              | Warna                       |
-| ------------------- | --------------------------- |
-| Conveyor Belt       | Abu-abu gelap `#2C2C2C`     |
-| Ore Deposit         | Kuning `#F1C40F`            |
-| Miner               | Coklat tua / besi `#6B4F3A` |
-| Resource: Iron      | Biru `#4A90D9`              |
-| Resource: Iron Bar  | Oranye `#E8862A`            |
-| Smelter             | Merah bata `#C0392B`        |
-| Turret              | Hijau gelap `#27AE60`       |
-| Enemy               | Ungu `#8E44AD`              |
-| Core (Arcane Forge) | Cyan emissive + batu gelap  |
+| Elemen | Warna |
+|---|---|
+| Conveyor Belt | Abu-abu gelap `#2C2C2C` |
+| Ore Deposit | Kuning `#F1C40F` |
+| Miner | Coklat tua / besi `#6B4F3A` |
+| Router | Teal `#17A589` |
+| Resource: Iron | Biru `#4A90D9` |
+| Resource: Iron Bar | Oranye `#E8862A` |
+| Smelter | Merah bata `#C0392B` |
+| Turret | Hijau gelap `#27AE60` |
+| Enemy | Ungu `#8E44AD` |
+| Core (Arcane Forge) | Cyan emissive + batu gelap |
 
 ### The Core — "The Arcane Forge"
 Core bukan crystal atau orb, melainkan **pabrik induk** tempat semua operasi berpusat. Secara tematik, pemain literally mempertahankan *The ManaForge* itu sendiri.
