@@ -47,23 +47,24 @@ Tujuan: **validasi apakah core loop terasa fun**, bukan bikin yang bagus dulu.
 	Finished (20 July 2026)
 
 - ✅ Turret — consume Iron Bar dari conveyor → shoot projectile ke enemy
-- ✅ Basic enemy — spawn, jalan lurus ke Core
+- ✅ Basic enemy — spawn, jalan lurus ke Core, serang Core & Turret
 - ✅ Core HP — kena damage saat enemy sampai, ada visual feedback
-- ✅ Wave Manager — spawn 5–10 enemy per wave, cek kondisi semua mati
+- ✅ Wave Manager — spawn enemy per wave dari multiple spawn points, auto-scaling
 - ✅ **GameManager FSM integration** — transisi state lengkap:
 	- `BuildPhase` → player build bebas, ada tombol "Start Wave" untuk skip
 	- `WavePhase` → build dilock, enemy spawn, pabrik jalan otomatis
 	- `RewardPhase` → placeholder "Wave selesai" sebelum loop ulang
 	- `GameOver` → Core HP = 0, tampil screen sederhana
-- ✅ Basic HUD — Core HP bar, wave counter
-- ✅ Object Pooling untuk projectile enemy & turret
+- ✅ Basic HUD — Core HP bar, wave counter, 4 panel state
+- ✅ Object Pooling untuk projectile turret
+- ✅ **Router** — distribusi resource 1→banyak, round-robin, backpressure, anti-clog
 
 **🎨 Art Track — Phase 1 (Placeholder Only, jangan lebih dari ini!):**
 
 - ✅ Semua objek pakai **ProBuilder primitives** (cube, cylinder) — tidak perlu Blender
 - ✅ Tiap tipe objek beda warna Unlit material sesuai Color Language di GDD:
 	- Conveyor → `#2C2C2C` | Iron → `#4A90D9` | Smelter → `#C0392B` | Turret → `#27AE60` | Enemy → `#8E44AD`
-	- Ore Deposit → `#F1C40F` (kuning) | Miner → `#6B4F3A` (coklat tua)
+	- Ore Deposit → `#F1C40F` (kuning) | Miner → `#6B4F3A` (coklat tua) | Router → `#17A589` (teal)
 - ✅ Core (Arcane Forge) → cube 2×2 dengan emissive cyan, placeholder saja
 - ✅ Grid → flat plane + LineRenderer
 - ✅ **Aturan keras: tidak ada sesi Blender selama Phase 1**
@@ -73,9 +74,7 @@ Tujuan: **validasi apakah core loop terasa fun**, bukan bikin yang bagus dulu.
 - ✅ Conveyor terasa _satisfying_ disambung-sambungin
 - ✅ Loop **Build → Wave → Reward → Build** berjalan penuh tanpa crash
 - ✅ Ada momen "oh shit bottleneck!" yang bikin panik saat wave
-- Kalau belum fun → pivot ke Minesweeper Dungeon / Chess Physics sesuai GDD
-
----
+- ✅ **LULUS — Game terasa fun! Lanjut ke Phase 2.**
 
 ### 🎮 Phase 2 — MVP `(~2 Bulan setelah Phase 1)`
 
@@ -98,7 +97,7 @@ Prioritas tertinggi. Loop harus bisa jalan penuh sebelum apapun ditambahkan.
 
 Cukup buat layak diposting, bukan full polish. Target: ~1 bulan dari sekarang.
 
-- Model Blender low-poly untuk mesin utama: Conveyor, Miner, Smelter, Turret
+- Model Blender low-poly untuk mesin utama: Conveyor, Miner, Smelter, Turret, Router
 - Ore Deposit visual upgrade (crystal/rock cluster kuning)
 - Particle VFX dasar: mining spark, turret muzzle flash, enemy hit effect
 - Screen shake saat Core kena hit (DOTween)
@@ -109,7 +108,8 @@ Cukup buat layak diposting, bukan full polish. Target: ~1 bulan dari sekarang.
 
 Setelah reel diposting, fokus ke depth dan replayability.
 
-- Splitter machine (1 input → 2 output)
+- ✅ ~~Router~~ — sudah diimplementasi di Phase 1 (bonus!)
+- Splitter machine (1 input → 2 output fixed, berbeda dari Router yang dynamic)
 - 1 mesin unik sesuai GDD (desain dulu di GDD sebelum implement)
 - 10 blueprint/perk didesain dan diimplementasi
 - Synergy tag system dasar: `[panas]`, `[listrik]`, `[waste]`
@@ -139,8 +139,6 @@ Urutan prioritas seni mengikuti blok:
 - Playtesting sendiri tiap akhir minggu — catat satu hal yang paling terasa kurang
 - Blok B art pass: prioritaskan yang keliatan di 30 detik pertama reel
 - Jangan tambah blueprint baru sebelum loop Blok A benar-benar stabil
-
----
 
 ### 🚀 Phase 3 — Early Access `(4–6 Bulan total)`
 
@@ -173,9 +171,9 @@ Baru masuk sini kalau Blok D MVP selesai dan ada traction dari Instagram Reel.
 
 | Phase | Durasi | Output Utama |
 |---|---|---|
-| 0 - Setup | 2–3 hari | Project structure, GameManager, EventChannels |
+| 0 - Setup | 2–3 hari | ✅ Project structure, GameManager, EventChannels |
 | 1 Minggu 1 | 1 minggu | ✅ Grid, Conveyor, Miner, Smelter, Resource queuing |
-| 1 Minggu 2 | 1 minggu | Turret, Enemy, Wave, GameState FSM, HUD → **Go/No-Go** |
+| 1 Minggu 2 | 1 minggu | ✅ Turret, Enemy, Wave, FSM, HUD, Router → **GO/NO-GO: LULUS!** |
 | 2 Blok A | ~2 minggu | RewardPhase, Blueprint drafting, loop repeat |
 | 2 Blok B | ~1 minggu | Mini art pass, VFX, SFX → **🎥 Instagram Reel** |
 | 2 Blok C | ~3 minggu | Splitter, mesin baru, 10 blueprint, synergy tags |

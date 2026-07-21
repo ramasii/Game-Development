@@ -44,8 +44,14 @@
   - **Miner**: Ditempatkan player tepat di atas Ore Deposit. Spawn resource item secara berkala (interval ditentukan `MinerData` ScriptableObject) ke satu arah output. Player bisa rotate arah output sebelum/sesudah placement.
   - **Upgrade Path**: `MinerData` mendukung chain upgrade (Basic → Fast → Multi-Output). Miner level tinggi bisa punya lebih dari satu output direction (round-robin per spawn).
   - **Flow lengkap**: `Ore Deposit → Miner → Conveyor Belt → Mesin/Turret`
+- **Mekanik 6 — Router (Distribusi Logistik)**: Tile 1×1 yang mendistribusikan resource dari satu atau banyak input ke banyak output secara otomatis. Terinspirasi dari Router di Mindustry.
+  - **Auto-detect I/O**: Tidak perlu set arah manual — Router otomatis mendeteksi side mana yang jadi input (conveyor outputnya menuju Router) dan side mana yang jadi output.
+  - **Round-robin**: Resource didistribusikan bergantian ke semua output yang valid (tidak blocked).
+  - **Backpressure handling**: Kalau satu output penuh/blocked → skip ke output berikutnya. Kalau semua blocked → resource tunggu di Router.
+  - **Anti-clog**: Router tidak boleh output ke sesama Router (mencegah loop tak terbatas).
+  - **Use case utama**: Membagi resource dari satu Smelter ke beberapa Turret, atau menggabungkan dua jalur conveyor menjadi satu.
 
-> Mekanik 6 (Underground Conveyor, multi-lantai, dsb.) ditambahkan setelah prototype mekanik 1–5 terbukti fun.
+> Mekanik 7 (Underground Conveyor, multi-lantai, dsb.) ditambahkan setelah prototype mekanik 1–6 terbukti fun.
 
 ## 💻 4. Arsitektur Data & Design Pattern
 
@@ -65,7 +71,7 @@
   - Game state → Singleton `GameManager` dengan event broadcast
 
 - **Mermaid Diagram**:
-   ```mermaid
+    ```mermaid
     graph TD
         GM[GameManager\nState Machine] -->|OnStateChanged| UI[UI Manager]
         GM -->|OnStateChanged| WM[Wave Manager]
@@ -73,13 +79,17 @@
 
         BM -->|PlaceTile| Grid[Grid System\nNode Graph]
         BM -->|PlaceMiner| Miner[Miner\nMinerData SO]
+        BM -->|PlaceRouter| Router[Router\nAuto-detect I/O]
 
         OreDeposit[Ore Deposit\npre-placed di map] -->|DepositTag| Miner
         Miner -->|Get dari pool| Pool[Object Pool\nResource Items]
         Pool -->|ResourceItem bergerak| Conv[Conveyor Belt]
-        Conv -->|OnResourceArrived| Machine[Machine Node\nScriptableObject]
+        Conv -->|masuk| Router
+        Router -->|round-robin output| Conv
+        Router -->|round-robin output| Machine[Machine Node\nScriptableObject]
+        Conv -->|OnResourceArrived| Machine
         Machine -->|OnOutputReady| Turret[Turret Node]
-        Turret -->|OnFire| Pool
+        Turret -->|OnFire| ProjPool[Projectile Pool]
 
         WM -->|SpawnWave| EnemyPool[Enemy Object Pool]
         EnemyPool -->|OnEnemyReachCore| GM
