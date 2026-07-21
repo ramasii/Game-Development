@@ -44,7 +44,7 @@ Tujuan: **validasi apakah core loop terasa fun**, bukan bikin yang bagus dulu.
 
 **⚙️ Minggu 2 — Loop Pertama (target: loop terasa lengkap):**
 	Started (13 July 2026)
-	Finished (-- July 2026)
+	Finished (20 July 2026)
 
 - ✅ Turret — consume Iron Bar dari conveyor → shoot projectile ke enemy
 - ✅ Basic enemy — spawn, jalan lurus ke Core
@@ -60,19 +60,19 @@ Tujuan: **validasi apakah core loop terasa fun**, bukan bikin yang bagus dulu.
 
 **🎨 Art Track — Phase 1 (Placeholder Only, jangan lebih dari ini!):**
 
-- Semua objek pakai **ProBuilder primitives** (cube, cylinder) — tidak perlu Blender
-- Tiap tipe objek beda warna Unlit material sesuai Color Language di GDD:
+- ✅ Semua objek pakai **ProBuilder primitives** (cube, cylinder) — tidak perlu Blender
+- ✅ Tiap tipe objek beda warna Unlit material sesuai Color Language di GDD:
 	- Conveyor → `#2C2C2C` | Iron → `#4A90D9` | Smelter → `#C0392B` | Turret → `#27AE60` | Enemy → `#8E44AD`
 	- Ore Deposit → `#F1C40F` (kuning) | Miner → `#6B4F3A` (coklat tua)
-- Core (Arcane Forge) → cube 2×2 dengan emissive cyan, placeholder saja
-- Grid → flat plane + LineRenderer
-- **Aturan keras: tidak ada sesi Blender selama Phase 1**
+- ✅ Core (Arcane Forge) → cube 2×2 dengan emissive cyan, placeholder saja
+- ✅ Grid → flat plane + LineRenderer
+- ✅ **Aturan keras: tidak ada sesi Blender selama Phase 1**
 
 **✅ Kriteria Lulus Phase 1 (Go/No-Go Gate):**
 
-- Conveyor terasa _satisfying_ disambung-sambungin
-- Loop **Build → Wave → Reward → Build** berjalan penuh tanpa crash
-- Ada momen "oh shit bottleneck!" yang bikin panik saat wave
+- ✅ Conveyor terasa _satisfying_ disambung-sambungin
+- ✅ Loop **Build → Wave → Reward → Build** berjalan penuh tanpa crash
+- ✅ Ada momen "oh shit bottleneck!" yang bikin panik saat wave
 - Kalau belum fun → pivot ke Minesweeper Dungeon / Chess Physics sesuai GDD
 
 ---
