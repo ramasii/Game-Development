@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Projects/Rama's TD/Roadmap.md",
+                "file": "Temporary.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Roadmap"
+              "title": "Temporary"
             }
           }
         ]
@@ -213,8 +213,9 @@
       "graph:Open graph view": false
     }
   },
-  "active": "f42773d478bc473e",
+  "active": "21ff75caf44fc2d0",
   "lastOpenFiles": [
+    "AGY.md",
     "Projects/Rama's TD/Roadmap.md",
     "Projects/Rama's TD/ManaForge - Overdrive.md",
     "Projects/Projects.md",
@@ -223,7 +224,6 @@
     "Temporary.md",
     "Projects/Rama's TD/Ideas/Router di Game _Mindustry_ (Sistem Distribusi 1x1 Terpusat).md",
     "Projects/Rama's TD/Ideas",
-    "AGY.md",
     "Projects/Rama's TD/Rama's TD.md",
     "Skills/02-Economy-and-Balancing/Map Resource Flows.md",
     "Skills/02-Economy-and-Balancing/Model Progress Curves.md",
