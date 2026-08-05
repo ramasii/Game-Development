@@ -59,3 +59,8 @@
 ### Pertanyaan yang belum dijawab Rama:
 1. 3 blueprint di atas cocok, atau mau yang lain?
 2. Efek blueprint apply ke instance yang **sudah ada di scene**, atau hanya yang **baru ditempatkan** setelah itu?
+
+
+### Jawaban Rama:
+1. 3 blueprint cocok. Value (range/speed/dll) harus bisa diubah lewat Inspector — pakai `effectValue` di BlueprintData SO, jangan hardcode.
+2. Efek langsung apply ke SEMUA instance yang sudah ada di scene (bukan hanya yang baru ditempatkan). Artinya Miner/Turret/ResourceItem yang sudah exist harus ikut ke-update saat blueprint dipilih — butuh cara broadcast/refresh ke semua instance aktif.
