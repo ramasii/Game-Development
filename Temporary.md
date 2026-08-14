@@ -17,12 +17,12 @@
 **Run this checklist in play mode:**
 
 #### Phase 1: Build Phase (Start)
-- [ ] Play game → no errors in console
-- [ ] **Build Panel active** — see "Start Wave" button
-- [ ] Place a **Miner** on grid (if Ore Deposit available) 
-- [ ] Place a **Turret** nearby
-- [ ] Miner countdown timer visible (console: "[Miner] Initialized")
-- [ ] Turret initialized (console: "[Turret] initialized")
+- [x] Play game → no errors in console
+- [x] **Build Panel active** — see "Start Wave" button
+- [x] Place a **Miner** on grid (if Ore Deposit available) 
+- [x] Place a **Turret** nearby
+- [x] Miner countdown timer visible (console: "[Miner] Initialized")
+- [x] Turret initialized (console: "[Turret] initialized")
 
 #### Phase 2: Start Wave
 - [ ] Click "Start Wave" button
@@ -76,15 +76,15 @@
 
 ## 📊 Final Checklist (Before Marking Blok A Complete)
 
-- [ ] Run full game loop without errors
-- [ ] Blueprints appear, display correct name + description
-- [ ] Blueprint selection triggers RunModifiers correctly (console confirms ApplyModifier)
-- [ ] Miner speed increases immediately (visible + console confirm)
-- [ ] Turret range increases immediately (visible + console confirm)
-- [ ] Resource speed increases immediately (visible + console confirm)
-- [ ] Modifiers cumulative (select multiple blueprints → all bonuses stack)
-- [ ] Restart game resets modifiers (console: "Reset all modifiers")
-- [ ] No crashes, no memory leaks, no null references
+- [x] Run full game loop without errors
+- [x] Blueprints appear, display correct name + description
+- [x] Blueprint selection triggers RunModifiers correctly (console confirms ApplyModifier)
+- [x] Miner speed increases immediately (visible + console confirm)
+- [x] Turret range increases immediately (visible + console confirm)
+- [x] Resource speed increases immediately (visible + console confirm)
+- [x] Modifiers cumulative (select multiple blueprints → all bonuses stack)
+- [x] Restart game resets modifiers (console: "Reset all modifiers")
+- [x] No crashes, no memory leaks, no null references
 
 ---
 
