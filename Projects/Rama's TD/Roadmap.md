@@ -84,7 +84,7 @@ Dipecah 4 blok berurutan. Fokus utama: **selesaikan loop dulu, baru content, bar
 
 ---
 
-**⚙️ Blok A — Complete the Loop `(~2 minggu)`**
+- [x] **⚙️ Blok A — Complete the Loop `(~2 minggu)`**
 
 Prioritas tertinggi. Loop harus bisa jalan penuh sebelum apapun ditambahkan.
 
