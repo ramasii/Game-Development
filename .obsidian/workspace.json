@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "AGY.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "AGY"
             }
           }
         ]
@@ -217,6 +217,7 @@
   },
   "active": "21ff75caf44fc2d0",
   "lastOpenFiles": [
+    "README.md",
     "Projects/Rama's TD/ManaForge - Overdrive.md",
     "Projects/Rama's TD/Rama's TD.md",
     "Projects/Rama's TD/Roadmap.md",
@@ -237,7 +238,6 @@
     "Skills/01-System-Deconstruction/Deconstruct Mechanics.md",
     "Skills/01-System-Deconstruction/🎯 1. System Deconstruction.md",
     "Skills/Skills.md",
-    "README.md",
     "Projects/Ideas/Ideas.md",
     "Projects/Rama's TD",
     "Skills/03-Game-Architecture/Centralized State Manager (GameManager Singleton & Event).md",
