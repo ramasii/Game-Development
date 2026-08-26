@@ -215,8 +215,12 @@
       "graph:Open graph view": false
     }
   },
-  "active": "21ff75caf44fc2d0",
+  "active": "128d5ba411da2e3d",
   "lastOpenFiles": [
+    "Projects/IFEST 2026/Roadmap.md",
+    "Projects/IFEST 2026/GDD - Dukun Chain Reaction.md",
+    "Projects/IFEST 2026/IFEST 2026.md",
+    "Projects/IFEST 2026",
     "README.md",
     "Projects/Rama's TD/ManaForge - Overdrive.md",
     "Projects/Rama's TD/Rama's TD.md",
@@ -242,9 +246,6 @@
     "Projects/Rama's TD",
     "Skills/03-Game-Architecture/Centralized State Manager (GameManager Singleton & Event).md",
     "Skills/03-Game-Architecture/Simple FSM Berbasis Enum (Game State Prototyping).md",
-    "Skills/07-Audio-and-Music/CR Reference & Emotion Lookup.md",
-    "Books/Books.md",
-    "Skills/07-Audio-and-Music/Teori Musik Dasar untuk Game BGM.md",
     "Books/Chord Relationships and Emotion.pdf",
     "Skills/07-Audio-and-Music",
     "Books/An Architectural Approach to Level Design.pdf",
@@ -253,7 +254,6 @@
     "Books/An Architectural Approach to Level Design Second Edition.pdf",
     "Research",
     "Skills/06-Game-Design",
-    "Projects/Ideas",
     "Skills/Game Balance/references/images/chapter5.png",
     "Skills/Game Balance/references/images/chapter3.png",
     "Skills/Game Balance/references/images/chapter2.png",
