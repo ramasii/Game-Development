@@ -1,125 +1,120 @@
 # 📋 GDD — Dukun Chain Reaction (IFEST 2026)
 
-> GDD dibuat mengikuti [[Format Game Design]] — fokus ke tema Chain Reaction + persona Achiever & Explorer.
+> GDD dibuat mengikuti [[Projects/Ideas/Format Game Design|Format Game Design]]. Versi ini **hanya berisi mekanik yang sudah dikonfirmasi dari screenshot** — ide tambahan dipindah ke Appendix Pending.
 
 ---
 
 ## 🎮 1. Konsep & Identitas Game
 
-- **Premis**: *Game ini adalah Crafting Puzzle-Shop Management di mana pemain sebagai **Dukun Urban** meracik ramuan/sesajen dengan urutan bahan yang memicu reaksi berantai untuk memenuhi pesanan customer demi uang dan membuka resep rahasia.*
-- **Genre**: Crafting Puzzle + Time Management (ala Overcooked / Potion Craft)
-- **Target Platform**: PC / WebGL (Game Jam build)
-- **USP (Unique Selling Point)**:
-  1. **Chain Reaction Berurutan**: Urutan bahan = trigger reaksi berantai (A -> B -> C). Bukan sekedar combine bebas. Salah urutan = efek gagal lucu/mistis.
-  2. **Dukun Nusantara Modern**: Tema Nusantara Urban + Profesional Fun — dukun hoodie di ruko modern, mantra neon, sesajen aesthetic kramat tapi fun.
-  3. **Dual Persona Loop**: Achiever (Grimoire 100% + Perfect Order) & Explorer (Hidden Recipes + Customer Rahasia).
-- **Referensi & Inspirasi**: Potion Craft (crafting), Overcooked (order pressure), Little Alchemy (eksperimen)
+- **Premis**: *Game ini adalah Crafting Puzzle di mana pemain sebagai **Dukun** membuat barang dari beberapa bahan tertentu yang **harus urut**. Barang diberikan ke customer yang memesan, lalu mendapat uang. Uang dipakai untuk membeli bahan lagi.*
+- **Genre**: Crafting Puzzle / Shop Loop
+- **Target Platform**: PC / WebGL (IFEST Game Jam)
+- **Target Persona**: Achiever & Explorer (dari brief IFEST)
+- **Tema Jam**: Chain Reaction
 
-**Moodboard (dari screenshot):**
+**Moodboard — sesuai screenshot 1:**
 - **Temanya**: Nusantara, Modern, Urban
 - **Keyword**: Kramat, Mantra, Dukun, Sesajen, Ramuan
-- **Vibes**: Modern, Misterius, Fun, Mistis, Profesional, Joy
+- **Vibes**: Modern, Misterius, Fun, Mistis, Profesional, JOy
+- **Mood Board theme**: Nusantara Modern Urban — kramat tapi fun
 
 ---
 
-## 🔄 2. Core Gameplay Loop
+## 🔄 2. Core Gameplay Loop — CONFIRMED
 
-**Loop Utama:**
+**Sesuai coretan screenshot 2:**
 
 ```
-[Shop: Beli Bahan] -> [Combine: Susun 3-5 Bahan Urut di Meja Ritual] -> [Chain Reaction VFX] -> [Order Check] -> [Output Item] -> [Deliver ke Customer -> +Money + Reputasi] -> Kembali ke Shop
+Dukun -> [Combine: 5 slot bahan urut] -> Order -> Output -> Objective (Money) -> Shop -> kembali ke Combine
 ```
 
-- **Core Mechanic**: **Sequential Chain Crafting**. Player drag 3-5 bahan ke slot berurutan. Sistem cek `SequenceEqual` dengan Recipe SSOT. Tiap slot benar memicu VFX rantai (api sesajen menjalar). Contoh output di coretan: `Sepatu Roda` dari kombinasi tertentu.
-- **Daya Tarik Jangka Pendek (5 menit)**: Feedback instan - reaksi berantai visual + suara mantra, kepuasan *ting-ting-ting-JADI!* saat urutan benar.
-- **Daya Tarik Jangka Panjang (selama jam)**: Achiever: kejar Grimoire lengkap & bintang 3 per order. Explorer: coba semua kombinasi aneh untuk buka item secret.
+- **Visual di screenshot**: Meja Combine 5 slot (2 slot terisi icon kaki/sepatu), simbol ritual lingkaran pentagram, icon `Sepatu roda` dengan panah ke `Money` (hasil output dijual).
+- **Loop Step-by-step (konfirmasi)**:
+  1.  **Combine**: Player susun bahan di 5 slot secara berurutan
+  2.  **Order**: Pesanan customer menentukan item apa yang harus dibuat (order jadi trigger)
+  3.  **Output**: Jika urutan benar, item jadi (contoh di screenshot: Sepatu Roda)
+  4.  **Objective**: Item diberikan ke customer, dapat **Money**
+  5.  **Shop**: Money dipakai untuk membeli bahan lagi -> loop
 
-**Objective Layer:**
-- Money = beli bahan (burn rate)
-- Reputasi/Bintang = unlock customer sulit + recipe tier 2
-
----
-
-## ⚔️ 3. Mekanik Utama
-
-Maksimal 3-5 mekanik (Game Jam scope):
-
-- **Mekanik 1 — Sequential Combine (Chain Reaction)**: 5 slot ritual (prototype mulai 3 slot). Player susun bahan. Validasi urutan strict. Benar = output item, Salah = item sampah/fail VFX.
-- **Mekanik 2 — Order System**: Customer datang dengan request item spesifik + timer. Deliver benar = Money + rating. Deliver salah/telat = penalty reputasi.
-- **Mekanik 3 — Shop & Economy**: Money dipakai beli bahan habis pakai. Bahan tier 1 murah, tier 2 mahal. Loop ekonomi tertutup sederhana untuk balancing jam.
-- **Mekanik 4 — Grimoire & Discovery (Explorer Hook)**: Buku mantra yang auto-catat recipe yang sudah ditemukan (Achiever 100%). Ada halaman `???` untuk hidden recipes yang hanya kebuka lewat eksperimen bebas tanpa order.
-- **Mekanik 5 — Fail Reaction (Juice)**: Jika urutan salah, bukan cuma popup gagal, tapi spawn efek chain gagal (misal: sesajen meledak jadi asap lucu + suara dukun "waduh").
+> Catatan: Tidak ada mekanik tambahan (Grimoire, rating bintang, fail effect, dll) di loop ini — hanya yang ada di coretan.
 
 ---
 
-## 💻 4. Arsitektur Data & Design Pattern
+## ⚔️ 3. Mekanik Utama — CONFIRMED ONLY
 
-- **Design Pattern Pilihan**:
-  - **SSOT ScriptableObject**: `IngredientSO`, `RecipeSO` (List<IngredientSO> sequence + ItemSO output), `CustomerOrderSO`.
-  - **Observer / Event Channel**: `OnRecipeCrafted`, `OnOrderDelivered`, `OnMoneyChanged` biar UI, VFX, Economy tidak coupled.
-  - **Factory Pattern**: `ItemFactory` untuk spawn ItemSO jadi GameObject / icon di output slot.
-  - **State Pattern (Enum FSM)**: `GameState { Shop, Ritual, Deliver }` pakai [[Simple FSM Berbasis Enum (Game State Prototyping)]]
+> Sesuai instruksi King: hanya mekanik dari screenshot yang dianggap pasti.
 
-- **Arsitektur & Penyimpanan Data**:
-  - Semua data resep di ScriptableObject (SSOT).
-  - Save sederhana: JSON untuk Grimoire unlock & Money (opsional jam).
+- **Mekanik 1 — Dukun sebagai Crafter**: Player berperan sebagai dukun yang bisa membuat barang dari bahan.
+- **Mekanik 2 — Combine Berurutan (5 Slot)**: Mengkombinasi beberapa bahan **harus urut** untuk membuat item. Validasi urutan menentukan keberhasilan (sesuai slot 5 di screenshot).
+- **Mekanik 3 — Order & Delivery**: Customer memesan barang tertentu. Player membuat sesuai pesanan dan memberikan hasilnya.
+- **Mekanik 4 — Objective Money**: Setelah deliver, player mendapat uang.
+- **Mekanik 5 — Shop Bahan**: Uang digunakan untuk memberi/membeli bahan lagi.
 
-- **Mermaid Diagram**:
+> Batasan: Maks 5 mekanik inti ini dulu. Mekanik lain belum masuk.
+
+---
+
+## 💻 4. Arsitektur Data & Design Pattern (Usulan Teknis - Menunggu Persetujuan Desain)
+
+- **Design Pattern Pilihan (draft)**:
+  - **SSOT ScriptableObject**: `IngredientSO`, `RecipeSO` (urutan bahan + output Item), `OrderSO`
+  - **Observer / Event Channel**: `OnItemCrafted`, `OnOrderCompleted`, `OnMoneyChanged`
+  - **State Pattern (Enum FSM)**: `GameState { Shop, Combine, Deliver }`
+- **Arsitektur & Penyimpanan Data**: Data resep di ScriptableObject sebagai SSOT. Save JSON optional.
 
 ```mermaid
 graph TD
     RecipeSO --> CraftingManager
     IngredientSO --> CraftingManager
-    CraftingManager -- OnRecipeCrafted --> UIManager
-    CraftingManager -- OnRecipeCrafted --> VFXManager
     CraftingManager --> OrderManager
-    OrderManager -- OnOrderDelivered --> EconomyManager
-    EconomyManager -- OnMoneyChanged --> ShopManager
-    ShopManager --> CraftingManager
+    OrderManager --> EconomyManager
+    EconomyManager --> ShopManager
 ```
 
 ---
 
-## 🏛️ 5. Desain FTUE (First-Time User Experience)
+## 🏛️ 5. Desain FTUE (Draft - Menunggu Persetujuan)
 
-- **Pendekatan FTUE**: **Contextual UI Hint + Kishōtenketsu mini**:
-  1.  **Ki (Intro)**: Customer pertama order 2 bahan saja (tutorial drag & drop). VFX chain ditunjukkan pelan.
-  2.  **Sho (Develop)**: Order 3 bahan, pemain belajar urutan penting.
-  3.  **Ten (Twist)**: Diberi bahan ngaco, pemain lihat Fail Reaction, diajarin eksperimen = tidak dihukum berat.
-  4.  **Ketsu (Master)**: Bebas, timer lebih ketat, Grimoire hint muncul "Coba kombinasi tanpa order?"
+- **Pendekatan FTUE**: Contextual UI Hint sederhana — tunjukkan cara drag bahan ke 5 slot secara urut, lalu entreg ke customer. Detail FTUE belum difinalkan.
 
 ---
 
-## 🚀 6. Struktur Folder Modular & Optimisasi Performa
+## 🚀 6. Struktur Folder Modular & Optimisasi Performa (Draft)
 
-- **Struktur Folder (Feature-Based)**:
 ```
 Assets/_Project/IFEST/
 ├── 01_Crafting/ (IngredientSO, RecipeSO, CraftingManager, Slots)
-├── 02_Order/ (Customer, OrderManager, OrderUI)
-├── 03_Economy/ (Money, Shop, Grimoire)
-├── 04_VFX_Audio/ (ChainReaction VFX, Mantra SFX)
-└── 05_Core/ (GameManager FSM, EventChannels)
+├── 02_Order/ (Customer, OrderManager)
+├── 03_Economy/ (Money, Shop)
+└── 04_Core/ (GameManager, EventChannels)
 ```
-  - Pakai `.asmdef` per folder biar compile cepat.
-
-- **Rencana Optimisasi**:
-  - *CPU/Memori*: Object Pooling untuk customer & VFX asap/mantra.
-  - *Rendering/UI*: Canvas Splitting (UI Ritual statis vs Order timer dinamis).
 
 ---
 
 ## 📏 7. Scope & Feasibility
 
-- **Estimasi Durasi**: Game Jam IFEST (3-7 hari). Prototype 1 hari, MVP 2 hari, Polish 1-2 hari.
-- **Ukuran Tim**: Team IFEST (2-4 orang).
-- **Risiko Teknis**: Validasi urutan + drag&drop harus solid hari pertama. Solusi: pakai `SequenceEqual` sederhana, jangan bikin sistem fisika.
-- **Risiko Desain**: Chain Reaction terasa kayak "tebak resep" membosankan. Validasi: playtest internal tiap tambah 5 recipe, pastikan fail feedback fun.
-- **Kriteria "Go/No-Go"**: Jika dalam 1 hari prototype 3-slot + 5 recipe + 1 customer flow sudah fun dengan VFX chain, lanjut polish. Jika masih bingung, cut ke 3 recipe saja.
+- **Estimasi Durasi**: IFEST Game Jam (3-7 hari)
+- **Ukuran Tim**: Team IFEST
+- **Risiko Teknis**: Validasi urutan 5 slot harus solid
+- **Kriteria Go/No-Go**: Prototype 5-slot + 1 order + 1 output (Sepatu Roda) + Shop loop sudah jalan
+
+---
+
+## 📎 Appendix — Ide Pending Persetujuan (TIDAK DIANGGAP FINAL)
+
+> Bagian ini berisi ide yang aku usulkan sebelumnya di chat — **belum disetujui King**, jadi TIDAK masuk ke GDD utama. Disimpan di sini biar gak hilang, tunggu approval lu.
+
+### A. Analisis Tema "Chain Reaction" (Pending)
+> Ide: ubah narasi dari "recipe puzzle" jadi "reaksi berantai A memicu B memicu C, salah urutan = fail". **Status: Menunggu persetujuan.**
+
+### B. Hook Persona Achiever & Explorer (Pending)
+> Ide Achiever: Grimoire 100%, rating bintang 3, perfect order bonus. Ide Explorer: Hidden Recipes, customer rahasia, eksperimen bebas. **Status: Menunggu persetujuan.**
+
+> Jika King setuju, baru akan aku merge ke Bab 2 & 3.
 
 ---
 
 ## 📸 Referensi Screenshot
 
-- Moodboard: `Temanya (Nusantara Modern Urban) + Keyword (Kramat Mantra Dukun Sesajen Ramuan) + Vibes (Modern Misterius Fun Mistis Profesional Joy)`
-- Coreloop: `Dukun -> Combine (5 slot) -> Order -> Output (contoh: Sepatu Roda) -> Objective (Money) -> Shop -> loop`
+- Screenshot 1 — Moodboard: Nusantara/Modern/Urban + Kramat/Mantra/Dukun/Sesajen/Ramuan + Vibes Modern/Misterius/Fun/Mistis/Profesional/JOy
+- Screenshot 2 — Coreloop: Dukun + Combine 5 slot + Lingkaran Ritual + Sepatu Roda -> Money + Flow Combine->Order->Output->Objective->Shop
