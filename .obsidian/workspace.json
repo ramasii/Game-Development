@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "AGY.md",
-                "mode": "source",
+                "file": "Projects/IFEST 2026/GDD - Dukun Chain Reaction.md",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "AGY"
+              "title": "GDD - Dukun Chain Reaction"
             }
           }
         ]
@@ -215,18 +215,19 @@
       "graph:Open graph view": false
     }
   },
-  "active": "128d5ba411da2e3d",
+  "active": "21ff75caf44fc2d0",
   "lastOpenFiles": [
-    "Projects/IFEST 2026/Roadmap.md",
+    "Images/Chords Relationships.png",
     "Projects/IFEST 2026/GDD - Dukun Chain Reaction.md",
+    "Projects/IFEST 2026/Roadmap.md",
     "Projects/IFEST 2026/IFEST 2026.md",
+    "AGY.md",
     "Projects/IFEST 2026",
     "README.md",
     "Projects/Rama's TD/ManaForge - Overdrive.md",
     "Projects/Rama's TD/Rama's TD.md",
     "Projects/Rama's TD/Roadmap.md",
     "Temporary.md",
-    "AGY.md",
     "Projects/Projects.md",
     "Skills/03-Game-Architecture/Decoupled Audio System (Event Channel & Pooling).md",
     "Skills/03-Game-Architecture/Single Source of Truth (SSOT).md",
@@ -245,11 +246,9 @@
     "Projects/Ideas/Ideas.md",
     "Projects/Rama's TD",
     "Skills/03-Game-Architecture/Centralized State Manager (GameManager Singleton & Event).md",
-    "Skills/03-Game-Architecture/Simple FSM Berbasis Enum (Game State Prototyping).md",
     "Books/Chord Relationships and Emotion.pdf",
     "Skills/07-Audio-and-Music",
     "Books/An Architectural Approach to Level Design.pdf",
-    "Images/Chords Relationships.png",
     "Images",
     "Books/An Architectural Approach to Level Design Second Edition.pdf",
     "Research",
