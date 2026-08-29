@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "AGY.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "AGY"
             }
           }
         ]
@@ -217,8 +217,8 @@
   },
   "active": "21ff75caf44fc2d0",
   "lastOpenFiles": [
-    "AGY.md",
     "README.md",
+    "AGY.md",
     "Projects/IFEST 2026/GDD - Dukun Chain Reaction.md",
     "Projects/IFEST 2026/IFEST 2026.md",
     "Images/Chords Relationships.png",
