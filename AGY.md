@@ -57,8 +57,13 @@ Koleksi buku/referensi belajar (level design, design pattern, dll).
 Pustaka pengetahuan dibagi dalam 7 ranah keahlian utama.
 > Lihat panduan lengkap & cara tambah skill baru di [[Skills]]
 
+## GLOBAL MCP PROTOCOL
+- Kamu memiliki akses penuh ke Obsidian MCP.
+- Aturan Default: SELALU gunakan tool MCP secara proaktif setiap kali memerlukan konteks skrip, struktur scene, atau membaca file. 
+- JANGAN PERNAH menebak isi file jika kamu bisa membacanya via MCP.
+- JANGAN meminta user meng-copy-paste kode jika kamu bisa mengaksesnya langsung melalui MCP.
+
 ---
-# 📁 Struktur Folder Vault "Game Development"
 # 📁 Struktur Folder Vault "Game Development"
 
 ```
