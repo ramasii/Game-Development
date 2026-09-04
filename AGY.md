@@ -40,11 +40,11 @@ Berpengalaman dalam membuat game 2D & 3D secara tim serta aktif berpartisipasi d
 > Lihat semua proyek di [[Projects]]
 
 **Proyek Aktif:**
-- 🔧 **IFEST 2026 — Dukun Chain Reaction** — Crafting Puzzle Chain Reaction (Dukun Urban Nusantara Modern, Unity 6, Team IFEST) — 🔧 Game Jam On Going — [[Projects/IFEST 2026/IFEST 2026|Lihat Detail]]
-- ⏸️ **Rama's TD** — ManaForge: Overdrive (Roguelite Factory Defense, Unity 6, Solo Dev) — Paused selama IFEST — [[Projects/Rama's TD/Rama's TD|Lihat Detail]]
+- 🔧 **Rama's TD** — ManaForge: Overdrive (Roguelite Factory Defense, Unity 6, Solo Dev) — Aktif kembali setelah IFEST selesai — [[Projects/Rama's TD/Rama's TD|Lihat Detail]]
 
 **Proyek Selesai:**
 - ✅ **Gameseed 2026** — TTT: Never Late Go to School (3D Platformer Parkour, Cel-shaded, Unity 6)
+- ✅ **IFEST 2026 — Dukun Chain Reaction** — Crafting Puzzle Chain Reaction (Dukun Urban Nusantara Modern, Unity 6, Team IFEST) — Submitted 04 Sep 2026 — [[Projects/IFEST 2026/IFEST 2026|Lihat Detail]]
 
 ## 🔬 Research
 Kumpulan hasil riset sebagai bahan referensi pengembangan game.
@@ -66,7 +66,6 @@ Pustaka pengetahuan dibagi dalam 7 ranah keahlian utama.
 
 ---
 # 📁 Struktur Folder Vault "Game Development"
-
 ```
 Game Development/
 │
@@ -78,7 +77,7 @@ Game Development/
 │
 ├── 📂 Projects/
 │   ├── Projects.md
-│   ├── 📂 IFEST 2026/           🔧 Aktif - Game Jam
+│   ├── 📂 IFEST 2026/           ✅ Arsip - Selesai
 │   │   ├── IFEST 2026.md
 │   │   ├── GDD - Dukun Chain Reaction.md
 │   │   └── Roadmap.md
@@ -86,7 +85,7 @@ Game Development/
 │   │   └── Gameseed 2026.md
 │   ├── 📂 Ideas/
 │   │   └── Format Game Design.md
-│   └── 📂 Rama's TD/            ⏸️ Paused
+│   └── 📂 Rama's TD/            🔧 Aktif
 │       ├── Rama's TD.md
 │       ├── ManaForge - Overdrive.md
 │       └── Roadmap.md

@@ -16,6 +16,10 @@
 ### 🎮 Game Design
 - [[Player Persona & Motivasi (Quantic Foundry)]] — Persona target: Achiever & Explorer
 
+### 🏗️ Game Architecture
+- [[Observer Pattern Events]] — Juice & order bubble decoupled via event
+- [[Single Source of Truth (SSOT)]] — CustomerOrderPool & InventoryManager sebagai SSOT
+
 ---
 
 ## 📊 Status Proyek
@@ -29,7 +33,7 @@
 | **Platform** | PC (WebGL optional) |
 | **Engine** | Unity 6 |
 | **Tim** | Team IFEST |
-| **Status** | 🔧 Aktif — Game Jam (On Going) |
+| **Status** | ✅ Selesai — Submitted 04 Sep 2026 |
 
 ### 🚦 Progress
 
@@ -37,9 +41,19 @@
 - [x] Moodboard (Nusantara Modern Urban, Kramat Mantra Dukun Sesajen Ramuan — Vibes Modern Misterius Fun Mistis Profesional JOy)
 - [x] GDD dibuat (versi confirmed only, appendix pending belum di-merge)
 - [x] Roadmap dibuat
-- [ ] Prototype Combine 5-slot + validasi urutan
-- [ ] Implementasi Order System + Customer
-- [ ] Ekonomi Shop (Money -> Bahan)
-- [ ] Polish + Build & Submit IFEST
+- [x] Prototype Combine 5-slot + validasi urutan
+- [x] Implementasi Order System + Customer
+- [x] Ekonomi Shop (Money -> Bahan)
+- [x] Polish + Build & Submit IFEST
 
-> Proyek aktif sebelumnya: [[Rama's TD]] (⏸️ Paused selama IFEST)
+### ✨ Polish Terakhir (Sesi 04 Sep 2026)
+
+- [x] Item juice DOTween (`Assets/Scripts/Rama/UIDraggableItemJuice.cs`) — drag lift + custom curve, drop boink, hover boink, wrong-return tween
+- [x] Fix hover spam membesar (reset scale + kill punch/scale sebelum tween baru)
+- [x] Fix stuck wrong-drop (guard double-call SellSpot + OnEndDrag, idempotent return tween)
+- [x] Fix split-stack count hilang (capture `WasSplitDrag` sebelum `Initialize`)
+- [x] Fix warna putih saat merge split-stack (copy `Image.color`)
+- [x] Fix stack wrong-drop teleport (tween + merge di `onComplete`)
+- [x] Order bubble (`Assets/Scripts/Rama/CustomerOrderBubble.cs`) — Square jadi icon `ItemData` order, putih, fixed scale, statis
+
+> Proyek dilanjutkan: [[Rama's TD]] (🔧 Aktif kembali setelah IFEST selesai)

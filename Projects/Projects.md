@@ -8,7 +8,23 @@ Halaman ini adalah **indeks semua proyek aktif dan arsip** yang sedang atau pern
 
 ## 🚀 Proyek Aktif
 
-### 🎮 [[Projects/IFEST 2026/IFEST 2026|IFEST 2026 — Dukun Chain Reaction]] — 🔧 Game Jam On Going
+### 🎮 [[Rama's TD]] — 🔧 Aktif
+> *Roguelite Factory Defense — bangun pabrik otomatis untuk pertahankan Core dari serbuan monster — **Aktif kembali setelah IFEST selesai** *
+
+| Info | Detail |
+|---|---|
+| **Nama** | Rama's TD (ManaForge: Overdrive) |
+| **Genre** | Roguelite + Automation / Factory Defense |
+| **Platform** | PC / Steam |
+| **Engine** | Unity 6 |
+| **Tim** | Solo Dev |
+| **Status** | 🔧 Aktif — Phase 1 |
+
+---
+
+## 📦 Arsip Proyek
+
+### 🎮 [[Projects/IFEST 2026/IFEST 2026|IFEST 2026 — Dukun Chain Reaction]] — ✅ Selesai
 > *Crafting Puzzle Chain Reaction — dukun urban meracik ramuan sesajen berurutan untuk penuhi pesanan customer*
 
 | Info | Detail |
@@ -19,24 +35,8 @@ Halaman ini adalah **indeks semua proyek aktif dan arsip** yang sedang atau pern
 | **Platform** | PC / WebGL |
 | **Engine** | Unity 6 |
 | **Tim** | Team IFEST |
-| **Status** | 🔧 Aktif — Game Jam |
+| **Status** | ✅ Selesai — Submitted 04 Sep 2026 |
 | **Dokumen** | [[Projects/IFEST 2026/GDD - Dukun Chain Reaction\|GDD]] • [[Projects/IFEST 2026/Roadmap\|Roadmap]] |
-
-### 🎮 [[Rama's TD]] — ⏸️ Paused
-> *Roguelite Factory Defense — bangun pabrik otomatis untuk pertahankan Core dari serbuan monster — **Paused selama IFEST** *
-
-| Info | Detail |
-|---|---|
-| **Nama** | Rama's TD (ManaForge: Overdrive) |
-| **Genre** | Roguelite + Automation / Factory Defense |
-| **Platform** | PC / Steam |
-| **Engine** | Unity 6 |
-| **Tim** | Solo Dev |
-| **Status** | ⏸️ Paused — Phase 1 |
-
----
-
-## 📦 Arsip Proyek
 
 ### 🎮 [[Gameseed 2026]] — ✅ Selesai
 > *3D Platformer dengan mekanik Parkour — dikembangkan untuk kompetisi Gameseed 2026*
