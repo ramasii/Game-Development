@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "AGY.md",
-                "mode": "source",
+                "file": "Projects/Solve Together/GDD - Solve Together.md",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "AGY"
+              "title": "GDD - Solve Together"
             }
           }
         ]
@@ -217,13 +217,13 @@
   },
   "active": "21ff75caf44fc2d0",
   "lastOpenFiles": [
-    "Projects/Solve Together/Timeline.md",
+    "Projects/Solve Together/Solve Together.md",
     "Projects/Solve Together/PBL Brief - NGO.md",
     "Projects/Solve Together/GDD - Solve Together.md",
-    "Projects/Solve Together/Solve Together.md",
+    "AGY.md",
+    "Projects/Solve Together/Timeline.md",
     "Projects/Solve Together",
     "README.md",
-    "AGY.md",
     "Projects/IFEST 2026/GDD - Dukun Chain Reaction.md",
     "Projects/IFEST 2026/IFEST 2026.md",
     "Images/Chords Relationships.png",

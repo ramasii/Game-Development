@@ -33,15 +33,77 @@ Win / Lose:
 - FINISH: pintu terbuka, semua masuk → level berikutnya
 
 ## 4. Rencana Arsitektur Sinkronisasi
+Server-authoritative. SERVER = NetworkManager + LevelManager. Semua state penting milik server, client cuma kirim input via ServerRpc dan terima visual via NetworkTransform + ClientRpc.
 
-Server-authoritative. Server: NetworkManager + LevelManager.
+### 4.1 Topologi Listen Server
 
-- **Visual:** `All player visual update` dari server ke semua client
-- **Input:** `Player 1 Input`, `Player 2 Input` (dst. s/d 4) dikirim ke server
+```mermaid
+graph TB
+    subgraph SERVER[SERVER - NetworkManager + LevelManager]
+        SM[Server Authority<br/>NetworkVariable - Spawn - Validasi]
+    end
+    subgraph CLIENTS[Clients - LAN - Direct IP]
+        C1[Player 1 - Input + Visual]
+        C2[Player 2 - Input + Visual]
+        C3[Player 3 - Input + Visual]
+        C4[Player 4 - Input + Visual]
+    end
+    C1 -- Input - ServerRpc --> SM
+    C2 -- Input - ServerRpc --> SM
+    C3 -- Input - ServerRpc --> SM
+    C4 -- Input - ServerRpc --> SM
+    SM -- All player visual update<br/>NetworkTransform + ClientRpc --> C1
+    SM --> C2
+    SM --> C3
+    SM --> C4
+```
 
-Contoh alur tombol (dari diagram):
-- player 1 injak tombol A → `RequestPressButtonServerRpc(0)` → `buttonPressed.Value = 1` di SERVER → `ShowHintClientRpc("Tunggu temanmu!")` + `Menerima respon server`
-- player 2 injak tombol B → `RequestPressButtonServerRpc(1)` → `buttonPressed.Value = 2` di SERVER → `PlayPuzzleSolvedClientRpc(0)` ke semua → puzzle terbuka
+> 1 Host bertindak sebagai server + player, 3 perangkat lain sebagai client. Semua lewat Unity Transport LAN.
+
+### 4.2 Alur Puzzle Tombol A + B
+
+```mermaid
+sequenceDiagram
+    participant P1 as Player 1
+    participant P2 as Player 2
+    participant S as SERVER
+    participant ALL as All Clients
+    P1->>S: RequestPressButtonServerRpc(0) - injak tombol A
+    S->>S: buttonPressed.Value = 1 - validasi
+    S->>P1: ShowHintClientRpc - Tunggu temanmu
+    Note over P1: Menerima respon server
+    P2->>S: RequestPressButtonServerRpc(1) - injak tombol B
+    S->>S: buttonPressed.Value = 2 - A plus B terpenuhi
+    S->>ALL: PlayPuzzleSolvedClientRpc(0) - buka pintu + FX + audio
+```
+
+- player 1 injak tombol A → `RequestPressButtonServerRpc(0)` → `buttonPressed.Value = 1` → `ShowHintClientRpc("Tunggu temanmu!")`
+- player 2 injak tombol B → `RequestPressButtonServerRpc(1)` → `buttonPressed.Value = 2` → `PlayPuzzleSolvedClientRpc(0)` ke semua → pintu terbuka
+
+### 4.3 Pemetaan NGO ke Alur Data
+
+```mermaid
+graph LR
+    subgraph CLIENT[Client]
+        IN[Input + ClientNetworkTransform]
+        REQ[Request - ServerRpc]
+    end
+    subgraph SERVERSIDE[Server]
+        VAL[Validasi jangkauan]
+        NVB[(NetworkVariable<br/>buttonPressed - skor - timer - item)]
+        SPWN[NetworkObject<br/>Server Spawn - Despawn]
+    end
+    subgraph BROADCAST[Broadcast ke Semua]
+        NT[NetworkTransform<br/>interpolated]
+        CR[ClientRpc<br/>Hint - Solved - Win - Reset]
+        OWN[Ownership + Parenting<br/>pegang - lepas]
+    end
+    IN --> REQ --> VAL --> NVB
+    NVB --> NT
+    NVB --> CR
+    VAL --> SPWN --> NVB
+    REQ --> OWN --> NVB
+```
 
 Pemetaan NGO:
 - **NetworkManager + Unity Transport:** Host/Client via IP lokal

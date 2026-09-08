@@ -20,6 +20,19 @@ Halaman ini adalah **indeks semua proyek aktif dan arsip** yang sedang atau pern
 | **Tim** | Solo Dev |
 | **Status** | 🔧 Aktif — Phase 1 |
 
+### 🎮 [[Projects/Solve Together/Solve Together|Solve Together]] — 🔧 Aktif
+> *Co-op Puzzle 2D Side Scroller max 4 pemain — selesaikan puzzle bareng untuk buka pintu — **PBL Kuliah Kelompok 4** *
+
+| Info | Detail |
+|---|---|
+| **Nama** | Solve Together |
+| **Genre** | Co-op Puzzle 2D Side Scroller |
+| **Platform** | PC (LAN) |
+| **Engine** | Unity 6 + NGO |
+| **Tim** | Kelompok 4 (Rama - Programmer) |
+| **Status** | 🔧 Aktif — PBL Kuliah |
+| **Dokumen** | [[Projects/Solve Together/GDD - Solve Together\|GDD]] • [[Projects/Solve Together/Timeline\|Timeline]] • [[Projects/Solve Together/PBL Brief - NGO\|PBL Brief]] |
+
 ---
 
 ## 📦 Arsip Proyek
