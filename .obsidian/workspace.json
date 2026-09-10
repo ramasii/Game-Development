@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Projects/Solve Together/GDD - Solve Together.md",
+                "file": "Projects/Projects.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "GDD - Solve Together"
+              "title": "Projects"
             }
           }
         ]
@@ -217,9 +217,11 @@
   },
   "active": "21ff75caf44fc2d0",
   "lastOpenFiles": [
+    "Research/Riset Pasar - Roguelite & Indie Steam 2026.md",
+    "Research/Research.md",
+    "Projects/Solve Together/GDD - Solve Together.md",
     "Projects/Solve Together/Solve Together.md",
     "Projects/Solve Together/PBL Brief - NGO.md",
-    "Projects/Solve Together/GDD - Solve Together.md",
     "AGY.md",
     "Projects/Solve Together/Timeline.md",
     "Projects/Solve Together",
@@ -245,8 +247,6 @@
     "Skills/02-Economy-and-Balancing/Apply Balance Foundations.md",
     "Skills/01-System-Deconstruction/Framework Kihon-Kata-Kumite (Learning Curve & Encounter Design).md",
     "Skills/01-System-Deconstruction/Designing FTUE (First-Time User Experience).md",
-    "Skills/01-System-Deconstruction/Deconstruct Mechanics.md",
-    "Skills/01-System-Deconstruction/🎯 1. System Deconstruction.md",
     "Projects/Rama's TD",
     "Books/Chord Relationships and Emotion.pdf",
     "Skills/07-Audio-and-Music",
