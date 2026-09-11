@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Projects/Ideas/Pair Jump/Pair Jump.md",
+                "file": "Projects/Pair Jump/Pair Jump.md",
                 "mode": "preview",
                 "source": false
               },
@@ -217,11 +217,12 @@
   },
   "active": "21ff75caf44fc2d0",
   "lastOpenFiles": [
-    "Projects/Pair Jump/GDD - Pair Jump.md",
+    "Skills/03-Game-Architecture/Simple FSM Berbasis Enum (Game State Prototyping).md",
     "Projects/Pair Jump/Pair Jump.md",
+    "Projects/Pair Jump/GDD - Pair Jump.md",
+    "Projects/Ideas/Pair Jump/Pair Jump.md",
     "Projects/Pair Jump",
     "Projects/Projects.md",
-    "Projects/Ideas/Pair Jump/Pair Jump.md",
     "Projects/Ideas/Pair Jump",
     "Research/Riset Pasar - Roguelite & Indie Steam 2026.md",
     "Research/Research.md",
@@ -248,7 +249,6 @@
     "Skills/02-Economy-and-Balancing/Map Resource Flows.md",
     "Skills/02-Economy-and-Balancing/Model Progress Curves.md",
     "Skills/02-Economy-and-Balancing/Establish Math Anchors.md",
-    "Skills/02-Economy-and-Balancing/📊 2. Economy & Balancing.md",
     "Projects/Rama's TD",
     "Books/Chord Relationships and Emotion.pdf",
     "Skills/07-Audio-and-Music",

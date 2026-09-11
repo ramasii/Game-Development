@@ -45,6 +45,39 @@
 ### 🚦 Progress Jam
 
 - [x] Ide + mockup + GDD mini v2.1 (toggle bebas, bukan ikut warna platform)
-- [ ] Day 1 (11 Sep): Prototype move + auto-jump + wrap + dash toggle + spawner debug
-- [ ] Day 2 (12 Sep): Core loop + MainMenu/Pause/GameOver + spawner solvable + build HP
-- [ ] Day 3 (13 Sep): Visual palette + SFX FL Studio + final build + submit
+
+###### DAY 1 — 11 Sep: Prototype mentah (yang penting bisa dimainin)
+Fokus: input + fisika, no menu, no cantik.
+- [x] Project setup: Unity 6 2D, portrait 1080x1920, 60fps lock
+- [ ] Player placeholder (kotak/bulat): auto-jump fixed hang 0.85s, drag relatif 1:1.2 + wrap kanan-kiri
+- [ ] Dash: swipe-down (>60px, <0.3s) → gravity x3.5 + trail debug. Normal = ghost tembus, dash = semua solid
+- [ ] Toggle: dash sentuh platform apa pun → Red <-> Blue + bounce. Cooldown 0.15s
+- [ ] Spawner kotak debug + kamera naik only + death buffer 2.5m
+- Done kalau: bisa loop 2 menit lompat → drag → dash → toggle → naik tanpa null
+
+###### DAY 2 — 12 Sep: Core Loop + Main Menu jadi game utuh
+- [ ] Game states: MainMenu → Play → Pause → GameOver → Retry 1 tap (GameManager singleton + best PlayerPrefs)
+- [ ] Main Menu: Judul Pair Jump, tombol Play gede, best height, mute toggle, cara main 3 ikon (geser / swipe bawah / hindari jatuh)
+- [ ] Spawner solvable: 0-30m hijau doang, 30-80 Red+Hijau, 80-130 tutorial dash, 130+ campur wajib toggle. Ghost lawan 25%
+- [ ] FTUE hint in-world: GESER, SWIPE BAWAH, panah. Gagal FTUE respawn di platform terakhir
+- [ ] Score height (m) + best + toggle streak. Pause tombol kanan-atas
+- [ ] Build Android pertama, tes HP asli: misinput drag vs swipe-down, multi-touch (drag 1 jari + dash jari lain)
+- Cut kalau mepet: streak counter, animasi menu
+
+###### DAY 3 — 13 Sep pagi: Visual + Sound + Submit
+**Visual Asset (2D shape, kunci palette):**
+- [ ] Palette: Red #FF6B6B, Blue #4D96FF, Neutral #7BF59B, BG #1A1C2C. Jangan tambah warna lain
+- [ ] Player bulat + mata, squash-stretch jump/land/dash, flash putih 0.1s pas toggle
+- [ ] Platform rounded rect solid vs ghost dashed transparan. Trail dash + partikel landing 6 kotak
+- [ ] UI: Height gede atas, tombol pause 64px, GameOver 1 tombol retry
+
+**Sound Asset (FL Studio, 1 jam):**
+- [ ] SFX wajib 5: jump (blip naik), dash (whoosh turun), toggle (pop 2 nada), land (thud pendek), UI click + gameover turun
+- [ ] BGM loop 8-bar chiptune 140BPM bass + hat, export ogg 30 detik loop, -12dB
+- [ ] Masuk Unity via AudioSource pool
+
+**Submit siang:**
+- [ ] Icon + nama, portrait lock, tes airplane mode, build AAB/APK + PC zip cadangan
+- [ ] Rekam 30 detik gameplay buat halaman jam
+
+Prioritas potong: BGM > partikel > streak > skin. Jangan potong buffer kamera + tutorial dash.
