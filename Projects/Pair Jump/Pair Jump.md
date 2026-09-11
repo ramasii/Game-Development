@@ -49,10 +49,10 @@
 ###### DAY 1 — 11 Sep: Prototype mentah (yang penting bisa dimainin)
 Fokus: input + fisika, no menu, no cantik.
 - [x] Project setup: Unity 6 2D, portrait 1080x1920, 60fps lock
-- [ ] Player placeholder (kotak/bulat): auto-jump fixed hang 0.85s, drag relatif 1:1.2 + wrap kanan-kiri
-- [ ] Dash: swipe-down (>60px, <0.3s) → gravity x3.5 + trail debug. Normal = ghost tembus, dash = semua solid
-- [ ] Toggle: dash sentuh platform apa pun → Red <-> Blue + bounce. Cooldown 0.15s
-- [ ] Spawner kotak debug + kamera naik only + death buffer 2.5m
+- [x] Player placeholder (kotak/bulat): auto-jump fixed hang 0.85s, drag relatif 1:1.2 + wrap kanan-kiri
+- [x] Dash: swipe-down (>60px, <0.3s) → gravity x3.5 + trail debug. Normal = ghost tembus, dash = semua solid
+- [x] Toggle: dash sentuh platform apa pun → Red <-> Blue + bounce. Cooldown 0.15s
+- [x] Spawner kotak debug + kamera naik only + death buffer 2.5m
 - Done kalau: bisa loop 2 menit lompat → drag → dash → toggle → naik tanpa null
 
 ###### DAY 2 — 12 Sep: Core Loop + Main Menu jadi game utuh
