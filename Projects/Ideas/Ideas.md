@@ -20,3 +20,8 @@ Setiap konsep ide harus mencakup:
 > **Genre:** 2D Action-Platformer Roguelite
 > 
 > Konsep game aksi 2D dengan fokus pada arsitektur data modular (SSOT & Decoupling) dan performa tinggi (Object Pooling). Level awal dirancang dengan metode Kishōtenketsu untuk mengajarkan mekanik dasar secara intuitif.
+
+##### 🎮 [[Projects/Ideas/Pair Jump/Pair Jump|Pair Jump]] — GT Jam Internal 2026
+> **Genre:** 2D Hyper-casual Vertical Platformer
+>
+> Red & Blue terjebak 1 badan. Drag untuk gerak + wrap, tap untuk swap mode, auto-jump. Naik setinggi-tingginya. Unexpected Pair + mobile 1 jari.
