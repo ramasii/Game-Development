@@ -42,6 +42,7 @@ Berpengalaman dalam membuat game 2D & 3D secara tim serta aktif berpartisipasi d
 **Proyek Aktif:**
 - 🔧 **Rama's TD** — ManaForge: Overdrive (Roguelite Factory Defense, Unity 6, Solo Dev) — Aktif kembali setelah IFEST selesai — [[Projects/Rama's TD/Rama's TD|Lihat Detail]]
 - 🔧 **Solve Together** — Co-op Puzzle 2D Side Scroller (Unity 6 + NGO, PBL Kuliah Kelompok 4, Rama sebagai Programmer) — [[Projects/Solve Together/Solve Together|Lihat Detail]]
+- 🔧 **Pair Jump** — 2D Vertical Platformer Hyper-casual (GT Jam Internal 2026, Unexpected Pair, Solo Dev, swipe-down dash toggle) — [[Projects/Pair Jump/Pair Jump|Lihat Detail]]
 
 **Proyek Selesai:**
 - ✅ **Gameseed 2026** — TTT: Never Late Go to School (3D Platformer Parkour, Cel-shaded, Unity 6)

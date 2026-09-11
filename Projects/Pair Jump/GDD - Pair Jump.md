@@ -1,6 +1,7 @@
-# 🎮 Pair Jump — GDD Mini (GT Jam Internal 2026) v2 Dash Convert
+# 🎮 GDD - Pair Jump (GT Jam Internal 2026) v2.1 Toggle Bebas
 
-> Jam 3 hari (sampai 13 Sep 2026) | Solo Dev | Unity 6 | Mobile Portrait | Revisi: Poinpy-style
+> Jam 3 hari (sampai 13 Sep 2026) | Solo Dev | Unity 6 | Mobile Portrait | Revisi: Poinpy-style, toggle tidak ikut warna platform
+> Sumber ide: [[Projects/Ideas/Pair Jump/Pair Jump|Ide Awal]] | Hub: [[Pair Jump]]
 
 ## 🎮 1. Konsep & Identitas Game
 
@@ -28,7 +29,7 @@ Maks 4, locked v2.1 toggle bebas:
 
 - **Mekanik 1 — Auto-Jump**: Loncat otomatis saat sentuh platform valid. Jump height fixed, hang-time 0.85s.
 - **Mekanik 2 — Drag Move + Wrap**: Geser kanan-kiri relatif (1:1.2). Tembus kanan → kiri. Saat dash, kontrol horizontal tetap 50% (fair steer).
-- **Mekanik 3 — Swipe-Down Dash Toggle (pengganti tap)**: Flick bawah cepat (>60px dalam <0.3s, angle >60° dari horizontal, abaikan UI). Efek: gravity x3.5, trail, semua platform jadi solid selama dash. Saat sentuh platform apa pun (Red / Blue / Hijau) → langsung toggle Red <-> Blue + bounce. Miss semua = terus jatuh, bisa dash lagi. Cooldown 0.15s anti-spam.
+- **Mekanik 3 — Swipe-Down Dash Toggle**: Flick bawah cepat (>60px dalam <0.3s, angle >60° dari horizontal, abaikan UI). Efek: gravity x3.5, trail, semua platform jadi solid selama dash. Saat sentuh platform apa pun (Red / Blue / Hijau) → langsung toggle Red <-> Blue + bounce. Miss semua = terus jatuh, bisa dash lagi. Cooldown 0.15s anti-spam.
 - **Mekanik 4 — Spawner + Kamera Pemaaf**: Hijau netral selalu solid saat normal fall. Red/Blue butuh mode cocok saat normal fall, tapi selalu solid saat dash. Spawner jamin 1 jalur reachable. Death zone buffer 2.5m di bawah layar.
 
 Kontrol locked v2.1: drag = gerak, swipe-down = dash toggle, tombol = pause. Tanpa tap, tanpa tilt.
@@ -36,8 +37,8 @@ Kontrol locked v2.1: drag = gerak, swipe-down = dash toggle, tombol = pause. Tan
 ## 💻 4. Arsitektur Data & Design Pattern
 
 - **Design Pattern Pilihan**:
-  - *Simple FSM Berbasis Enum*: PlayerMode (Red, Blue) + MoveState (Normal, Dashing). Pisah agar visual dan fisika tidak kecampur.
-  - *Observer / C# event*: OnModeChanged (platform update collider + visual), OnDashStart/End (trail + kamera shake kecil + sfx).
+  - *Simple FSM Berbasis Enum*: PlayerMode (Red, Blue) + MoveState (Normal, Dashing).
+  - *Observer / C# event*: OnModeChanged, OnDashStart/End.
   - *Object Pooling* untuk platform.
 - **Arsitektur & Penyimpanan Data**: GameManager Singleton SSOT untuk height, best, state Play/Pause/GameOver. Save best via PlayerPrefs.
 - **Mermaid Diagram**:
@@ -46,7 +47,7 @@ Kontrol locked v2.1: drag = gerak, swipe-down = dash toggle, tombol = pause. Tan
       InputManager -->|Drag| PlayerController
       InputManager -->|SwipeDown| DashController
       DashController -->|IsDashing?| Platform
-      Platform -->|OnLanded + Convert?| PlayerModeFSM[Red/Blue]
+      Platform -->|OnLanded Toggle| PlayerModeFSM[Red/Blue]
       PlayerModeFSM -->|OnModeChanged| PlayerVisuals
       PlayerModeFSM -->|OnModeChanged| RedPlatform
       PlayerModeFSM -->|OnModeChanged| BluePlatform
@@ -56,38 +57,34 @@ Kontrol locked v2.1: drag = gerak, swipe-down = dash toggle, tombol = pause. Tan
 
 ## 🏛️ 5. Desain FTUE
 
-Pendekatan: *Contextual UI Hint + Safe Sandbox*.
-
 - 0-30m: cuma Hijau. Hint: "GESER untuk gerak".
-- 30-80m: Red+Hijau, tidak butuh toggle. Biar paham ghost (lawan samar 25%).
-- 80-130m: tutorial toggle: taruh pola Red di atas Blue yang mustahil tanpa toggle. Hint: "SWIPE BAWAH untuk dash & ganti warna". Tekankan sentuh platform apa pun langsung toggle, tidak harus warna tujuan. Zona ini buffer kamera dilebarin, respawn di platform terakhir.
+- 30-80m: Red+Hijau, tidak butuh toggle. Paham ghost 25%.
+- 80-130m: tutorial toggle: pola mustahil tanpa toggle. Hint: "SWIPE BAWAH untuk dash & ganti warna". Sentuh apa pun langsung toggle. Buffer kamera dilebarin, respawn di platform terakhir.
 - 130m+: campuran acak wajib toggle berantai.
 
 ## 🚀 6. Struktur Folder Modular & Optimisasi Performa
 
-- **Struktur Folder**:
-    ```
-    Assets/
-    ├── Art/ Sprites, Anim/
-    ├── Audio/ SFX, BGM/
-    ├── Settings/ Input, URP/
-    └── _PairJump/
-        ├── Core/ GameManager.cs, PlatformPool.cs, Spawner.cs, InputManager.cs, CameraFollow.cs
-        ├── Player/ PlayerController.cs, PlayerMode.cs, DashController.cs, PlayerVisuals.cs
-        ├── Platform/ Platform.cs, RedPlatform.cs, BluePlatform.cs, NeutralPlatform.cs
-        └── UI/ HeightUI.cs, PauseUI.cs, GameOverUI.cs
-    ```
-- **Rencana Optimisasi**:
-    - *CPU/Memori*: Pool ~20 platform, no alloc di Update, dash pakai gravity scale bukan AddForce tiap frame.
-    - *Rendering/UI*: Canvas Splitting (Static/Dynamic/Overlay). Trail dash pakai TrailRenderer 1 saja.
+```
+Assets/
+├── Art/ Sprites, Anim/
+├── Audio/ SFX, BGM/
+├── Settings/ Input, URP/
+└── _PairJump/
+    ├── Core/ GameManager.cs, PlatformPool.cs, Spawner.cs, InputManager.cs, CameraFollow.cs
+    ├── Features/Player/ PlayerController.cs, PlayerMode.cs, DashController.cs, PlayerVisuals.cs
+    ├── Features/Platform/ Platform.cs, RedPlatform.cs, BluePlatform.cs, NeutralPlatform.cs
+    └── Features/UI/ HeightUI.cs, PauseUI.cs, GameOverUI.cs
+```
+
+- *CPU/Memori*: Pool ~20 platform, no alloc di Update, dash pakai gravity scale.
+- *Rendering/UI*: Canvas Splitting (Static/Dynamic/Overlay). Trail dash 1 saja.
 
 ## 📏 7. Scope & Feasibility
 
-- **Estimasi Durasi**: Day 1 (move+auto-jump+wrap+dash convert), Day 2 (spawner solvable+kamera buffer+score+pause), Day 3 (juice dash/convert+sfx+build).
-- **Ukuran Tim**: Solo.
-- **Risiko Teknis**: Drag horizontal vs swipe-down ketuker saat diagonal → mitigasi direction-lock 0.1s pertama + threshold angle 60°. Dash miss langsung mati → mitigasi death buffer 2.5m + coyote convert (landing 0.05s setelah dash habis masih dihitung convert).
-- **Risiko Desain**: Swap jadi mahal (korban height) → game melambat. Mitigasi: jump height sedikit ditinggikan vs v1 (0.7s → 0.85s) agar 1 convert bisa nutup 2-3 platform. Playtest 2 menit wajib bisa 5x convert tanpa frustrasi.
-- **Kriteria Go/No-Go**: Pemain paham dash-convert dalam 3x coba tanpa teks panjang, tidak ada misinput >10%, restart cepat tanpa null.
+- **Estimasi**: Day 1 prototype, Day 2 MVP + menu, Day 3 juice + build.
+- **Risiko Teknis**: Drag vs swipe-down ketuker → direction-lock 0.1s + threshold 60°. Dash miss mati → buffer 2.5m + coyote 0.05s.
+- **Risiko Desain**: Swap mahal → jump 0.85s agar 1 convert nutup 2-3 platform.
+- **Go/No-Go**: Paham dalam 3x coba, misinput <10%, restart tanpa null.
 
 ---
-#usulan-jam #unexpected-pair #unity #mobile #platformer #poinpy-like
+#gamejam #unexpected-pair #unity #mobile #platformer #poinpy-like

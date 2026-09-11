@@ -24,4 +24,6 @@ Setiap konsep ide harus mencakup:
 ##### 🎮 [[Projects/Ideas/Pair Jump/Pair Jump|Pair Jump]] — GT Jam Internal 2026
 > **Genre:** 2D Hyper-casual Vertical Platformer
 >
-> Red & Blue terjebak 1 badan. Drag untuk gerak + wrap, tap untuk swap mode, auto-jump. Naik setinggi-tingginya. Unexpected Pair + mobile 1 jari.
+> Red & Blue terjebak 1 badan. Drag untuk gerak + wrap, swipe-down dash toggle, auto-jump. Naik setinggi-tingginya. Unexpected Pair + mobile 1 jari.
+>
+> 🚀 **Dipromosikan menjadi proyek aktif:** [[Projects/Pair Jump/Pair Jump|Pair Jump]] — GDD aktif di [[Projects/Pair Jump/GDD - Pair Jump|GDD - Pair Jump]]

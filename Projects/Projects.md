@@ -21,6 +21,7 @@ Halaman ini adalah **indeks semua proyek aktif dan arsip** yang sedang atau pern
 | **Status** | 🔧 Aktif — Phase 1 |
 
 ### 🎮 [[Projects/Solve Together/Solve Together|Solve Together]] — 🔧 Aktif
+###### 🎮 [[Projects/Solve Together/Solve Together|Solve Together]] — 🔧 Aktif
 > *Co-op Puzzle 2D Side Scroller max 4 pemain — selesaikan puzzle bareng untuk buka pintu — **PBL Kuliah Kelompok 4** *
 
 | Info | Detail |
@@ -33,7 +34,18 @@ Halaman ini adalah **indeks semua proyek aktif dan arsip** yang sedang atau pern
 | **Status** | 🔧 Aktif — PBL Kuliah |
 | **Dokumen** | [[Projects/Solve Together/GDD - Solve Together\|GDD]] • [[Projects/Solve Together/Timeline\|Timeline]] • [[Projects/Solve Together/PBL Brief - NGO\|PBL Brief]] |
 
----
+###### 🎮 [[Projects/Pair Jump/Pair Jump|Pair Jump]] — 🔧 Aktif - GT Jam 2026
+> *2D Hyper-casual Vertical Platformer — Red & Blue 1 badan, swipe-down dash toggle — **Gamejam Internal GT 2026, Unexpected Pair** *
+
+| Info | Detail |
+|---|---|
+| **Nama** | Pair Jump |
+| **Genre** | 2D Hyper-casual Vertical Platformer |
+| **Platform** | Mobile Portrait |
+| **Engine** | Unity 6 |
+| **Tim** | Solo Dev |
+| **Status** | 🔧 Aktif — Jam sampai 13 Sep 2026 |
+| **Dokumen** | [[Projects/Pair Jump/GDD - Pair Jump\|GDD]] • [[Projects/Pair Jump/Pair Jump\|Hub]] |
 
 ## 📦 Arsip Proyek
 
