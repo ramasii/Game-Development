@@ -12,11 +12,12 @@
 | **Engine** | Unity 6 (6000.6.0f1), URP, Android platform, IL2CPP, Linear |
 | **Orientasi** | Portrait 1080x1920, 60fps lock (`Application.targetFrameRate=60` di `GameManager.Awake`) |
 | **Input** | Input System only (Legacy throw). Drag gerak + tap dash (Plan B). Multi-touch: 1 jari drag + 1 jari tap. Tap = cepat ≤0.25s + geser ≤20px (skala DPI ~0.12"), mulai di atas UI diabaikan |
-| **Fisika** | 1x `Rigidbody2D` Dynamic (Player) + `BoxCollider2D` trigger (Platform). No alloc di Update |
+| **Fisika** | 1x `Rigidbody2D` Dynamic (Player, radius 0.45, damping 0, NeverSleep, Continuous) + `BoxCollider2D` trigger (Platform 2.75×0.6). No alloc di Update |
 | **Scene stat** | 46 GameObject, 150 component. Top: RectTransform 36, Text 20, Image 12, Button 8, Canvas 4 |
-| **Script** | 11 file di `Assets/_PairJump/` (12 dengan `Welcome2DScript.cs` template yang tidak dipakai). Post anim: PlayerController 306, PairJumpInput 184, Platform 105, Spawner 189 baris |
+| **Script** | 11 file di `Assets/_PairJump/` (12 dengan `Welcome2DScript.cs` template yang tidak dipakai). Post apex+tepi: PlayerController 343, PairJumpInput 184, Platform 116, Spawner 219 baris |
 | **Prefab** | `Assets/_PairJump/Prefab/Platform.prefab` — ter-wire di `Spawner.platformPrefab`, spawn via Instantiate + fallback kotak prosedural |
 | **Animasi** | `Platform sheet_0.controller` — state `Solid` ↔ `Platform Not Solid`, param bool `isSolid`, klip loop 3 frame (swap sprite saja, tint dari kode) |
+| **Spawner tuning** | `maxGapX=2.5` (scene, dulu 4), bound refleksi = halfW − 1.375 − 0.2, gap Y 1.8–2.4 vs lompat maks ±2.65 |
 
 Struktur folder sesuai GDD §6:
 ```
@@ -72,18 +73,18 @@ Enum FSM sederhana (skill: Simple FSM Berbasis Enum):
 ### 3.3 `Player/PlayerMode.cs` — 2 baris
 `enum PlayerMode { Red, Blue }`. Hijau bukan mode, cuma warna platform netral.
 
-### 3.4 `Player/PlayerController.cs` — 306 baris, inti gameplay
+### 3.4 `Player/PlayerController.cs` — 343 baris, apex konsisten
 Tuning aktual dari engine (bukan default code):
 - `normalGravity=3`, `dashGravityMult=3.5`, `hangTime=0.85`, `moveSensitivity=1.2`, `dashCooldown=0.15`, `debugAutoDragPxPerFrame=0`
-- Plan B: `dashSlamVelocity=-2`, `dashTimeout=3`. Plan A: `landDebounce=0.1`
-- `jumpVelocity = hang * g / 2` dengan `g=9.81*3` → ~12.5. Bounce pertahankan `x*0.3`.
-- Setup `Awake`: `freezeRotation`, `sleepMode=NeverSleep`, `Continuous`, `WakeUp()`. **Jangan diubah** — ini fix bug Day 1 bola beku di apex.
+- Plan B: `dashSlamVelocity=-2`, `dashTimeout=3`. Plan A: `landDebounce=0.1`. Landing: `landTol=0.1`, `landSnapEps=0.02`
+- `jumpVelocity = hang * g / 2` dengan `g=9.81*3` → ~12.5, lompat maks ~2.65. Bounce pertahankan `x*0.3`.
+- Setup `Awake`: `freezeRotation`, `sleepMode=NeverSleep`, `Continuous`, `WakeUp()`, `ballRadius` dari CircleCollider (0.45). **Jangan diubah** — ini fix bug Day 1 bola beku di apex.
 - Event: `OnModeChanged(PlayerMode)`, `OnDashChanged(bool)`, `OnStreakChanged(int)`.
-- `Start` + `HandleGameState`: hold total saat bukan Playing (`velocity=0 + gravityScale=0`). Masuk Playing: resume `savedVel` kalau >0.5 (canDash dipertahankan apa adanya — pause strict, tidak kasih dash gratis) else luncur `jumpVelocity` + `canDash=true`. Keluar Playing: simpan `savedVel`, clear `IsDashing`, buang `pendingDragPx` (anti teleport pas resume). Plan A: `GameOver`/`MainMenu` → `ResetStreak()` (streak 0 + lupa platform terakhir); `Paused` sengaja TIDAK reset.
-- Input: `HandleDrag` antre ke `pendingDragPx`. `HandleDashRequest` (listen `OnTap`): gate `IsPlaying` + `canDash` (Plan B lock — sekali per lompatan, tap kedua di udara diabaikan) + cooldown → `IsDashing=true`, `gravityScale=3*3.5`, slam-cut: kalau `vy > -2` (naik/jatuh pelan) langsung jadi `(vx*0.5, -2)`; jatuh lebih cepat dipertahankan.
-- `FixedUpdate`: konversi px→world via `(2*ortho*aspect)/Screen.width`, sens 1.2 (0.6 saat dash). **Geser X via `transform.position += (dx,0,0)` — JANGAN `MovePosition`** (A/B-tested 11 Sep: MovePosition delta Y=0 berantem dengan `velocity.y` → Y beku). Lalu `Wrap()` kiri-kanan via `halfW = ortho*aspect`.
-- `TryLand(Platform p)`: gate `IsPlaying`/null, tolak `velocity.y>0.5` kecuali dashing, tolak jika bola di bawah platform -0.1. `dashActive = IsDashing || (now-dashEnd<0.05 && now-lastDash<0.3)` (coyote). `solid = p.IsSolidFor(mode, dashActive)`, ghost → return. Debounce: `now-lastLand<0.1` → return (anti dobel-hit Enter+Stay, bug Day2 #7). Kalau dash → toggle Red↔Blue + reset gravity + invoke events + `RefreshAllPlatforms()` + `UpdateColor()` (Red `#FF8C8C`-ish `(1,0.55,0.55)`, Blue `(0.45,0.68,1)`). Streak Plan A (lock King): beda platform → +1 (normal maupun dash), sama → 0, identitas via `spawnId` pool-safe (fallback referensi untuk platform tanpa ID). Bounce selalu + `canDash=true` (isi ulang jatah dash).
-- `Update`: cancel-on-rise DIHAPUS Plan B (dash boleh mulai saat naik). Safety timeout: `IsDashing` > 3s (miss semua) → stop + gravity normal.
+- `Start` + `HandleGameState`: hold total saat bukan Playing (`velocity=0 + gravityScale=0`). Masuk Playing: resume `savedVel` kalau >0.5 (canDash dipertahankan, strict) else luncur `jumpVelocity` + `canDash=true`; `prevY` sinkron. Keluar Playing: simpan `savedVel`, clear `IsDashing`, buang `pendingDragPx`. Plan A: `GameOver`/`MainMenu` → `ResetStreak()`; `Paused` TIDAK reset.
+- Input: `HandleDrag` antre ke `pendingDragPx`. `HandleDashRequest` (listen `OnTap`): gate `IsPlaying` + `canDash` (sekali per lompatan) + cooldown → `IsDashing=true`, `gravityScale=3*3.5`, slam-cut `(vx*0.5, -2)`.
+- `FixedUpdate`: konversi px→world, sens 1.2 (0.6 dash). **Geser X via `transform.position` — JANGAN `MovePosition`** (A/B-tested 11 Sep). `Wrap()` + `prevY = rb.position.y` di akhir.
+- `TryLand(Platform p)` FIX apex: gate `ShouldLand(prevBottom=prevY−0.45, platTop, vy, dash, tol)` — frame lalu bawah bola harus masih di atas permukaan. Gate center-vs-center lama (`y < p.y−0.1`) dihapus: itu bikin entry diagonal mendarat lebih dalam/bahkan tembus → apex random ±30%. Side-hit dalam tetap tembus (benar). Lalu: solid? → debounce 0.1 → toggle + streak Plan A (beda +1/sama 0) → **snap `y = platTop+0.45+0.02`** → bounce `vy=jumpVelocity` + `canDash=true`. Semua bounce mulai identik → apex identik.
+- `ShouldLand(...)` statik murni (unit-testable). `Update`: timeout dash 3s (cancel-on-rise dihapus Plan B).
 
 ### 3.5 `Core/PairJumpInput.cs` — 184 baris, tap dash
 - Event statik: `OnDragDeltaPixels(float dxPx)`, `OnTap`. `OnSwipeDown` DIHAPUS total Plan B (tidak ada subscriber lain — compile bersih membuktikan).
@@ -93,22 +94,22 @@ Tuning aktual dari engine (bukan default code):
 - `Began`: skip kalau `IsOverUI` (tap di atas tombol tidak dash). `Moved/Stationary`: invoke `dx` kalau >0.01 + tandai `movedFar` kalau jauh dari titik awal > maxDist. `Ended`/mouse-release: kalau `!movedFar` + `IsTap` → `OnTap`. `Canceled` → buang tanpa tap.
 - `IsOverUI`: `IsPointerOverGameObject()` / `(fingerId)`, try-catch agar tidak throw.
 
-### 3.6 `Platform/Platform.cs` — 105 baris, animasi solid/ghost
+### 3.6 `Platform/Platform.cs` — 116 baris, TopY + animasi
 - `enum PlatformColor { Red, Blue, Green }`, `col.isTrigger=true` (dipaksa di `Awake` — prefab menyimpan false).
-- Plan A: `spawnId` (-1 = belum di-spawn) + `OnSpawned(id)`. ID monoton naik, tidak di-reuse — streak tetap benar saat pool recycle. Migrasi pool: panggil tiap ambil dari pool, BUKAN tiap Instantiate.
-- Visual: `visualRenderer` (bisa di-wire). `Awake` cari otomatis renderer YANG PUNYA SPRITE (child dulu) — wajib karena art prefab (`Platform sheet_0` + Animator, ~2.84×0.66) ada di child, root menyimpan SpriteRenderer kosong.
-- Animasi: `platformAnimator` (auto-cari di child) + `IsSolidParam="isSolid"`. `RefreshVisual` → `SetBool(isSolid, solid)` → klip `Solid` ↔ `Platform Not Solid` (loop 3 frame, hanya swap sprite — tint warna tetap dari kode). Controller: 1 layer, param bool default true, transisi tanpa exit-time durasi 0.25 (DIPERBAIKI 12 Sep — transisi bawaan mati, di-rebuild via API; backup rusak di Temp `opencode/Platform sheet_0.controller.bak`).
-- Tint: warna identitas platform (Red/Blue/Green) — BUKAN status solid. Alpha SELALU 1 (sprite ghost King sudah pas tanpa fade). Hanya fallback prosedural tanpa Animator yang pakai alpha 0.25.
-- `OnTriggerEnter/Stay → TryLand`: delegasi penuh ke Player (platform tidak bounce sendiri).
+- Plan A: `spawnId` + `OnSpawned(id)`, monoton, tidak di-reuse. Migrasi pool: panggil tiap ambil dari pool.
+- `TopY` = `y + halfHeightWorld` (`col.size.y/2 × lossyScale.y`, prefab 0.3) — permukaan dunia tahan ganti art, dipakai gate top-crossing (FIX apex).
+- Visual: `visualRenderer` (auto: yang punya sprite, child dulu). Animasi: `platformAnimator` (auto child) + `SetBool("isSolid", solid)` → klip `Solid` ↔ `Platform Not Solid` (loop 3 frame, swap sprite saja). Controller di-rebuild via API (transisi bawaan mati).
+- Tint: warna identitas platform, alpha SELALU 1 (sprite ghost pas tanpa fade). Hanya fallback prosedural tanpa Animator yang pakai alpha 0.25.
+- `OnTriggerEnter/Stay → TryLand`: delegasi penuh ke Player.
 
-### 3.7 `Core/Spawner.cs` — 189 baris, prefab + solvable + spawnId
-Tuning scene: `prewarm=12`, `gapMinY=1.8`, `gapMaxY=2.4`, `maxGapX=4` (code default 3 — scene menang), `greenBailoutEvery=5`. `player` + `platformPrefab` (Platform.prefab) ter-wire.
-- Art pass: `SpawnAt(x, y, color)` → `Instantiate(platformPrefab)` bila di-wire (ukuran + art ikut prefab ~2.84, posisi di-override, nama `Platform_{color}_{y}`); bila kosong → fallback kotak putih prosedural Day 1-2 + warning sekali di `Start`. Safety: prefab tanpa script Platform ditambah manual + warning.
-- Plan A: `nextSpawnId` (mulai 1). Tiap spawn → `plat.OnSpawned(nextSpawnId++)`.
-- `Start`: lantai hijau + prewarm loop. `Update`: spawn while `nextY < cam.y+ortho` (guard 10/frame), destroy saat `y < cam.y-ortho-6`. Registry `List<Platform> live` — tidak ada `Find` per-frame.
-- `SpawnNext`: `gap=Random(1.8,2.4)`, `x=Clamp(lastX±Random(maxGapX), -halfW, halfW)` → `|dX|≤maxGapX` terjaga.
-- `PickColor(y)`: `<30 Green only`, `<80 Green/Red 50/50`, `<130 TutorialPattern deterministik 12 langkah` (maks 1 toggle per lompatan), `130+ weighted 35/32/33` + bailout Hijau tiap 5 non-hijau beruntun di zona acak.
-- Setiap spawn: `color` + `OnSpawned` + `RefreshVisual(mode saat ini)` → `live.Add`.
+### 3.7 `Core/Spawner.cs` — 219 baris, refleksi tepi
+Tuning scene: `prewarm=12`, `gapMinY=1.8`, `gapMaxY=2.4`, **`maxGapX=2.5`** (dulu 4 — scene + code disamakan), `greenBailoutEvery=5`, `edgeMargin=0.2`. `player` + `platformPrefab` ter-wire.
+- FIX tepi: `bound = max(1, halfW − halfWidth − margin)` (≈±1.9 di layar 9:16 — platform selalu full on-screen, dulu nongol 0.4). `halfWidth` dibaca dari collider prefab (1.375, tahan ganti art). `ReflectX(lastX, roll, bound)` pantul balik (bukan clamp yang 50% nempel + slam tiap ~8 spawn). Monte Carlo 500: edge-hit 0.6%, max run 1.
+- Art: `SpawnAt(x, y, color)` → Instantiate prefab (ukuran ikut art) atau fallback kotak + warning. Safety tambah-script + warning bila prefab lupa Platform.
+- Plan A: `nextSpawnId` → `OnSpawned` tiap spawn.
+- `Start`: lantai hijau + prewarm. `Update`: spawn guard 10/frame, destroy bawah kamera. Registry `live` sendiri.
+- `PickColor(y)`: `<30` hijau, `<80` hijau/merah 50/50, `<130` pola tutorial deterministik 12 langkah, `130+` 35/32/33 + bailout tiap 5 non-hijau. Zona/tutor TIDAK berubah oleh fix tepi.
+- Setiap spawn: `color` + `OnSpawned` + `RefreshVisual(mode)` → `live.Add`.
 
 ### 3.8 `Core/CameraFollow.cs` — 55 baris, naik-only + death
 - `target=Player`, `deathBuffer=2.5` (sesuai GDD).
@@ -172,22 +173,24 @@ graph TD
 
 ## 6. Tech Debt & Risiko Day 3 (dari kode aktual)
 
-1. `maxGapX` scene=4 vs code default 3 — jangan revert via code, ubah di inspector saja. 4 masih reachable dengan sens 1.2 + wrap, tapi uji HP dulu.
+1. SELESAI (diganti): `maxGapX` disamakan 2.5 (scene + code) + spawn refleksi anti-tepi. Uji HP: pastikan feel gap baru + tutorial 80–130 tetap 1-toggle/lompatan.
 2. `WorldspaceCanvas/GameOverPanel` nganggur — hapus atau abaikan biar tidak bingung.
 3. `applicationIdentifier` masih `com.DefaultCompany` — ganti sebelum submit (catatan Blok F).
 4. Audio: `MuteButton` cuma flag. Butuh `AudioManager` + pool `AudioSource` + 5 SFX + BGM loop ogg (lihat checklist Day 3 di [[Pair Jump]]).
 5. Visual sisa: player masih kotak/bulat polos (bulat + mata + squash-stretch next). Platform sudah art prefab + anim. Palette tetap `#FF6B6B/#4D96FF/#7BF59B/#1A1C2C`.
 6. Jangan edit code saat Play nyala + selalu `Assets/Refresh` habis edit (aturan tetap Blok F — file watcher skip = assembly basi).
-7. Plan B balance: tap (≤0.25s/≤20px DPI-scaled) + slam -2 + 1 dash/lompatan bikin toggle lebih mudah dari swipe — zona tutorial 80-130 observasi ulang, retune bila terlalu gampang. Tes HP: misinput drag-vs-tap + multitouch (drag 1 jari + tap jari lain).
-8. Selesai 12 Sep: streak beda/sama + reset GameOver ✅, tap dash + dash saat naik + sekali/lompatan ✅, spawn prefab + tint fix ✅, animasi solid/ghost via `isSolid` ✅ (tes ALL PASS, smoke Play bersih).
-9. Temuan audit `Platform.prefab` + controller (semua ditangani, YAML prefab TIDAK diubah): collider `isTrigger=false` di file (dipaksa true oleh `Awake` — fragile tapi jalan); SpriteRenderer kosong di root (komponen mati, harmless); posisi root leftover (selalu di-override spawner); collider 2.75×0.6 ≈ visual 2.84×0.66 (pas). Controller: transisi bawaan MATI (bool tidak mempan, state `Solid` tak bisa dimasuki — kemungkinan artefak Aseprite importer) → di-rebuild via API resmi (IfNot/If, durasi 0.25, tanpa exit-time), verified 2 arah. Kalau King edit ulang transisi di Animator window, tes ulang 2 arah via `SetBool`.
+7. Plan B balance: tap + slam -2 + 1 dash/lompatan — zona tutorial 80-130 observasi ulang, retune bila terlalu gampang. Tes HP: misinput drag-vs-tap + multitouch.
+8. Selesai 12 Sep: streak ✅, tap dash ✅, spawn prefab + tint ✅, animasi `isSolid` ✅, apex konsisten (gate top-crossing + snap) ✅, spawn refleksi ✅ (tes ALL PASS, smoke Play bersih).
+9. Temuan audit prefab + controller: collider `isTrigger=false` di file (dipaksa `Awake`); SpriteRenderer kosong di root (harmless); posisi root leftover; collider ≈ visual (pas). Controller transisi bawaan mati → rebuild via API (verified 2 arah). Kalau King edit transisi di Animator window, tes ulang 2 arah.
+10. Snap landing (≤0.5 unit) + toleransi 0.1: awasi pop visual saat dash jatuh kencang di HP — kalau kelihatan, kecilkan `landSnapEps`, jangan hapus snap (itu penjamin apex).
 
 ## 7. Verifikasi Kebenaran Dokumen Ini
 
-- Semua path + angka tuning dibaca via `unity_script_read` + `unity_component_get_properties` 12 Sep 2026. Prefab + controller + klip dibaca via YAML langsung.
+- Semua path + angka tuning dibaca via `unity_script_read` + `unity_component_get_properties` 12 Sep 2026. Prefab + controller + klip dibaca via YAML langsung. Fisika: ortho 8, radius bola 0.45, damping 0.
 - Hierarchy via `unity_scene_hierarchy` (46 objek) + `unity_scene_stats`.
-- Plan A (streak spawnId + debounce + reset GameOver): tes atomik ALL PASS — beda +1 (normal & dash), sama → 0, debounce tahan dobel-hit, pause pertahankan, GameOver/MainMenu → 0, pool-reuse (ID baru) dihitung beda.
-- Plan B (tap + dash naik + 1/lompatan): `IsTap` 5/5 PASS; dash saat naik + slam -2 PASS; tap kedua di udara ditolak PASS; landing isi ulang PASS; pause-resume strict PASS; regresi streak PASS; smoke Play bersih, compile 0 error.
-- Prefab (Platform 91→105 + Spawner 189 baris): Play test 13/13 instance dari prefab (spawnId ✅, sprite ✅, Animator ✅, trigger ✅), bola bounce normal. Test litter Plan A dibersihkan + scene di-save.
-- Animasi: klip `Solid`/`Not Solid` (loop 3 frame, swap sprite saja — tint warna tetap dari kode). Transisi bawaan controller mati (bool tak mempan, dibuktikan 10+ tes live dua arah + reimport) → rebuild via API resmi → false→Ghost ✅ true→Solid ✅. Jalur kode asli `RefreshVisual`: ghost = anim ghost + tint identitas + alpha 1 ✅, solid balik ✅ (round-trip). Satu sempat salah baca hasil (tint identitas dikira tint status) — terkoreksi via baca rgba langsung.
+- Plan A: ALL PASS (beda +1, sama → 0, debounce, pause keep, GameOver/MainMenu → 0, pool-reuse beda).
+- Plan B: `IsTap` 5/5, dash naik + slam, 1/lompatan, strict pause, regresi streak — ALL PASS; smoke Play bersih, compile 0 error.
+- Prefab + animasi: 13/13 prefab ✅; transisi rebuild → 2 arah ✅; `RefreshVisual` round-trip (ghost + tint + alpha 1, balik solid) ✅.
+- FIX apex: `ShouldLand` 4/5 murni PASS (1 batas-presisi float diganti kasus jelas — by design, bukan bug) + `ReflectX` 6/6 PASS. `TryLand` live: side-deep DITOLAK (streak/vy utuh) ✅, shallow + diagonal SAMA-SAMA snap 0.77 + vy 12.5 ✅ (apex disatukan by construction). Smoke Play: bola bounce hidup.
+- FIX tepi: Monte Carlo 500 langkah — edge-hit 0.6% (dulu ~25%+), max run 1 (screenshot lama: 6+ beruntun). Play: 13 platform, max|x| 0.95, overhang ≤ 0 (full on-screen). Scene di-save (maxGapX 2.5 persist).
 - Tidak ada tebakan: kalau ragu, cek ulang via MCP sebelum ubah kode.
