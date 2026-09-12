@@ -101,3 +101,46 @@ Prioritas potong: BGM > partikel > streak > skin. Jangan potong buffer kamera + 
 #### Catatan lanjutan
 - Jangan balik ke `MovePosition` untuk gerak X (sudah ada komentar peringatan di `FixedUpdate()`).
 - Kalau drag kencang terlihat judder (teleport + interpolation), jalur yang benar: set `linearVelocity.x` langsung dan pertahankan `y` — bukan MovePosition.
+
+## 🐞 Bug Log — Day 2 (12 Sep 2026, Blok A–F)
+
+### 1. PlayButton mati — listener runtime tidak ikut ke-save
+**Gejala:** Semua tombol UI tidak merespons klik.
+**Akar:** `onClick.AddListener` yang dipasang runtime (via builder) tidak diserialisasi ke scene file. Hilang tiap load.
+**Penanganan:** Wiring pindah ke `UIManager.OnEnable` (jalan tiap load/enable) + remove-then-add idempoten biar selamat dari enable-cycle dan reload domain.
+
+### 2. GameObject.Find buta terhadap objek inactive
+**Gejala:** Hanya Play/Mute yang ke-wire; 6 tombol lain (PauseButton + isi panel Pause/GameOver) skip diam-diam + warning.
+**Akar:** `GameObject.Find` tidak menemukan objek inactive, padahal 6/8 tombol lahir dalam keadaan mati.
+**Penanganan:** Traversal dari `OverlayCanvas` (selalu aktif) pakai `GetComponentsInChildren<Button>(true)` + switch nama.
+
+### 3. File watcher skip import — assembly basi yang jalan
+**Gejala:** File di disk baru, compile "clean", tapi console print string kode LAMA; Invoke NRE misterius beruntun.
+**Akar:** Perubahan file tidak ke-import (file watcher ke-skip) → Play jalanin assembly basi. Compile check "clean" menipu karena tidak ada yang dikompilasi.
+**Penanganan (aturan tetap):** Tiap habis edit → Assets/Refresh → double-clean check → baru Play. Jangan edit code saat Play nyala (recompile tengah jalan = listener/static rontok diam-diam — ini kemungkinan yang membunuh tombol saat user edit sambil main).
+
+### 4. Bola auto-play di MainMenu
+**Gejala:** Bola mental-mental sendiri di belakang menu sebelum Play ditekan.
+**Akar:** `Start()` kasih velocity + fisika jalan di MainMenu (timeScale 1).
+**Penanganan:** Hold total saat bukan Playing (velocity 0 + gravityScale 0). Masuk Playing: kembalikan momentum (resume) atau luncurkan ke atas (fresh/retry). Lubang lanjutan: hold velocity saja tidak cukup — gravitasi tetap narik → jatuh → respawn debug nyentil bola ke 14m. Makanya gravitasi ikut dimatikan (`PlayerController.HandleGameState`).
+
+### 5. Legacy Input throw di project Input-System-only
+**Gejala:** `InvalidOperationException` tiap frame — project pakai Active Input Handling = Input System only.
+**Penanganan:** `PairJumpInput` ditulis ulang pakai `Mouse.current` (desktop/WebGL-desktop) + `Touchscreen.current` (mobile/WebGL-mobile), multi-touch per-touchId.
+
+### 6. Font & snippet gotcha (Unity 6 + MCP execute)
+- `Arial.ttf` deprecated → pakai `Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf")`.
+- Snippet execute tidak bawa usings → semua tipe UI harus fully-qualified (`UnityEngine.UI.Button`, dst.).
+- `BuildTargetGroup` adanya di `UnityEditor`, bukan `UnityEngine`.
+- `component_set_reference` tanpa `componentType` nempel ke komponen yang salah (kena DebugSpawner duluan) → selalu sebutkan tipe eksplisit.
+
+### 7. Testing notes (bukan bug game)
+- **Reload deferred 1 frame:** verifikasi Retry/Menu harus dibaca di call berikutnya, bukan call yang sama.
+- **Coyote artifact:** 2x `TryLand` dalam 1ms dihitung dash (streak 2) — mustahil di gameplay nyata (bounce butuh detik). Reset 1→0 dibuktikan dengan coyote dimatikan paksa via refleksi.
+- **Find null ≠ hilang:** probe hint return null karena sedang hidden sesuai desain (pelajaran #2 kepakai lagi).
+- **Sesi ganda:** user ikut main di editor saat verifikasi berjalan (state ke-reset) → tes kritis dibuat atomik 1-call (setup+aksi+assert sekaligus).
+
+### Status Blok F (tanpa build, sesuai request)
+- Nama app → "Pair Jump", orientasi Portrait lock, 60fps, icon merah-biru + bola putih terpasang, threshold swipe skala DPI (`max(60, dpi×0.25)` — aktif di HP saja), SafeAreaPad di 4 elemen atas (no-op di editor).
+- **Disengaja tidak disentuh:** `applicationIdentifier` (masih com.DefaultCompany… — ganti sebelum submit), build APK/AAB (nunggu lampu hijau).
+- Checklist tes HP ada di laporan chat Blok F.
