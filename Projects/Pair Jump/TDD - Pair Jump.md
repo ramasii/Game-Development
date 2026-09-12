@@ -7,14 +7,15 @@
 
 ## 1. Ringkasan Teknis
 
-| Item           | Detail aktual                                                                                                                                                                            |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Engine**     | Unity 6 (6000.6.0f1), URP, Android platform, IL2CPP, Linear                                                                                                                              |
-| **Orientasi**  | Portrait 1080x1920, 60fps lock (`Application.targetFrameRate=60` di `GameManager.Awake`)                                                                                                 |
-| **Input**      | Input System only (Legacy throw). Drag gerak + tap dash (Plan B). Multi-touch: 1 jari drag + 1 jari tap. Tap = cepat ≤0.25s + geser ≤20px (skala DPI ~0.12"), mulai di atas UI diabaikan |
-| **Fisika**     | 1x `Rigidbody2D` Dynamic (Player) + `BoxCollider2D` trigger (Platform). No alloc di Update                                                                                               |
-| **Scene stat** | 46 GameObject, 150 component. Top: RectTransform 36, Text 20, Image 12, Button 8, Canvas 4                                                                                               |
-| **Script**     | 11 file di `Assets/_PairJump/` (12 dengan `Welcome2DScript.cs` template yang tidak dipakai). Post Plan A+B: PlayerController 306, PairJumpInput 184, Platform 76, Spawner 162 baris      |
+| Item | Detail aktual |
+|------|---------------|
+| **Engine** | Unity 6 (6000.6.0f1), URP, Android platform, IL2CPP, Linear |
+| **Orientasi** | Portrait 1080x1920, 60fps lock (`Application.targetFrameRate=60` di `GameManager.Awake`) |
+| **Input** | Input System only (Legacy throw). Drag gerak + tap dash (Plan B). Multi-touch: 1 jari drag + 1 jari tap. Tap = cepat ≤0.25s + geser ≤20px (skala DPI ~0.12"), mulai di atas UI diabaikan |
+| **Fisika** | 1x `Rigidbody2D` Dynamic (Player) + `BoxCollider2D` trigger (Platform). No alloc di Update |
+| **Scene stat** | 46 GameObject, 150 component. Top: RectTransform 36, Text 20, Image 12, Button 8, Canvas 4 |
+| **Script** | 11 file di `Assets/_PairJump/` (12 dengan `Welcome2DScript.cs` template yang tidak dipakai). Post prefab: PlayerController 306, PairJumpInput 184, Platform 91, Spawner 189 baris |
+| **Prefab** | `Assets/_PairJump/Prefab/Platform.prefab` — ter-wire di `Spawner.platformPrefab`, spawn via Instantiate + fallback kotak prosedural |
 
 Struktur folder sesuai GDD §6:
 ```
@@ -22,6 +23,7 @@ Assets/_PairJump/
 ├── Core/ GameManager.cs, GameState.cs, PairJumpInput.cs, Spawner.cs, CameraFollow.cs, FtueHints.cs
 ├── Player/ PlayerController.cs, PlayerMode.cs
 ├── Platform/ Platform.cs
+├── Prefab/ Platform.prefab
 └── UI/ UIManager.cs, SafeAreaPad.cs
 ```
 
@@ -89,21 +91,22 @@ Tuning aktual dari engine (bukan default code):
 - `Began`: skip kalau `IsOverUI` (tap di atas tombol tidak dash). `Moved/Stationary`: invoke `dx` kalau >0.01 + tandai `movedFar` kalau jauh dari titik awal > maxDist. `Ended`/mouse-release: kalau `!movedFar` + `IsTap` → `OnTap`. `Canceled` → buang tanpa tap.
 - `IsOverUI`: `IsPointerOverGameObject()` / `(fingerId)`, try-catch agar tidak throw.
 
-### 3.6 `Platform/Platform.cs` — 76 baris, spawnId pool-safe
-- `enum PlatformColor { Red, Blue, Green }`, `col.isTrigger=true`.
-- Plan A: `spawnId` (-1 = belum di-spawn) + `OnSpawned(id)`. ID monoton naik dari Spawner, tidak pernah di-reuse — streak beda/sama tetap benar saat Object Pool me-recycle GameObject. Migrasi pool nanti: panggil `OnSpawned` tiap ambil dari pool, BUKAN tiap Instantiate.
+### 3.6 `Platform/Platform.cs` — 91 baris, spawnId + visual prefab
+- `enum PlatformColor { Red, Blue, Green }`, `col.isTrigger=true` (dipaksa di `Awake` — prefab menyimpan false, lihat temuan prefab di bawah).
+- Plan A: `spawnId` (-1 = belum di-spawn) + `OnSpawned(id)`. ID monoton naik, tidak di-reuse — streak tetap benar saat pool recycle. Migrasi pool: panggil tiap ambil dari pool, BUKAN tiap Instantiate.
+- Visual prefab: `visualRenderer` (bisa di-wire manual). `Awake` cari otomatis renderer YANG PUNYA SPRITE (child dulu) — wajib karena art prefab (`Platform sheet_0` + Animator, ~2.84×0.66) ada di child, sementara root menyimpan SpriteRenderer kosong. Tanpa ini tint mode/ghost kena renderer tak terlihat (bug kritis prefab, sudah di-fix di kode).
 - Warna solid: Red `(1,0.42,0.42)`, Blue `(0.30,0.59,1)`, Green `(0.48,0.96,0.61)` — selaras palette GDD `#FF6B6B/#4D96FF/#7BF59B`.
-- `IsSolidFor(mode, dash)`: `dash→true` (toggle bebas), `Green→true`, else cocok warna. `RefreshVisual`: alpha 1 solid else 0.25 (ghost dashed versi placeholder — ganti sprite rounded Day 3).
+- `IsSolidFor(mode, dash)`: `dash→true` (toggle bebas), `Green→true`, else cocok warna. `RefreshVisual`: alpha 1 solid else 0.25, ditint ke `visualRenderer`.
 - `OnTriggerEnter/Stay → TryLand`: delegasi penuh ke Player (platform tidak bounce sendiri).
 
-### 3.7 `Core/Spawner.cs` — 162 baris, solvable + spawnId
-Tuning scene (beda dari default code — scene menang): `prewarm=12`, `gapMinY=1.8`, `gapMaxY=2.4`, `maxGapX=4` (code default 3), `greenBailoutEvery=5`. `player` sudah ter-wire ke Player.
-- Plan A: `nextSpawnId` (mulai 1). Tiap `SpawnAt()` → `plat.OnSpawned(nextSpawnId++)`.
-- `Start`: lantai `SpawnAt(0,0,Green,4)` + prewarm loop.
-- `Update`: spawn while `nextY < cam.y+ortho` (guard 10/frame), destroy saat `y < cam.y-ortho-6`. Registry `List<Platform> live` sendiri — tidak ada `Find` per-frame.
-- `SpawnNext`: `gap=Random(1.8,2.4)`, `x=Clamp(lastX±Random(maxGapX), -halfW, halfW)` → `|dX|≤maxGapX` terjaga (clamp hanya mendekatkan).
-- `PickColor(y)`: `<30 Green only`, `<80 Green/Red 50/50`, `<130 TutorialPattern deterministik 12 langkah` (Red,Green,Blue,Green,Blue,Green,Red,Green,Red,Blue,Green,Blue → maks 1 toggle per lompatan), `130+ weighted 35% Green / 32% Red / 33% Blue` + bailout Hijau tiap 5 non-hijau beruntun di zona acak.
-- `SpawnAt`: `GameObject "Platform_{color}_{y}"` + SpriteRenderer square putih 4x4 PPU 4 (cache statik) scale `(2.2,0.4)` + Box trigger + `Platform.color` + `OnSpawned` + `RefreshVisual(mode saat ini)`.
+### 3.7 `Core/Spawner.cs` — 189 baris, prefab + solvable + spawnId
+Tuning scene: `prewarm=12`, `gapMinY=1.8`, `gapMaxY=2.4`, `maxGapX=4` (code default 3 — scene menang), `greenBailoutEvery=5`. `player` + `platformPrefab` (Platform.prefab) ter-wire.
+- Art pass: `SpawnAt(x, y, color)` → `Instantiate(platformPrefab)` bila di-wire (ukuran + art ikut prefab ~2.84, posisi di-override, nama `Platform_{color}_{y}`); bila kosong → fallback kotak putih prosedural Day 1-2 + warning sekali di `Start`. Safety: prefab tanpa script Platform ditambah manual + warning.
+- Plan A: `nextSpawnId` (mulai 1). Tiap spawn → `plat.OnSpawned(nextSpawnId++)`.
+- `Start`: lantai hijau + prewarm loop. `Update`: spawn while `nextY < cam.y+ortho` (guard 10/frame), destroy saat `y < cam.y-ortho-6`. Registry `List<Platform> live` — tidak ada `Find` per-frame.
+- `SpawnNext`: `gap=Random(1.8,2.4)`, `x=Clamp(lastX±Random(maxGapX), -halfW, halfW)` → `|dX|≤maxGapX` terjaga.
+- `PickColor(y)`: `<30 Green only`, `<80 Green/Red 50/50`, `<130 TutorialPattern deterministik 12 langkah` (maks 1 toggle per lompatan), `130+ weighted 35/32/33` + bailout Hijau tiap 5 non-hijau beruntun di zona acak.
+- Setiap spawn: `color` + `OnSpawned` + `RefreshVisual(mode saat ini)` → `live.Add`.
 
 ### 3.8 `Core/CameraFollow.cs` — 55 baris, naik-only + death
 - `target=Player`, `deathBuffer=2.5` (sesuai GDD).
@@ -170,15 +173,17 @@ graph TD
 2. `WorldspaceCanvas/GameOverPanel` nganggur — hapus atau abaikan biar tidak bingung.
 3. `applicationIdentifier` masih `com.DefaultCompany` — ganti sebelum submit (catatan Blok F).
 4. Audio: `MuteButton` cuma flag. Butuh `AudioManager` + pool `AudioSource` + 5 SFX + BGM loop ogg (lihat checklist Day 3 di [[Pair Jump]]).
-5. Visual placeholder: player kotak/bulat polos + platform square putih di-tint. Ganti ke rounded rect + squash-stretch + trail + partikel landing (jangan tambah warna di luar palette `#FF6B6B/#4D96FF/#7BF59B/#1A1C2C`).
+5. Visual placeholder sisa: player masih kotak/bulat polos. Platform sudah art prefab — player giliran berikutnya (bulat + mata + squash-stretch, palette tetap `#FF6B6B/#4D96FF/#7BF59B/#1A1C2C`).
 6. Jangan edit code saat Play nyala + selalu `Assets/Refresh` habis edit (aturan tetap Blok F — file watcher skip = assembly basi).
 7. Plan B balance: tap (≤0.25s/≤20px DPI-scaled) + slam -2 + 1 dash/lompatan bikin toggle lebih mudah dari swipe — zona tutorial 80-130 observasi ulang, retune bila terlalu gampang. Tes HP: misinput drag-vs-tap + multitouch (drag 1 jari + tap jari lain).
-8. Selesai Plan A+B 12 Sep: streak beda/sama + reset GameOver ✅, tap dash + dash saat naik + sekali/lompatan ✅ (tes atomik ALL PASS, smoke Play bersih).
+8. Selesai 12 Sep: streak beda/sama + reset GameOver ✅, tap dash + dash saat naik + sekali/lompatan ✅, spawn prefab + tint fix ✅ (tes ALL PASS, smoke Play bersih).
+9. Temuan audit `Platform.prefab` (sudah ditangani kode, prefab YAML TIDAK diubah): collider `isTrigger=false` di file (dipaksa true oleh `Awake` — fragile tapi jalan); SpriteRenderer kosong di root (komponen mati, harmless); posisi root leftover (-0.67,-1.38, selalu di-override spawner); collider 2.75×0.6 ≈ visual 2.84×0.66 (pas). Kalau prefab di-reimport/dibuat ulang, pastikan: script Platform ada, art di child + Animator, trigger true.
 
 ## 7. Verifikasi Kebenaran Dokumen Ini
 
-- Semua path + angka tuning dibaca via `unity_script_read` + `unity_component_get_properties` 12 Sep 2026.
+- Semua path + angka tuning dibaca via `unity_script_read` + `unity_component_get_properties` 12 Sep 2026. Prefab dibaca via YAML langsung (`Platform.prefab` 272 baris).
 - Hierarchy via `unity_scene_hierarchy` (46 objek) + `unity_scene_stats`.
 - Plan A (streak spawnId + debounce + reset GameOver): tes atomik ALL PASS — beda +1 (normal & dash), sama → 0, debounce tahan dobel-hit, pause pertahankan, GameOver/MainMenu → 0, pool-reuse (ID baru) dihitung beda.
-- Plan B (tap + dash naik + 1/lompatan): `IsTap` 5/5 PASS; dash saat naik + slam -2 PASS; tap kedua di udara ditolak PASS; landing isi ulang PASS; pause-resume strict PASS; regresi streak PASS; smoke Play (bola naik 1→2.85, bounce, streak ikut aturan baru) bersih, compile 0 error.
+- Plan B (tap + dash naik + 1/lompatan): `IsTap` 5/5 PASS; dash saat naik + slam -2 PASS; tap kedua di udara ditolak PASS; landing isi ulang PASS; pause-resume strict PASS; regresi streak PASS; smoke Play bersih, compile 0 error.
+- Prefab (Platform 91 + Spawner 189 baris): Play test 13/13 instance dari prefab (spawnId ✅, sprite ✅, Animator ✅, trigger ✅), bola bounce normal. Test litter Plan A (`TEST_Streak_*`, dari `Destroy` edit-mode yang tidak jalan) ditemukan + dibersihkan dari scene + scene di-save. Pelajaran: di edit mode selalu `DestroyImmediate`, dan `unity_script_update` selalu kirim FULL content.
 - Tidak ada tebakan: kalau ragu, cek ulang via MCP sebelum ubah kode.
