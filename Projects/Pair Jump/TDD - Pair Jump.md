@@ -7,14 +7,14 @@
 
 ## 1. Ringkasan Teknis
 
-| Item | Detail aktual |
-|------|---------------|
-| **Engine** | Unity 6 (6000.6.0f1), URP, Android platform, IL2CPP, Linear |
-| **Orientasi** | Portrait 1080x1920, 60fps lock (`Application.targetFrameRate=60` di `GameManager.Awake`) |
-| **Input** | Input System only (Legacy throw). Mouse + Touchscreen multi-touch |
-| **Fisika** | 1x `Rigidbody2D` Dynamic (Player) + `BoxCollider2D` trigger (Platform). No alloc di Update |
-| **Scene stat** | 46 GameObject, 150 component. Top: RectTransform 36, Text 20, Image 12, Button 8, Canvas 4 |
-| **Script** | 11 file di `Assets/_PairJump/` (12 dengan `Welcome2DScript.cs` template yang tidak dipakai) |
+| Item           | Detail aktual                                                                                                                                                                            |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Engine**     | Unity 6 (6000.6.0f1), URP, Android platform, IL2CPP, Linear                                                                                                                              |
+| **Orientasi**  | Portrait 1080x1920, 60fps lock (`Application.targetFrameRate=60` di `GameManager.Awake`)                                                                                                 |
+| **Input**      | Input System only (Legacy throw). Drag gerak + tap dash (Plan B). Multi-touch: 1 jari drag + 1 jari tap. Tap = cepat ≤0.25s + geser ≤20px (skala DPI ~0.12"), mulai di atas UI diabaikan |
+| **Fisika**     | 1x `Rigidbody2D` Dynamic (Player) + `BoxCollider2D` trigger (Platform). No alloc di Update                                                                                               |
+| **Scene stat** | 46 GameObject, 150 component. Top: RectTransform 36, Text 20, Image 12, Button 8, Canvas 4                                                                                               |
+| **Script**     | 11 file di `Assets/_PairJump/` (12 dengan `Welcome2DScript.cs` template yang tidak dipakai). Post Plan A+B: PlayerController 306, PairJumpInput 184, Platform 76, Spawner 162 baris      |
 
 Struktur folder sesuai GDD §6:
 ```
@@ -24,8 +24,6 @@ Assets/_PairJump/
 ├── Platform/ Platform.cs
 └── UI/ UIManager.cs, SafeAreaPad.cs
 ```
-
----
 
 ## 2. Scene Hierarchy (aktual dari `unity_scene_hierarchy`)
 
@@ -70,38 +68,42 @@ Enum FSM sederhana (skill: Simple FSM Berbasis Enum):
 ### 3.3 `Player/PlayerMode.cs` — 2 baris
 `enum PlayerMode { Red, Blue }`. Hijau bukan mode, cuma warna platform netral.
 
-### 3.4 `Player/PlayerController.cs` — 236 baris, inti gameplay
+### 3.4 `Player/PlayerController.cs` — 306 baris, inti gameplay
 Tuning aktual dari engine (bukan default code):
 - `normalGravity=3`, `dashGravityMult=3.5`, `hangTime=0.85`, `moveSensitivity=1.2`, `dashCooldown=0.15`, `debugAutoDragPxPerFrame=0`
+- Plan B: `dashSlamVelocity=-2`, `dashTimeout=3`. Plan A: `landDebounce=0.1`
 - `jumpVelocity = hang * g / 2` dengan `g=9.81*3` → ~12.5. Bounce pertahankan `x*0.3`.
 - Setup `Awake`: `freezeRotation`, `sleepMode=NeverSleep`, `Continuous`, `WakeUp()`. **Jangan diubah** — ini fix bug Day 1 bola beku di apex.
 - Event: `OnModeChanged(PlayerMode)`, `OnDashChanged(bool)`, `OnStreakChanged(int)`.
-- `Start` + `HandleGameState`: hold total saat bukan Playing (`velocity=0 + gravityScale=0`). Masuk Playing: resume `savedVel` kalau >0.5 else luncur `jumpVelocity`. Keluar Playing: simpan `savedVel`, clear `IsDashing`, buang `pendingDragPx` (anti teleport pas resume).
-- Input: `HandleDrag` antre ke `pendingDragPx`, `HandleSwipeDown` cek cooldown → `IsDashing=true`, `gravityScale=3*3.5`.
+- `Start` + `HandleGameState`: hold total saat bukan Playing (`velocity=0 + gravityScale=0`). Masuk Playing: resume `savedVel` kalau >0.5 (canDash dipertahankan apa adanya — pause strict, tidak kasih dash gratis) else luncur `jumpVelocity` + `canDash=true`. Keluar Playing: simpan `savedVel`, clear `IsDashing`, buang `pendingDragPx` (anti teleport pas resume). Plan A: `GameOver`/`MainMenu` → `ResetStreak()` (streak 0 + lupa platform terakhir); `Paused` sengaja TIDAK reset.
+- Input: `HandleDrag` antre ke `pendingDragPx`. `HandleDashRequest` (listen `OnTap`): gate `IsPlaying` + `canDash` (Plan B lock — sekali per lompatan, tap kedua di udara diabaikan) + cooldown → `IsDashing=true`, `gravityScale=3*3.5`, slam-cut: kalau `vy > -2` (naik/jatuh pelan) langsung jadi `(vx*0.5, -2)`; jatuh lebih cepat dipertahankan.
 - `FixedUpdate`: konversi px→world via `(2*ortho*aspect)/Screen.width`, sens 1.2 (0.6 saat dash). **Geser X via `transform.position += (dx,0,0)` — JANGAN `MovePosition`** (A/B-tested 11 Sep: MovePosition delta Y=0 berantem dengan `velocity.y` → Y beku). Lalu `Wrap()` kiri-kanan via `halfW = ortho*aspect`.
-- `TryLand(Platform p)`: gate `IsPlaying`, tolak `velocity.y>0.5` kecuali dashing, tolak jika bola di bawah platform -0.1. `dashActive = IsDashing || (now-dashEnd<0.05 && now-lastDash<0.3)` (coyote). `solid = p.IsSolidFor(mode, dashActive)`, ghost → return. Kalau dash → toggle Red↔Blue + reset gravity + invoke events + `RefreshAllPlatforms()` + `UpdateColor()` (Red `#FF8C8C`-ish `(1,0.55,0.55)`, Blue `(0.45,0.68,1)`). Streak: toggle +1 else reset 0. Bounce selalu.
-- `Update`: safety — dash yang tidak landing tapi sudah naik (`vy>1`) → stop dash.
+- `TryLand(Platform p)`: gate `IsPlaying`/null, tolak `velocity.y>0.5` kecuali dashing, tolak jika bola di bawah platform -0.1. `dashActive = IsDashing || (now-dashEnd<0.05 && now-lastDash<0.3)` (coyote). `solid = p.IsSolidFor(mode, dashActive)`, ghost → return. Debounce: `now-lastLand<0.1` → return (anti dobel-hit Enter+Stay, bug Day2 #7). Kalau dash → toggle Red↔Blue + reset gravity + invoke events + `RefreshAllPlatforms()` + `UpdateColor()` (Red `#FF8C8C`-ish `(1,0.55,0.55)`, Blue `(0.45,0.68,1)`). Streak Plan A (lock King): beda platform → +1 (normal maupun dash), sama → 0, identitas via `spawnId` pool-safe (fallback referensi untuk platform tanpa ID). Bounce selalu + `canDash=true` (isi ulang jatah dash).
+- `Update`: cancel-on-rise DIHAPUS Plan B (dash boleh mulai saat naik). Safety timeout: `IsDashing` > 3s (miss semua) → stop + gravity normal.
 
-### 3.5 `Core/PairJumpInput.cs` — 170 baris, Input System only
-- Event statik: `OnDragDeltaPixels(float dxPx)`, `OnSwipeDown`.
-- Tuning scene: `swipeThresholdPx=60`, `swipeMaxTime=0.3`, `directionRatio=1.5`. `Awake`: kalau `Screen.dpi>0` → `threshold = max(60, dpi*0.25)` (~0.25 inch fisik, fix HP dpi tinggi).
-- `PointerState` per touchId + `MouseId=-100`. Mouse = desktop, Touchscreen = mobile. Support multi-touch: jari 1 drag + jari 2 flick bersamaan.
-- Tiap move: invoke `dx` kalau >0.01, lalu `CheckSwipe`: `dt<0.3`, `dy<-threshold`, `|dy| > |dx|*1.5`, sekali per sentuhan (`firedSwipe`).
-- `IsOverUI`: skip sentuhan yang mulai di atas UI (pakai `IsPointerOverGameObject(fingerId)`). Try-catch agar tidak throw.
+### 3.5 `Core/PairJumpInput.cs` — 184 baris, tap dash
+- Event statik: `OnDragDeltaPixels(float dxPx)`, `OnTap`. `OnSwipeDown` DIHAPUS total Plan B (tidak ada subscriber lain — compile bersih membuktikan).
+- Tuning: `tapMaxDistPx=20`, `tapMaxTime=0.25`. `Awake`: kalau `Screen.dpi>0` → `maxDist = max(20, dpi*0.12)` (~0.12 inch fisik, fix HP dpi tinggi ala bug #5).
+- `IsTap(dt, dist, maxTime, maxDist)` statik murni (dt≥0, dt≤maxTime, dist≤maxDist) — bisa di-unit-test tanpa scene/device. Cek UI di caller, bukan di sini.
+- `PointerState` per touchId + `MouseId=-100`. Mouse = desktop, Touchscreen = mobile. Multi-touch: jari 1 drag + jari 2 tap bersamaan.
+- `Began`: skip kalau `IsOverUI` (tap di atas tombol tidak dash). `Moved/Stationary`: invoke `dx` kalau >0.01 + tandai `movedFar` kalau jauh dari titik awal > maxDist. `Ended`/mouse-release: kalau `!movedFar` + `IsTap` → `OnTap`. `Canceled` → buang tanpa tap.
+- `IsOverUI`: `IsPointerOverGameObject()` / `(fingerId)`, try-catch agar tidak throw.
 
-### 3.6 `Platform/Platform.cs` — 63 baris
+### 3.6 `Platform/Platform.cs` — 76 baris, spawnId pool-safe
 - `enum PlatformColor { Red, Blue, Green }`, `col.isTrigger=true`.
+- Plan A: `spawnId` (-1 = belum di-spawn) + `OnSpawned(id)`. ID monoton naik dari Spawner, tidak pernah di-reuse — streak beda/sama tetap benar saat Object Pool me-recycle GameObject. Migrasi pool nanti: panggil `OnSpawned` tiap ambil dari pool, BUKAN tiap Instantiate.
 - Warna solid: Red `(1,0.42,0.42)`, Blue `(0.30,0.59,1)`, Green `(0.48,0.96,0.61)` — selaras palette GDD `#FF6B6B/#4D96FF/#7BF59B`.
-- `IsSolidFor(mode, dash)`: `dash→true` (v2.1 toggle bebas), `Green→true`, else cocok warna. `RefreshVisual`: alpha 1 solid else 0.25 (ghost dashed versi placeholder — ganti sprite rounded Day 3).
+- `IsSolidFor(mode, dash)`: `dash→true` (toggle bebas), `Green→true`, else cocok warna. `RefreshVisual`: alpha 1 solid else 0.25 (ghost dashed versi placeholder — ganti sprite rounded Day 3).
 - `OnTriggerEnter/Stay → TryLand`: delegasi penuh ke Player (platform tidak bounce sendiri).
 
-### 3.7 `Core/Spawner.cs` — 154 baris, solvable generator
+### 3.7 `Core/Spawner.cs` — 162 baris, solvable + spawnId
 Tuning scene (beda dari default code — scene menang): `prewarm=12`, `gapMinY=1.8`, `gapMaxY=2.4`, `maxGapX=4` (code default 3), `greenBailoutEvery=5`. `player` sudah ter-wire ke Player.
+- Plan A: `nextSpawnId` (mulai 1). Tiap `SpawnAt()` → `plat.OnSpawned(nextSpawnId++)`.
 - `Start`: lantai `SpawnAt(0,0,Green,4)` + prewarm loop.
 - `Update`: spawn while `nextY < cam.y+ortho` (guard 10/frame), destroy saat `y < cam.y-ortho-6`. Registry `List<Platform> live` sendiri — tidak ada `Find` per-frame.
 - `SpawnNext`: `gap=Random(1.8,2.4)`, `x=Clamp(lastX±Random(maxGapX), -halfW, halfW)` → `|dX|≤maxGapX` terjaga (clamp hanya mendekatkan).
 - `PickColor(y)`: `<30 Green only`, `<80 Green/Red 50/50`, `<130 TutorialPattern deterministik 12 langkah` (Red,Green,Blue,Green,Blue,Green,Red,Green,Red,Blue,Green,Blue → maks 1 toggle per lompatan), `130+ weighted 35% Green / 32% Red / 33% Blue` + bailout Hijau tiap 5 non-hijau beruntun di zona acak.
-- `SpawnAt`: `GameObject "Platform_{color}_{y}"` + SpriteRenderer square putih 4x4 PPU 4 (cache statik) scale `(2.2,0.4)` + Box trigger + `Platform.color` + `RefreshVisual(mode saat ini)`.
+- `SpawnAt`: `GameObject "Platform_{color}_{y}"` + SpriteRenderer square putih 4x4 PPU 4 (cache statik) scale `(2.2,0.4)` + Box trigger + `Platform.color` + `OnSpawned` + `RefreshVisual(mode saat ini)`.
 
 ### 3.8 `Core/CameraFollow.cs` — 55 baris, naik-only + death
 - `target=Player`, `deathBuffer=2.5` (sesuai GDD).
@@ -110,7 +112,8 @@ Tuning scene (beda dari default code — scene menang): `prewarm=12`, `gapMinY=1
 
 ### 3.9 `Core/FtueHints.cs` — 63 baris
 Bikin 3 Canvas world-space saat `Awake` (font `LegacyRuntime.ttf`, tanpa Raycaster agar tidak blokir input):
-- `HintMove` y=6 `"GESER KIRI-KANAN"`, `HintColor` y=36 `"INJAK YANG SENADA"`, `HintDash` y=86 `"SWIPE BAWAH: DASH & GANTI WARNA"`.
+- `HintMove` y=6 `"GESER KIRI-KANAN"`, `HintColor` y=36 `"INJAK YANG SENADA"`, `HintDash` y=86 `"TAP: DASH & GANTI WARNA"` (Plan B, dulu SWIPE BAWAH).
+- Teks cara main di `OverlayCanvas/MainMenuPanel/HowtoText` juga diganti ke `TAP: dash & ganti warna` (edit scene, sudah di-save).
 - `Update`: visible by `cam.y`: `<28`, `28-78`, `78-128`. Scale 0.005, size 1400x300.
 
 ### 3.10 `UI/UIManager.cs` — 179 baris
@@ -129,28 +132,27 @@ Geser RectTransform ke dalam `Screen.safeArea` (notch HP), sadar `scaleFactor`, 
 ## 4. Alur Data & Event
 
 ```
-Touch/Mouse → PairJumpInput (dx px / swipe) → PlayerController (queue drag, dash flag)
+Touch/Mouse → PairJumpInput (dx px drag / tap) → PlayerController (queue drag, dash jika canDash)
 Platform trigger → PlayerController.TryLand → IsSolidFor? → toggle mode?
   → OnModeChanged → RefreshAllPlatforms + UpdateColor
   → OnDashChanged / OnStreakChanged → UIManager
 CameraFollow.Height → UIManager.Update → GameManager.SubmitHeight → Best
-CameraFollow jatuh → GameManager.UpdateState(GameOver) → UIManager.HandleState
+CameraFollow jatuh → GameManager.UpdateState(GameOver) → UIManager.HandleState (streak reset)
 Tombol → UIManager → GameManager.UpdateState / Retry / ToMenu (reload scene)
 ```
 
-Mermaid (dari GDD, masih valid):
+Mermaid (update Plan B — swipe → tap):
 ```mermaid
 graph TD
   InputManager -->|Drag| PlayerController
-  InputManager -->|SwipeDown| PlayerController
+  InputManager -->|Tap| PlayerController
   PlayerController -->|IsDashing?| Platform
   Platform -->|OnLanded Toggle| PlayerModeFSM[Red/Blue]
   PlayerModeFSM -->|OnModeChanged| Platform
   PlayerController -->|Height via Camera| GameManager
-  Spawner -->|Spawn/Recycle| Platform
+  Spawner -->|Spawn + spawnId| Platform
+  Platform -->|spawnId beda/sama| PlayerController
 ```
-
----
 
 ## 5. Pattern & Skill Vault Terkait
 
@@ -170,14 +172,13 @@ graph TD
 4. Audio: `MuteButton` cuma flag. Butuh `AudioManager` + pool `AudioSource` + 5 SFX + BGM loop ogg (lihat checklist Day 3 di [[Pair Jump]]).
 5. Visual placeholder: player kotak/bulat polos + platform square putih di-tint. Ganti ke rounded rect + squash-stretch + trail + partikel landing (jangan tambah warna di luar palette `#FF6B6B/#4D96FF/#7BF59B/#1A1C2C`).
 6. Jangan edit code saat Play nyala + selalu `Assets/Refresh` habis edit (aturan tetap Blok F — file watcher skip = assembly basi).
-
----
+7. Plan B balance: tap (≤0.25s/≤20px DPI-scaled) + slam -2 + 1 dash/lompatan bikin toggle lebih mudah dari swipe — zona tutorial 80-130 observasi ulang, retune bila terlalu gampang. Tes HP: misinput drag-vs-tap + multitouch (drag 1 jari + tap jari lain).
+8. Selesai Plan A+B 12 Sep: streak beda/sama + reset GameOver ✅, tap dash + dash saat naik + sekali/lompatan ✅ (tes atomik ALL PASS, smoke Play bersih).
 
 ## 7. Verifikasi Kebenaran Dokumen Ini
 
 - Semua path + angka tuning dibaca via `unity_script_read` + `unity_component_get_properties` 12 Sep 2026.
 - Hierarchy via `unity_scene_hierarchy` (46 objek) + `unity_scene_stats`.
+- Plan A (streak spawnId + debounce + reset GameOver): tes atomik ALL PASS — beda +1 (normal & dash), sama → 0, debounce tahan dobel-hit, pause pertahankan, GameOver/MainMenu → 0, pool-reuse (ID baru) dihitung beda.
+- Plan B (tap + dash naik + 1/lompatan): `IsTap` 5/5 PASS; dash saat naik + slam -2 PASS; tap kedua di udara ditolak PASS; landing isi ulang PASS; pause-resume strict PASS; regresi streak PASS; smoke Play (bola naik 1→2.85, bounce, streak ikut aturan baru) bersih, compile 0 error.
 - Tidak ada tebakan: kalau ragu, cek ulang via MCP sebelum ubah kode.
-
----
-#unity #architecture #technical #gamejam #pair-jump
