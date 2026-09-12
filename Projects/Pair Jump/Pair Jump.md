@@ -68,13 +68,13 @@ Fokus: input + fisika, no menu, no cantik.
 **Visual Asset (2D shape, kunci palette):**
 - [x] Palette: Red #FF6B6B, Blue #4D96FF, Neutral #7BF59B, BG #1A1C2C. Jangan tambah warna lain
 - [x] Player bulat + mata, squash-stretch jump/land/dash, flash putih 0.1s pas toggle
-- [ ] Platform rounded rect solid vs ghost dashed transparan. Trail dash + partikel landing 6 kotak
-- [ ] UI: Height gede atas, tombol pause 64px, GameOver 1 tombol retry
+- [x] Platform rounded rect solid vs ghost dashed transparan. Trail dash + partikel landing 6 kotak
+- [x] UI: Height gede atas, tombol pause 64px, GameOver 1 tombol retry
 
 **Sound Asset (FL Studio, 1 jam):**
-- [ ] SFX wajib 5: jump (blip naik), dash (whoosh turun), toggle (pop 2 nada), land (thud pendek), UI click + gameover turun
+- [x] SFX wajib 5: jump (blip naik), dash (whoosh turun), toggle (pop 2 nada), land (thud pendek), UI click + gameover turun
 - [ ] BGM loop 8-bar chiptune 140BPM bass + hat, export ogg 30 detik loop, -12dB
-- [ ] Masuk Unity via AudioSource pool
+- [x] Masuk Unity via AudioSource pool
 
 **Submit siang:**
 - [ ] Icon + nama, portrait lock, tes airplane mode, build AAB/APK + PC zip cadangan
