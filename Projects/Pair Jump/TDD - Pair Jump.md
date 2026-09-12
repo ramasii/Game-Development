@@ -129,10 +129,11 @@ Referensi sudah ter-wire semua di inspector (MainMenu/Pause/GameOver panel, Paus
 - `HandleStreak`: `"xN COMBO!"` atau kosong. `HandleState`: show/hide 4 elemen + isi GameOver (final/best/NewBest jika `IsNewBest && h>0.5`) + MainMenu best.
 - Tombol: Play/Resume→Playing, Pause→Paused, Restart→`GameManager.Retry()`, Menu→`ToMenu()`, Mute→toggle `pairjump_mute` + label `SUARA: ON/OFF` (stub — AudioManager Day 3).
 
-### 3.11 `UI/SafeAreaPad.cs` — 43 baris
-Geser RectTransform ke dalam `Screen.safeArea` (notch HP), sadar `scaleFactor`, sekali saja (`applied` flag). Terpasang di: PauseButton, HeightText, LiveBestText, StreakText. No-op di editor.
-
----
+### 3.11 `UI/SafeAreaPad.cs` — 120 baris, anchor-aware
+Notch/punch-hole handler, anchor-aware (fix bug simulator 12 Sep).
+- Bug lama: inset diterapkan ke `offsetMin` SEKALIGUS `offsetMax` di semua sumbu. Keempat HUD (Height/LiveBest/Streak/PauseButton) anchor-nya single-point (min==max) → size dimakan dua sisi sampai INVERSI. Bukti: LiveBest 800×70 di Punch Hole Left jadi height −53.19 (`70−2×61.6=−53.2` ✅ persis) + posY −210.6→−272. PauseButton (lebar 166.6, anchor kanan-atas) punya bug laten sama dari inset kiri — ketutup karena inactive di MainMenu.
+- Aturan baru `ComputePad` murni (static, unit-testable): sumbu stretch (0..1) → pad offset + clamp; sumbu single-point → size UTUH, `anchoredPosition` digeser menjauhi tepi (top→turun, dst.); center diam; partial → hanya sisi nempel tepi. Clamp + warning bila inset melebihi ruang (tak pernah inversi). Idempoten + no-op bila inset nol. Portrait-lock: rotate diabaikan.
+- Unit test 6/6 PASS (replay angka bug: size 800×70 utuh, maxY −237.2). Terpasang di: PauseButton, HeightText, LiveBestText, StreakText. Verifikasi visual simulator oleh King (MCP tak bisa buka Device Simulator).
 
 ## 4. Alur Data & Event
 
