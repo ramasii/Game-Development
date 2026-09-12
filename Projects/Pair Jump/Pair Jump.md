@@ -81,3 +81,23 @@ Fokus: input + fisika, no menu, no cantik.
 - [ ] Rekam 30 detik gameplay buat halaman jam
 
 Prioritas potong: BGM > partikel > streak > skin. Jangan potong buffer kamera + tutorial dash.
+
+## 🐞 Bug Log — Day 1 (11 Sep 2026)
+
+### Bug: Drag horizontal bikin bola beku di sumbu Y
+**Gejala:** Bola di udara → geser kanan/kiri → bola gerak di sumbu X tapi berhenti total di sumbu Y (menggantung).
+**Status:** ✅ Fixed & A/B-tested di editor (port 7893).
+
+#### Akar masalah 1 — Rigidbody ketiduran di apex lompatan
+- Gerak X tidak pernah menyentuh `velocity.x` (teleport position), jadi di titik tertinggi lompatan total velocity ≈ 0 → `Rigidbody2D` masuk sleep → gravitasi berhenti diintegrasi → Y beku, X tetap pindah via teleport.
+- **Penanganan:** `rb.sleepMode = RigidbodySleepMode2D.NeverSleep` + `rb.WakeUp()` di `Awake`/`Start`/`TryLand`/`HandleSwipeDown` (`PlayerController.cs`).
+
+#### Akar masalah 2 — MovePosition menimpa velocity.y
+- Sempat diganti ke `rb.MovePosition(rb.position + (dx, 0))` demi best practice, tapi bug muncul lagi.
+- Penyebab: di body Dynamic, `MovePosition` mengemudikan gerak kinematik dari delta (delta Y = 0) sehingga tiap physics step berantem dengan `velocity.y` dari gravitasi.
+- **Penanganan (final):** Geser X via `rb.transform.position += (dx, 0, 0)` — tidak menyentuh velocity, sumbu Y tetap murni fisika. Aman di game ini karena collider lateral hanya trigger yang dicek manual di `TryLand`.
+- **Bukti A/B:** varian MovePosition ngesot di ~1.0m & kamera stuck 2.19; varian transform manjat 7.5m+ & kamera ngikut 8.2m; console 0 error, compile 0 error.
+
+#### Catatan lanjutan
+- Jangan balik ke `MovePosition` untuk gerak X (sudah ada komentar peringatan di `FixedUpdate()`).
+- Kalau drag kencang terlihat judder (teleport + interpolation), jalur yang benar: set `linearVelocity.x` langsung dan pertahankan `y` — bukan MovePosition.
