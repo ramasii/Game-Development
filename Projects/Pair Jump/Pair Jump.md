@@ -67,7 +67,7 @@ Fokus: input + fisika, no menu, no cantik.
 ###### DAY 3 — 13 Sep pagi: Visual + Sound + Submit
 **Visual Asset (2D shape, kunci palette):**
 - [x] Palette: Red #FF6B6B, Blue #4D96FF, Neutral #7BF59B, BG #1A1C2C. Jangan tambah warna lain
-- [ ] Player bulat + mata, squash-stretch jump/land/dash, flash putih 0.1s pas toggle
+- [x] Player bulat + mata, squash-stretch jump/land/dash, flash putih 0.1s pas toggle
 - [ ] Platform rounded rect solid vs ghost dashed transparan. Trail dash + partikel landing 6 kotak
 - [ ] UI: Height gede atas, tombol pause 64px, GameOver 1 tombol retry
 
