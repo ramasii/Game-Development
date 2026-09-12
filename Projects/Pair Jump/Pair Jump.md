@@ -56,8 +56,8 @@ Fokus: input + fisika, no menu, no cantik.
 - Done kalau: bisa loop 2 menit lompat → drag → dash → toggle → naik tanpa null
 
 ###### DAY 2 — 12 Sep: Core Loop + Main Menu jadi game utuh
-- [ ] Game states: MainMenu → Play → Pause → GameOver → Retry 1 tap (GameManager singleton + best PlayerPrefs)
-- [ ] Main Menu: Judul Pair Jump, tombol Play gede, best height, mute toggle, cara main 3 ikon (geser / swipe bawah / hindari jatuh)
+- [x] Game states: MainMenu → Play → Pause → GameOver → Retry 1 tap (GameManager singleton + best PlayerPrefs)
+- [x] Main Menu: Judul Pair Jump, tombol Play gede, best height, mute toggle, cara main 3 ikon (geser / swipe bawah / hindari jatuh)
 - [ ] Spawner solvable: 0-30m hijau doang, 30-80 Red+Hijau, 80-130 tutorial dash, 130+ campur wajib toggle. Ghost lawan 25%
 - [ ] FTUE hint in-world: GESER, SWIPE BAWAH, panah. Gagal FTUE respawn di platform terakhir
 - [ ] Score height (m) + best + toggle streak. Pause tombol kanan-atas
