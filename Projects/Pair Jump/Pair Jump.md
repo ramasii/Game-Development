@@ -144,3 +144,54 @@ Prioritas potong: BGM > partikel > streak > skin. Jangan potong buffer kamera + 
 - Nama app → "Pair Jump", orientasi Portrait lock, 60fps, icon merah-biru + bola putih terpasang, threshold swipe skala DPI (`max(60, dpi×0.25)` — aktif di HP saja), SafeAreaPad di 4 elemen atas (no-op di editor).
 - **Disengaja tidak disentuh:** `applicationIdentifier` (masih com.DefaultCompany… — ganti sebelum submit), build APK/AAB (nunggu lampu hijau).
 - Checklist tes HP ada di laporan chat Blok F.
+
+---
+## 📈 Plan Difficulty Ramp — Late Game Pressure (Day 3, tanpa obstacle baru)
+
+> *Status: 📝 PLAN (belum dieksekusi) — diusulkan Digidaw 12 Sep 2026, disetujui King.*
+> *Motivasi: game sudah fun, tapi butuh tekanan naik di ketinggian. Ganti obstacle baru
+> (art + tutorial + balance, H-1 submit = berisiko) dengan ramp angka murni memakai
+> sistem yang sudah ada. FTUE 0–130m DIJAMIN tidak tersentuh.*
+
+### Angka baseline (terakhir terpantau via MCP — konfirmasi di inspector Spawner)
+| Field | Nilai |
+|---|---|
+| `gapMinY / gapMaxY` | 1.5 / 2.4 (scene; code default 1.8 / 2.4) |
+| `maxGapX` | 2.5 |
+| `greenBailoutEvery` | 5 |
+| `edgeFraction / maxEdgeStreak` | 0.15 / 2 (tweak King) |
+| Zona warna | <30 hijau; 30–80 hijau/merah; 80–130 tutorial deterministik; 130+ acak 35/32/33 |
+
+### Batas fisika (jangan dilanggar)
+- Lompat maks = `jumpVelocity² / 2g` ≈ 2.65m → **`gapMaxY` HARD CAP 2.55** (sisakan margin entry diagonal + snap).
+- `maxGapX` tetap 2.5 di semua tier (sudah pedas + anti-run menjaga solvable).
+- 0–130m (Kihon–Kata) **identik seperti sekarang**, termasuk `TutorialPattern` 12 langkah.
+
+### Tabel tier ramp
+| Tier (zona) | gapMin–Max Y | Bailout hijau | Bobot hijau 130+ | Rasa yang dikejar |
+|---|---|---|---|---|
+| T0: 0–130 (existing) | 1.5–2.4 | 5 | — (zona scripted) | tidak berubah |
+| T1: 130–250 (Kata lanjut) | 1.6–2.45 | 6 | 35% → 30% | napas mulai pendek |
+| T2: 250–400 (Kumite awal) | 1.8–2.5 | 7 | → 25% | toggle berantai wajib |
+| T3: 400+ (Kumite) | 1.9–2.55 | 7 | 25%, merah/biru 37/38% | survival |
+
+### Implementasi (estimasi ±30 menit + tes)
+1. `Spawner.cs`: field `rampTier2Y = 250`, `rampTier3Y = 400` + helper
+   `GapRangeFor(y)`, `BailoutFor(y)`, `GreenWeightFor(y)` (if-tier sederhana).
+   `SpawnNext()` pakai gap dari tier; `PickColor()` pakai bailout & bobot tier.
+2. TIDAK disentuh: `TutorialPattern`, `maxGapX`, anti-run, pool/fallback, `TopY`/snap.
+3. OPSIONAL berisiko (default OFF, perlu feel-test King): `deathBuffer` 2.5 → 2.2
+   di atas 300m (`CameraFollow`, 1 baris + flag inspector).
+4. Rollback: nilai lama ada di tabel baseline di atas — revert manual <2 menit.
+
+### Kriteria terima
+- [ ] Sim 2000 spawn dari y=130: semua gap ≤ cap tier-nya; jarak antar-bailout sesuai.
+- [ ] Manual 0–130m: rasa IDENTIK dengan build kemarin (FTUE utuh).
+- [ ] Manual 250m+: jelas lebih panas tapi tidak ada tembok mustahil
+      (3 gap beruntun selalu reachable dengan 1 toggle/lompatan).
+- [ ] Compile 0 error, smoke Play bersih, tidak perlu ubah TDD/GDD (angka tuning saja).
+
+### Ide obstacle post-jam (parkir, bukan scope jam)
+1. Crumbling platform (pecah setelah 1x injak — termurah, reuse trigger+timer).
+2. Spike platform (sentuh = mati — butuh telegraph + slot tutorial sendiri).
+3. Moving platform (butuh retune gap dinamis).
