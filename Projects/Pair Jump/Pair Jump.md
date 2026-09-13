@@ -211,3 +211,13 @@ Prioritas potong: BGM > partikel > streak > skin. Jangan potong buffer kamera + 
 `CameraFollow.gameOverAnchor + worldScoreText` ter-wire. TDD §6.2 "kandidat hapus" BATAL — panel dipakai.
 **Tes:** idle bounce cam 0→3.53; drop → Dying → GameOver parkir camY=anchorY=-15.47,
 score freeze 3.53 (world 3m + overlay 3m), best 92.39 utuh; Retry → fresh Playing.
+
+### Fix: Retry + Menu mati setelah panel pindah ke world (13 Sep 2026)
+**Gejala:** tombol Retry & Main Menu di panel GameOver tidak merespons.
+**Akar:** King pindah `GameOverPanel` Overlay → `WorldspaceCanvas` (sesuai sketsa),
+tapi `UIManager.WireButtons()` cuma nyisir `OverlayCanvas` → 2 tombol dunia tak ter-wire.
+**Penanganan:** `WireButtons()` sekarang nyisir DUA canvas (Overlay + Worldspace);
+`CameraFollow.worldScoreText` di-rewire WOScore (dangling) → `FinalHeightText`.
+Ref text (final/newBest) selamat karena ikut kepindah (instanceID sama).
+**Bukti:** raycast di posisi Retry = [Text, RetryButton, GameOverPanel] (tak ada yang blokir);
+invoke GOMenu → MainMenu; invoke Retry → fresh Playing. Compile 0 error, scene saved.
