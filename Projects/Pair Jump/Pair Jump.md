@@ -195,3 +195,19 @@ Prioritas potong: BGM > partikel > streak > skin. Jangan potong buffer kamera + 
 1. Crumbling platform (pecah setelah 1x injak — termurah, reuse trigger+timer).
 2. Spike platform (sentuh = mati — butuh telegraph + slot tutorial sendiri).
 3. Moving platform (butuh retune gap dinamis).
+
+## 🎬 Bug Log — Day 3 (13 Sep 2026, Doodle GameOver)
+
+### Fitur: GameOver ala Doodle Jump (kamera ngikut jatuh)
+**Status:** ✅ Done + tested via MCP (port 7891), compile 0 error, scene saved.
+**Desain:** fase baru `Dying` di `GameState` — `Playing → Dying → GameOver`.
+- `Playing`: kamera naik-only + `WorldspaceCanvas` standby di `camY - ortho*2 - 3`.
+- `Dying`: score freeze, panel STAY, kamera `MoveTowards` bola (`fallSpeed 12`) sampai `camY == panelY`.
+- `GameOver`: `timeScale 0`, panel dunia (WOTitle + WOScore) + Overlay tombol muncul.
+**File:** `GameState.cs` (+Dying), `GameManager.cs` (Dying ts=1, save cuma GameOver),
+`CameraFollow.cs` (overhaul), `PlayerController.cs` (Dying = fisika jalan, input/land mati),
+`FtueHints.cs` (hide pas Dying/GameOver), `PlayerSquashStretch.cs` (stretch jalan pas Dying).
+**Scene:** `WorldspaceCanvas` scale 0.01 (700x1000px = 7x10 unit) + `WOTitle/WOScore`,
+`CameraFollow.gameOverAnchor + worldScoreText` ter-wire. TDD §6.2 "kandidat hapus" BATAL — panel dipakai.
+**Tes:** idle bounce cam 0→3.53; drop → Dying → GameOver parkir camY=anchorY=-15.47,
+score freeze 3.53 (world 3m + overlay 3m), best 92.39 utuh; Retry → fresh Playing.
