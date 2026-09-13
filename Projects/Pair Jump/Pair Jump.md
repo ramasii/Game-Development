@@ -248,3 +248,14 @@ prefab & fallback prosedural sama-sama bisa di-pool.
 **Tertunda:** player loop editor beku saat verifikasi (frame stuck 2, bukan pause,
 tanpa error game — indikasi editor dipakai/modal/debugger). Perlu 1 menit tes manual
 atau verifikasi ulang saat editor bebas.
+
+### Bug "biru solid tapi tak bisa di-land" (13 Sep 2026) — diagnosis
+**Temuan decisif:** logika BENAR (merah vs biru = ghost = tembus, by design).
+Yang rusak Sheffield murni visual: sprite telat 0.25s (transisi controller) dari state
+default Solid. `(bool animator 13/13 benar saat settle; 1 ekor persisten Blue@64 id34
+bool=True; tulis-ulang manual langsung sembuh → instance sehat, writer path sehat.)`
+**Fix masuk (C, snap dari kode):** `RefreshVisual(..., snap)` + `Animator.Play` —
+Awake & SpawnAt snap, toggle live tetap animasi. Compile 0 error.
+**Sisa curiga:** `SpawnAt` me-refresh SEBELUM `SetActive(true)` → `Play()` di animator
+nonaktif mungkin tak nempel untuk objek pool (butuh reorder + gas King).
+Konteks sesi campur (King ikut main) tak bisa disingkirkan untuk 1 ekor persisten.
