@@ -221,3 +221,17 @@ tapi `UIManager.WireButtons()` cuma nyisir `OverlayCanvas` → 2 tombol dunia ta
 Ref text (final/newBest) selamat karena ikut kepindah (instanceID sama).
 **Bukti:** raycast di posisi Retry = [Text, RetryButton, GameOverPanel] (tak ada yang blokir);
 invoke GOMenu → MainMenu; invoke Retry → fresh Playing. Compile 0 error, scene saved.
+
+### Audit arsitektur vs fix urut (13 Sep 2026, post-submit)
+**Audit 15 skrip `_PairJump` vs skill 03-Game-Architecture:** FSM ✓, State Manager ✓,
+Observer ✓, SSOT 90%, Pooling ❌ (tetap debt).
+**Fix 1 — nama tombol → `UIManager.Btn` consts** (SSOT-D, cegah insiden tombol yatim).
+**Fix 2 — `Spawner.RefreshAllPlatformVisuals()` registry `live`** gantikan
+`FindObjectsByType` per-toggle (no alloc); fallback Find bila spawner null.
+**Fix 3 — teks dunia sole writer `UIManager`** (`CameraFollow.worldScoreText` dihapus).
+**Fix 4 — `GameManager.MuteKey` publik** dipakai UIManager + PlayerSfx.
+**Fix 5 — GDD §6 disinkron** ke struktur aktual (lihat catatan di GDD).
+**Verifikasi (port 7890, compile 0 error):** 13 platform refresh via registry tanpa error;
+mute 1→0; drop → Dying → GameOver parkir cam=anchor, skor freeze, final 3m;
+8/8 tombol invoke OK (Play/Pause/Resume/P.Restart/P.Menu/Retry/GOMenu/Mute);
+console cuma error benign (AI package + adb).

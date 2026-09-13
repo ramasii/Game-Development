@@ -88,3 +88,21 @@ Assets/
 
 ---
 #gamejam #unexpected-pair #unity #mobile #platformer #poinpy-like
+
+## 🔄 Sinkronisasi Day 3 (13 Sep 2026) — struktur aktual vs rencana §6
+Struktur folder di atas adalah rencana awal jam. Realita akhir (audit MCP):
+```
+Assets/_PairJump/
+├── Core/ GameManager.cs, GameState.cs (+Dying), PairJumpInput.cs, Spawner.cs, CameraFollow.cs, FtueHints.cs
+├── Player/ PlayerController.cs, PlayerMode.cs, PlayerSfx.cs, PlayerSplashBurst.cs, PlayerSquashStretch.cs
+├── Platform/ Platform.cs
+├── Prefab/ Platform.prefab
+└── UI/ UIManager.cs, SafeAreaPad.cs, ComboFxText.cs
+```
+- `DashController / PlayerVisuals / RedPlatform / PlatformPool` TIDAK dibuat —
+  logika dilebur ke `PlayerController` + `Platform` (keputusan jam, bukan bug).
+- Juice lahir di luar rencana: `PlayerSplashBurst`, `PlayerSquashStretch`, `ComboFxText`, `PlayerSfx`, `SafeAreaPad`, `FtueHints`.
+- Pooling TETAP tech debt: `Spawner` Instantiate/Destroy + registry `live`
+  (registry kini juga dipakai refresh visual massal, ganti `FindObjectsByType`).
+- SSOT Day 3: nama tombol → `UIManager.Btn`, `MuteKey` → `GameManager.MuteKey`,
+  teks dunia → penulis tunggal `UIManager`.
