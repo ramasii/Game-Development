@@ -235,3 +235,16 @@ Observer ✓, SSOT 90%, Pooling ❌ (tetap debt).
 mute 1→0; drop → Dying → GameOver parkir cam=anchor, skor freeze, final 3m;
 8/8 tombol invoke OK (Play/Pause/Resume/P.Restart/P.Menu/Retry/GOMenu/Mute);
 console cuma error benign (AI package + adb).
+
+### Pool platform (13 Sep 2026) — status: kode masuk, verifikasi live TERTUNDA
+**Implementasi:** `Spawner` + `Queue<Platform>` (`prewarmPool 15`, `maxPoolSize 40`,
+`TotalCreated/TotalSpawned` diagnostik), `Platform.PrepareForSpawn()` (restore skala
+post-boink), `ReleaseToPool` (nonaktif; overflow di-Destroy), `spawnId` tetap unik
+per spawn logis. Compile 0 error.
+**Antisipasi recycle:** id tak reuse (streak aman, termasuk jalur fallback referensi);
+tween mati via OnDisable+KillBoink; skala di-restore; warna/visual via RefreshVisual;
+collider utuh; registry `live` cuma aktif; reload scene buang pool (tak ada bocor statik);
+prefab & fallback prosedural sama-sama bisa di-pool.
+**Tertunda:** player loop editor beku saat verifikasi (frame stuck 2, bukan pause,
+tanpa error game — indikasi editor dipakai/modal/debugger). Perlu 1 menit tes manual
+atau verifikasi ulang saat editor bebas.
