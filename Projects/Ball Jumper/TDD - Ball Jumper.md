@@ -7,16 +7,17 @@
 
 ## 1. Ringkasan Teknis
 
-| Item | Detail aktual (scene, 14 Sep 2026) |
-|------|-------------------------------------|
+| Item | Detail aktual (scene, 14 Sep 2026, update post-fix web) |
+|------|----------------------------------------------------------|
 | **Engine** | Unity 6 (6000.6.0f1), URP, Android platform, IL2CPP, Linear |
 | **Orientasi** | Portrait 1080x1920, 60fps lock (`Application.targetFrameRate=60` di `GameManager.Awake`) |
-| **Input** | Input System only. Drag gerak + tap dash (Plan B). Tap = cepat ≤0.25s + geser ≤20px baseline (diskala DPI `max(20, dpi×0.12)` di HP), mulai di atas UI diabaikan. Multi-touch: 1 jari drag + 1 jari tap |
+| **Input** | Input System only. Drag gerak + tap dash (Plan B). Tap = cepat ≤0.25s + geser ≤20px baseline (diskala DPI `max(20, dpi×0.12)` di HP), mulai di atas UI diabaikan. Multi-touch: 1 jari drag + 1 jari tap. HUD non-blokir (3 teks `raycastTarget=false`, `DynamicCanvas` tanpa Raycaster — fix blink 14 Sep) |
 | **Fisika** | 1x `Rigidbody2D` Dynamic (Player, damping 0, `NeverSleep`, `Continuous`, `Interpolate`; `gravityScale` 0 saat MainMenu karena hold, 3 saat Playing). Gerak X via `rb.position` (teleport velocity-preserving) — JANGAN `MovePosition` / `transform.position` |
-| **Scene stat** | 48 GameObject, 169 component. Top: RectTransform 36, CanvasRenderer 32, Text 20, Transform 12, Image 12, Animator 10, Button 8, Canvas 4, CanvasScaler 4, SafeAreaPad 4 |
-| **Script** | 15 file di `Assets/_PairJump/`: Core 6 (CameraFollow 127, FtueHints 133, GameManager 104, GameState 15, PairJumpInput 184, Spawner 398), Player 5 (PlayerController 397, PlayerMode 2, PlayerSfx 78, PlayerSplashBurst 51, PlayerSquashStretch 148), Platform 1 (Platform 203), UI 3 (ComboFxText 168, SafeAreaPad 121, UIManager 219) |
+| **Scene stat** | 48 GameObject, 168 component (was 169 — `GraphicRaycaster` DynamicCanvas dicabut). Top: RectTransform 36, CanvasRenderer 32, Text 20, Transform 12, Image 12, Animator 10, Button 8, Canvas 4, CanvasScaler 4, SafeAreaPad 4 |
+| **Script** | 15 file di `Assets/_PairJump/`: Core 6 (CameraFollow 127, FtueHints 133, GameManager 104, GameState 15, PairJumpInput 184, Spawner 398), Player 5 (PlayerController 397, PlayerMode 2, PlayerSfx 78, PlayerSplashBurst 51, PlayerSquashStretch 148), Platform 1 (Platform 203), UI 3 (ComboFxText 168, SafeAreaPad 121, UIManager 229) |
 | **Prefab** | `Assets/_PairJump/Prefab/Platform.prefab` — ter-wire di `Spawner.platformPrefab`, spawn via pool + fallback kotak prosedural |
 | **Animasi** | Platform: state `Solid` ↔ `Platform Not Solid` via bool `isSolid` + `snap` (potong transisi 0.25s saat spawn). Player: `Ball Sprite` (SpriteRenderer + Animator) + squash-stretch kode + `Splash Particle` |
+| **Audio (fix web 14 Sep)** | 12 wav Vorbis, `preload=true` + `loadInBackground=true` (was false/false — first-play silence di HP). `UIManager.menuSfx`: Play bunyi splash (unlock AudioContext) + tes bunyi saat unmute |
 | **Spawner tuning (scene)** | `prewarm=12`, `gapMinY=1.5`, `gapMaxY=2.4`, `maxGapX=2.5`, `greenBailoutEvery=5`, zona `30 / 60 / 90`, `edgeFraction=0.15`, `maxEdgeStreak=2`, `prewarmPool=15`, `maxPoolSize=40` |
 | **Kamera (scene)** | `target=Player/Ball Sprite`, `deathBuffer=1.0`, `gameOverAnchor=WorldspaceCanvas`, `panelOffset=8`, `fallSpeed=18.5` |
 
@@ -125,13 +126,14 @@ Tuning scene: font `NanumPenScript-Regular`, `HintMoveY=6 "DRAG TO MOVE"`, `Hint
 - `OnValidate` + `RepositionLiveHints()`: cegah rentang terbalik + posisi di luar rentang.
 - `Update`: hide total saat `Dying/GameOver` (kamera turun = hint lama bisa nongol lagi).
 
-### 3.10 `UI/UIManager.cs` — 219 baris
+### 3.10 `UI/UIManager.cs` — 229 baris
 Semua ter-wire (lihat tabel): panel MainMenu/Pause (Overlay) + GameOver (Worldspace) + PauseButton; teks Height/LiveBest/MenuBest/FinalHeight/FinalBest/NewBest; `muteIcon=Sound Image` + `soundOn/OffSprite` wired; `muteText` LEGACY dikosongkan.
 - `Btn` consts (fix #1, SSOT-D): Play/Pause/Resume/PauseRestart/PauseMenu/Retry/GOMenu/Mute.
 - `OnEnable`: subscribe `OnStateChanged` + `WireButtons()` (idempoten remove-then-add). `WireButtons` sisir DUA canvas (Overlay + Worldspace) via `GetComponentsInChildren<Button>(true)` — JANGAN `Find` (buta inactive).
 - `Update`: hanya saat Playing → `SubmitHeight(Height)` + `heightText "Nm"` + `liveBest`.
 - `HandleState`: MainMenu/Pause/GameOver show-hide + isi skor dunia (final/best/NewBest jika `IsNewBest && h>0.5`) + best menu. `gameOverPanel` tidak di-SetActive dari kode (panel dunia standby di bawah kamera).
 - Tombol: Play/Resume→Playing, Pause→Paused, Restart→`Retry()`, Menu→`ToMenu()`, Mute→toggle `MuteKey` + `RefreshMuteVisual()` (ikon, bukan teks).
+- FIX web (post-gamejam 14 Sep): `menuSfx` (auto-find `PlayerSfx`) — `OnPlayPressed` bunyi splash (gesture = unlock AudioContext HP) + `OnMutePressed` bunyi tes saat unmute. Null-safe.
 - Streak TIDAK di sini lagi — pindah ke `ComboFxText` (single responsibility).
 
 ### 3.11 `UI/SafeAreaPad.cs` — 121 baris, anchor-aware (TETAP)

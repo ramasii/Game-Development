@@ -20,3 +20,19 @@ Kalo dari aku sendiri, game ini butuh progresi selama bermain.
 | T1: 130–250 (Kata lanjut) | 1.6–2.45     | 6             | 35% → 30%              | napas mulai pendek    |
 | T2: 250–400 (Kumite awal) | 1.8–2.5      | 7             | → 25%                  | toggle berantai wajib |
 | T3: 400+ (Kumite)         | 1.9–2.55     | 7             | 25%, merah/biru 37/38% | survival              |
+
+---
+
+## 🔧 Progress Fix Web (14 Sep 2026, Digidaw + King)
+
+> Sumber: analisa engine via MCP (port 7890), compile 0 error, smoke Play bersih.
+
+### ✅ Selesai
+1. **Input blink** — `DynamicCanvas/HeightText`, `LiveBestText`, `StreakText` → `raycastTarget=false` + `GraphicRaycaster` DynamicCanvas dicabut (0 button di situ, 8/8 tombol Overlay+Worldspace utuh). Scene saved.
+2. **Audio mobile** — 12 wav → `preload=true` + `loadInBackground=true` (sebelumnya false/false = first-play silence di HP). `UIManager.menuSfx`: Play bunyi splash (= unlock AudioContext) + tes bunyi saat unmute. `UIManager.cs` 219 → 229 baris.
+3. **Mute audit** — `MuteKey=0`, ikon mute wired, smoke `OnPlayPressed` → Playing tanpa error (1 error console cuma adb benign).
+
+### ⏳ Berikutnya (butuh build WebGL + HP)
+4. Kunci portrait di WebGL template (canvas 9:16 + pillarbox) + `CanvasScaler` match → width — biar rasio/UI web desktop = rasa HP.
+5. Test matrix: Chrome desktop 16:9/4:3, Chrome Android, Safari iOS.
+6. Scope SFX hilang (jump/dash/UI-click/gameover belum ada clip) — putuskan bikin baru atau resmi cuma land+splash.
