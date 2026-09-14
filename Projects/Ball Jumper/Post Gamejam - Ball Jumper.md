@@ -12,29 +12,8 @@ Aku juga nyobain game ini ke teman-teman. Kata mereka gameku feel uda kerasa, ga
 5. Booster item, seperti pegas atau jetpack untuk boost naik ke atas
 6. Enemy, objek gerak kanan-kiri harus dihindari, bisa dikalahkan dengan stomp seperti super mario
 
-Kalo dari aku sendiri, game ini butuh progresi, 
+Kalo dari aku sendiri, game ini butuh progresi selama bermain. 
 
-
-> *Status: 📝 PLAN (belum dieksekusi) — diusulkan Digidaw 12 Sep 2026, disetujui King.*
-> *Motivasi: game sudah fun, tapi butuh tekanan naik di ketinggian. Ganti obstacle baru
-> (art + tutorial + balance, H-1 submit = berisiko) dengan ramp angka murni memakai
-> sistem yang sudah ada. FTUE 0–130m DIJAMIN tidak tersentuh.*
-
-### Angka baseline (terakhir terpantau via MCP — konfirmasi di inspector Spawner)
-| Field | Nilai |
-|---|---|
-| `gapMinY / gapMaxY` | 1.5 / 2.4 (scene; code default 1.8 / 2.4) |
-| `maxGapX` | 2.5 |
-| `greenBailoutEvery` | 5 |
-| `edgeFraction / maxEdgeStreak` | 0.15 / 2 (tweak King) |
-| Zona warna | <30 hijau; 30–80 hijau/merah; 80–130 tutorial deterministik; 130+ acak 35/32/33 |
-
-### Batas fisika (jangan dilanggar)
-- Lompat maks = `jumpVelocity² / 2g` ≈ 2.65m → **`gapMaxY` HARD CAP 2.55** (sisakan margin entry diagonal + snap).
-- `maxGapX` tetap 2.5 di semua tier (sudah pedas + anti-run menjaga solvable).
-- 0–130m (Kihon–Kata) **identik seperti sekarang**, termasuk `TutorialPattern` 12 langkah.
-
-### Tabel tier ramp
 | Tier (zona)               | gapMin–Max Y | Bailout hijau | Bobot hijau 130+       | Rasa yang dikejar     |
 | ------------------------- | ------------ | ------------- | ---------------------- | --------------------- |
 | T0: 0–130 (existing)      | 1.5–2.4      | 5             | — (zona scripted)      | tidak berubah         |
