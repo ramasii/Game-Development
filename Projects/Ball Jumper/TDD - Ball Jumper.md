@@ -1,196 +1,212 @@
 # 💻 TDD - Ball Jumper (Technical Design Document)
 
-> *Sumber kebenaran teknis per 12 Sep 2026 — dibaca langsung dari engine via MCP Unity (port 7891), bukan tebakan. Hub: [[Projects/Ball Jumper/Ball Jumper]] | GDD: [[GDD - Ball Jumper]]*
-> *Project: `C:/Users/Paganisium/Documents/Projects/Unity/Gamejam Internal GT 2026` | Unity `6000.6.0f1` | Scene: `SampleScene`*
+> *Sumber kebenaran teknis per 14 Sep 2026 — dibaca langsung dari engine via MCP Unity (port 7892), bukan tebakan. Hub: [[Projects/Ball Jumper/Ball Jumper]] | GDD: [[GDD - Ball Jumper]]*
+> *Project: `C:/Users/Paganisium/Documents/Projects/Unity/Gamejam Internal GT 2026` | ProductName `Ball Jumper` (sebelumnya Pair Jump, kode tetap `Assets/_PairJump/`) | Unity `6000.6.0f1` | Scene: `SampleScene`*
 
 ---
 
 ## 1. Ringkasan Teknis
 
-| Item | Detail aktual |
-|------|---------------|
+| Item | Detail aktual (scene, 14 Sep 2026) |
+|------|-------------------------------------|
 | **Engine** | Unity 6 (6000.6.0f1), URP, Android platform, IL2CPP, Linear |
 | **Orientasi** | Portrait 1080x1920, 60fps lock (`Application.targetFrameRate=60` di `GameManager.Awake`) |
-| **Input** | Input System only (Legacy throw). Drag gerak + tap dash (Plan B). Multi-touch: 1 jari drag + 1 jari tap. Tap = cepat ≤0.25s + geser ≤20px (skala DPI ~0.12"), mulai di atas UI diabaikan |
-| **Fisika** | 1x `Rigidbody2D` Dynamic (Player, radius 0.45, damping 0, NeverSleep, Continuous) + `BoxCollider2D` trigger (Platform 2.75×0.6). No alloc di Update |
-| **Scene stat** | 46 GameObject, 150 component. Top: RectTransform 36, Text 20, Image 12, Button 8, Canvas 4 |
-| **Script** | 11 file di `Assets/_PairJump/` (12 dengan `Welcome2DScript.cs` template yang tidak dipakai). Post apex+tepi: PlayerController 343, PairJumpInput 184, Platform 116, Spawner 219 baris |
-| **Prefab** | `Assets/_PairJump/Prefab/Platform.prefab` — ter-wire di `Spawner.platformPrefab`, spawn via Instantiate + fallback kotak prosedural |
-| **Animasi** | `Platform sheet_0.controller` — state `Solid` ↔ `Platform Not Solid`, param bool `isSolid`, klip loop 3 frame (swap sprite saja, tint dari kode) |
-| **Spawner tuning** | `maxGapX=2.5` (scene, dulu 4), bound refleksi = halfW − 1.375 − 0.2, gap Y 1.8–2.4 vs lompat maks ±2.65 |
+| **Input** | Input System only. Drag gerak + tap dash (Plan B). Tap = cepat ≤0.25s + geser ≤20px baseline (diskala DPI `max(20, dpi×0.12)` di HP), mulai di atas UI diabaikan. Multi-touch: 1 jari drag + 1 jari tap |
+| **Fisika** | 1x `Rigidbody2D` Dynamic (Player, damping 0, `NeverSleep`, `Continuous`, `Interpolate`; `gravityScale` 0 saat MainMenu karena hold, 3 saat Playing). Gerak X via `rb.position` (teleport velocity-preserving) — JANGAN `MovePosition` / `transform.position` |
+| **Scene stat** | 48 GameObject, 169 component. Top: RectTransform 36, CanvasRenderer 32, Text 20, Transform 12, Image 12, Animator 10, Button 8, Canvas 4, CanvasScaler 4, SafeAreaPad 4 |
+| **Script** | 15 file di `Assets/_PairJump/`: Core 6 (CameraFollow 127, FtueHints 133, GameManager 104, GameState 15, PairJumpInput 184, Spawner 398), Player 5 (PlayerController 397, PlayerMode 2, PlayerSfx 78, PlayerSplashBurst 51, PlayerSquashStretch 148), Platform 1 (Platform 203), UI 3 (ComboFxText 168, SafeAreaPad 121, UIManager 219) |
+| **Prefab** | `Assets/_PairJump/Prefab/Platform.prefab` — ter-wire di `Spawner.platformPrefab`, spawn via pool + fallback kotak prosedural |
+| **Animasi** | Platform: state `Solid` ↔ `Platform Not Solid` via bool `isSolid` + `snap` (potong transisi 0.25s saat spawn). Player: `Ball Sprite` (SpriteRenderer + Animator) + squash-stretch kode + `Splash Particle` |
+| **Spawner tuning (scene)** | `prewarm=12`, `gapMinY=1.5`, `gapMaxY=2.4`, `maxGapX=2.5`, `greenBailoutEvery=5`, zona `30 / 60 / 90`, `edgeFraction=0.15`, `maxEdgeStreak=2`, `prewarmPool=15`, `maxPoolSize=40` |
+| **Kamera (scene)** | `target=Player/Ball Sprite`, `deathBuffer=1.0`, `gameOverAnchor=WorldspaceCanvas`, `panelOffset=8`, `fallSpeed=18.5` |
 
-Struktur folder sesuai GDD §6:
+Struktur folder aktual:
 ```
 Assets/_PairJump/
-├── Art/ Animation/ Platform sheet_0.controller, Platform Solid.anim, Platform Not Solid.anim
-├── Core/ GameManager.cs, GameState.cs, PairJumpInput.cs, Spawner.cs, CameraFollow.cs, FtueHints.cs
-├── Player/ PlayerController.cs, PlayerMode.cs
+├── Core/ CameraFollow.cs, FtueHints.cs, GameManager.cs, GameState.cs, PairJumpInput.cs, Spawner.cs
+├── Player/ PlayerController.cs, PlayerMode.cs, PlayerSfx.cs, PlayerSplashBurst.cs, PlayerSquashStretch.cs
 ├── Platform/ Platform.cs
 ├── Prefab/ Platform.prefab
-└── UI/ UIManager.cs, SafeAreaPad.cs
+└── UI/ ComboFxText.cs, SafeAreaPad.cs, UIManager.cs
 ```
+Tambahan asset: `Assets/Art/Sound On.png`, `Assets/Art/Sound Off.png`, `Assets/Font/NanumPenScript-Regular.ttf`.
 
-## 2. Scene Hierarchy (aktual dari `unity_scene_hierarchy`)
+## 2. Scene Hierarchy (aktual `unity_scene_hierarchy`, 48 objek)
 
 ```
-Main Camera (Camera, AudioListener, CameraFollow, target=Player)
+Main Camera (Camera, AudioListener, CameraFollow, target=Player/Ball Sprite)
 ├── Background (SpriteRenderer)
 Global Light 2D
 InputManager (PairJumpInput)
-Player (Rigidbody2D, CircleCollider2D, SpriteRenderer, PlayerController) pos (0,1,0)
-Spawner (Spawner, player=Player)
+Player (Rigidbody2D, CircleCollider2D, SpriteRenderer, PlayerController, PlayerSquashStretch, PlayerSplashBurst, PlayerSfx) pos (0,1,0)
+├── Ball Sprite (SpriteRenderer, Animator)
+├── Splash Particle (ParticleSystem, ParticleSystemRenderer)
+Spawner (Spawner, player=Player, platformPrefab=Platform.prefab)
 GameManager (GameManager)
 EventSystem (EventSystem + InputSystemUIInputModule)
-UIManager (UIManager, wiring lengkap — lihat §7)
-StaticCanvas (kosong, reserved Day 3)
+UIManager (UIManager, wiring lengkap — lihat §3.10)
+StaticCanvas (kosong, reserved)
 DynamicCanvas (HUD saat Play)
-├── HeightText + LiveBestText + StreakText (masing-masing + SafeAreaPad)
+├── HeightText + LiveBestText (masing-masing + SafeAreaPad)
+├── StreakText (+ SafeAreaPad + ComboFxText)
 OverlayCanvas [selalu aktif — jangkar wiring tombol]
-├── MainMenuPanel → Title, Subtitle, MenuBest, PlayButton, MuteButton, Howto
-├── PausePanel (inactive) → Resume, PauseRestart, PauseMenu
-├── GameOverPanel (inactive) → FinalHeight, NewBest (inactive), FinalBest, Retry, GOMenu
-└── PauseButton (inactive saat menu, + SafeAreaPad)
-WorldspaceCanvas → GameOverPanel (duplikat nganggur, kandidat hapus Day 3)
+├── MainMenuPanel → TitleText, SubtitleText (inactive), MenuBestText, PlayButton, MuteButton (Text legacy + Sound Image), HowtoText (inactive)
+├── PausePanel (inactive) → PauseTitle, ResumeButton, PauseRestartButton, PauseMenuButton
+├── PauseButton (inactive saat menu, + SafeAreaPad)
+WorldspaceCanvas (layer UI, scale dunia) → GameOverPanel (panel dunia Doodle, DIPAKAI)
+├── GOTitle, FinalHeightText, NewBestText, FinalBestText, RetryButton, GOMenuButton
 FtueHints (FtueHints, bikin 3 hint world-space saat runtime)
 ```
+
+Perbedaan vs TDD 12 Sep: GameOverPanel PINDAH Overlay → Worldspace (bukan duplikat nganggur lagi); Player punya 3 script juice + 2 anak visual; Camera target = Ball Sprite (bukan root).
 
 ---
 
 ## 3. Spesifikasi Tiap Script
 
-### 3.1 `Core/GameState.cs` — 12 baris
-Enum FSM sederhana (skill: Simple FSM Berbasis Enum):
-`MainMenu, Playing, Paused, GameOver`. Jangan tambah state baru tanpa butuh.
+### 3.1 `Core/GameState.cs` — 15 baris
+Enum FSM: `MainMenu, Playing, Paused, Dying, GameOver`.
+`Dying` = fase jatuh bebas Doodle (timeScale 1, fisika jalan, input/land mati). Jangan tambah state baru tanpa butuh.
 
-### 3.2 `Core/GameManager.cs` — 96 baris, Singleton SSOT
+### 3.2 `Core/GameManager.cs` — 104 baris, Singleton SSOT
 - `Instance`, `CurrentState`, `BestHeight`, `CurrentHeight`, `IsNewBest`
-- `static event Action<GameState> OnStateChanged` — semua UI/player listen ini, tidak ada polling state.
-- `BestKey = "pairjump_best"`, load di `Awake`, save **hanya** saat `GameOver` + `PlayerPrefs.Save()` (aman Android/WebGL).
-- `UpdateState()`: satu-satunya yang boleh set `Time.timeScale` (0 saat Paused/GameOver, 1 lainnya). Aturan tetap anti bug retry-beku.
-- `SubmitHeight(h)`: update Current + Best + flag NewBest. Dipanggil tiap frame dari `UIManager.Update` + sekali dari `CameraFollow` saat mati.
-- `static bootPlaying`: survive reload. `Retry()` → boot Playing, `ToMenu()` → boot MainMenu. Keduanya `LoadScene(buildIndex)`.
+- `static event Action<GameState> OnStateChanged` — semua UI/player listen, tidak ada polling state.
+- `BestKey = "pairjump_best"` (legacy, dipertahankan), `MuteKey = "pairjump_mute"` publik (dipakai UIManager + PlayerSfx, fix #4).
+- `UpdateState()`: satu-satunya yang boleh set `timeScale` (0 saat Paused/GameOver, 1 saat Playing/MainMenu/Dying).
+- `SubmitHeight(h)`: update Current + Best + flag NewBest. Dipanggil tiap frame dari `UIManager.Update` (saat Playing) + sekali dari `CameraFollow` saat jatuh selesai. Save `PlayerPrefs` HANYA saat `GameOver`.
+- `static bootPlaying`: survive reload. `Retry()` → boot Playing, `ToMenu()` → boot MainMenu.
 
 ### 3.3 `Player/PlayerMode.cs` — 2 baris
 `enum PlayerMode { Red, Blue }`. Hijau bukan mode, cuma warna platform netral.
 
-### 3.4 `Player/PlayerController.cs` — 343 baris, apex konsisten
-Tuning aktual dari engine (bukan default code):
-- `normalGravity=3`, `dashGravityMult=3.5`, `hangTime=0.85`, `moveSensitivity=1.2`, `dashCooldown=0.15`, `debugAutoDragPxPerFrame=0`
-- Plan B: `dashSlamVelocity=-2`, `dashTimeout=3`. Plan A: `landDebounce=0.1`. Landing: `landTol=0.1`, `landSnapEps=0.02`
+### 3.4 `Player/PlayerController.cs` — 397 baris
+Tuning scene (bukan default kode): `normalGravity=3`, `dashGravityMult=3.5`, `hangTime=0.85`, `moveSensitivity=1.2`, `dashCooldown=0.15`, `dashSlamVelocity=-2`, `dashTimeout=3`, `landDebounce=0.1`, `landTol=0.5`, `landSnapEps=0.02`, `debugAutoDragPxPerFrame=0`. `sr` ter-wire ke `Ball Sprite`.
 - `jumpVelocity = hang * g / 2` dengan `g=9.81*3` → ~12.5, lompat maks ~2.65. Bounce pertahankan `x*0.3`.
-- Setup `Awake`: `freezeRotation`, `sleepMode=NeverSleep`, `Continuous`, `WakeUp()`, `ballRadius` dari CircleCollider (0.45). **Jangan diubah** — ini fix bug Day 1 bola beku di apex.
-- Event: `OnModeChanged(PlayerMode)`, `OnDashChanged(bool)`, `OnStreakChanged(int)`.
-- `Start` + `HandleGameState`: hold total saat bukan Playing (`velocity=0 + gravityScale=0`). Masuk Playing: resume `savedVel` kalau >0.5 (canDash dipertahankan, strict) else luncur `jumpVelocity` + `canDash=true`; `prevY` sinkron. Keluar Playing: simpan `savedVel`, clear `IsDashing`, buang `pendingDragPx`. Plan A: `GameOver`/`MainMenu` → `ResetStreak()`; `Paused` TIDAK reset.
-- Input: `HandleDrag` antre ke `pendingDragPx`. `HandleDashRequest` (listen `OnTap`): gate `IsPlaying` + `canDash` (sekali per lompatan) + cooldown → `IsDashing=true`, `gravityScale=3*3.5`, slam-cut `(vx*0.5, -2)`.
-- `FixedUpdate`: konversi px→world, sens 1.2 (0.6 dash). **Geser X via `transform.position` — JANGAN `MovePosition`** (A/B-tested 11 Sep). `Wrap()` + `prevY = rb.position.y` di akhir.
-- `TryLand(Platform p)` FIX apex: gate `ShouldLand(prevBottom=prevY−0.45, platTop, vy, dash, tol)` — frame lalu bawah bola harus masih di atas permukaan. Gate center-vs-center lama (`y < p.y−0.1`) dihapus: itu bikin entry diagonal mendarat lebih dalam/bahkan tembus → apex random ±30%. Side-hit dalam tetap tembus (benar). Lalu: solid? → debounce 0.1 → toggle + streak Plan A (beda +1/sama 0) → **snap `y = platTop+0.45+0.02`** → bounce `vy=jumpVelocity` + `canDash=true`. Semua bounce mulai identik → apex identik.
-- `ShouldLand(...)` statik murni (unit-testable). `Update`: timeout dash 3s (cancel-on-rise dihapus Plan B).
+- `Awake`: `freezeRotation`, `NeverSleep`, `Continuous`, `WakeUp()`, `ballRadius` live dari CircleCollider. Fisika: `Interpolate` (lihat FixedUpdate).
+- Event: `OnModeChanged`, `OnDashChanged`, `OnStreakChanged`, `OnLanded(wasDash)` (untuk squash-stretch).
+- `Start` + `HandleGameState`: hold total saat bukan Playing (`velocity=0 + gravityScale=0`). Masuk Playing: resume `savedVel` kalau >0.5 else luncur `jumpVelocity` + `canDash=true`. `Dying`: fisika JALAN, input/land mati, `IsDashing=false`, `canDash=false`. Keluar Playing: simpan `savedVel`. `GameOver/MainMenu` → `ResetStreak()`; `Paused` TIDAK reset.
+- `HandleDashRequest` (listen `OnTap`): gate `IsPlaying` + `canDash` (sekali per lompatan, strict — pause tidak memberi gratis) + cooldown → `gravityScale=3*3.5`, slam-cut `(vx*0.5, -2)`.
+- `FixedUpdate`: px→world, sens 1.2 (0.6 saat dash). **Geser X via `rb.position` — JANGAN `MovePosition`** (berantem dengan `velocity.y` → beku Y) **dan JANGAN `transform.position`** (rewind pose render saat Interpolate → apex bocor ~17%). `Wrap()` + `prevBottomY` di akhir.
+- `TryLand(Platform p)`: gate `IsPlaying` + jatuh (`vy>0.5` ditolak kecuali dash) + `ShouldLand(prevBottom, platTop, tol)` (3 param — top-crossing murni). Lalu: `IsSolidFor?` → debounce 0.1 → dash? toggle Red<->Blue → streak Plan A (beda +1 / sama 0 via `spawnId` pool-safe + fallback referensi) → snap `y = platTop+radius+0.02` → bounce `vy=jumpVelocity` + `canDash=true` → `OnLanded(wasDash)` → `p.Boink()` → `sfx.PlayLand` (hanya platform baru).
+- `Update`: timeout dash 3s (cancel-on-rise dihapus Plan B). `RefreshAllPlatforms()` via registry Spawner (fix #2), fallback Find.
 
-### 3.5 `Core/PairJumpInput.cs` — 184 baris, tap dash
-- Event statik: `OnDragDeltaPixels(float dxPx)`, `OnTap`. `OnSwipeDown` DIHAPUS total Plan B (tidak ada subscriber lain — compile bersih membuktikan).
-- Tuning: `tapMaxDistPx=20`, `tapMaxTime=0.25`. `Awake`: kalau `Screen.dpi>0` → `maxDist = max(20, dpi*0.12)` (~0.12 inch fisik, fix HP dpi tinggi ala bug #5).
-- `IsTap(dt, dist, maxTime, maxDist)` statik murni (dt≥0, dt≤maxTime, dist≤maxDist) — bisa di-unit-test tanpa scene/device. Cek UI di caller, bukan di sini.
-- `PointerState` per touchId + `MouseId=-100`. Mouse = desktop, Touchscreen = mobile. Multi-touch: jari 1 drag + jari 2 tap bersamaan.
-- `Began`: skip kalau `IsOverUI` (tap di atas tombol tidak dash). `Moved/Stationary`: invoke `dx` kalau >0.01 + tandai `movedFar` kalau jauh dari titik awal > maxDist. `Ended`/mouse-release: kalau `!movedFar` + `IsTap` → `OnTap`. `Canceled` → buang tanpa tap.
-- `IsOverUI`: `IsPointerOverGameObject()` / `(fingerId)`, try-catch agar tidak throw.
+### 3.5 `Core/PairJumpInput.cs` — 184 baris, tap dash (TETAP)
+- Event statik: `OnDragDeltaPixels`, `OnTap`. `OnSwipeDown` DIHAPUS total Plan B.
+- `tapMaxDistPx=20`, `tapMaxTime=0.25`. `Awake`: `dpi>0` → `max(20, dpi*0.12)`.
+- `IsTap(dt, dist, maxTime, maxDist)` statik murni (unit-testable). `PointerState` per touchId + `MouseId=-100`. `Began` skip `IsOverUI`. Multi-touch: drag + tap bersamaan.
 
-### 3.6 `Platform/Platform.cs` — 116 baris, TopY + animasi
-- `enum PlatformColor { Red, Blue, Green }`, `col.isTrigger=true` (dipaksa di `Awake` — prefab menyimpan false).
-- Plan A: `spawnId` + `OnSpawned(id)`, monoton, tidak di-reuse. Migrasi pool: panggil tiap ambil dari pool.
-- `TopY` = `y + halfHeightWorld` (`col.size.y/2 × lossyScale.y`, prefab 0.3) — permukaan dunia tahan ganti art, dipakai gate top-crossing (FIX apex).
-- Visual: `visualRenderer` (auto: yang punya sprite, child dulu). Animasi: `platformAnimator` (auto child) + `SetBool("isSolid", solid)` → klip `Solid` ↔ `Platform Not Solid` (loop 3 frame, swap sprite saja). Controller di-rebuild via API (transisi bawaan mati).
-- Tint: warna identitas platform, alpha SELALU 1 (sprite ghost pas tanpa fade). Hanya fallback prosedural tanpa Animator yang pakai alpha 0.25.
+### 3.6 `Platform/Platform.cs` — 203 baris, TopY + animasi + Boink
+- `enum PlatformColor { Red, Blue, Green }`, `col.isTrigger=true` (dipaksa di `Awake`).
+- `spawnId` + `OnSpawned(id)` monoton (tidak reuse — streak aman saat recycle). `PrepareForSpawn()` restore skala post-boink + `KillBoink()`.
+- `TopY` = `col.bounds.max.y` (tahan ganti art) — dipakai gate + snap.
+- Visual: `visualRenderer` auto (yang punya sprite, child dulu). `platformAnimator` auto child + `SetBool("isSolid")` → `Solid` ↔ `Platform Not Solid`. Tint identitas, alpha SELALU 1 (hanya fallback prosedural tanpa Animator yang pakai 0.25). `RefreshVisual(mode, dash, snap=false)` — `snap` pakai `Animator.Play` agar spawn/Awake tidak flash (fix visual biru-solid).
+- `Boink()` (DOTween, visual child saja — collider root tidak tersentuh): `boinkSquashX=1.25`, `boinkSquashY=0.55`, `in=0.07s`, `out=0.28s` + curves. `OnDisable` → `KillBoink()`.
+- `IsSolidFor`: dash → semua solid; normal → hijau selalu, merah/biru butuh mode cocok.
 - `OnTriggerEnter/Stay → TryLand`: delegasi penuh ke Player.
 
-### 3.7 `Core/Spawner.cs` — 219 baris, refleksi tepi
-Tuning scene: `prewarm=12`, `gapMinY=1.8`, `gapMaxY=2.4`, **`maxGapX=2.5`** (dulu 4 — scene + code disamakan), `greenBailoutEvery=5`, `edgeMargin=0.2`. `player` + `platformPrefab` ter-wire.
-- FIX tepi: `bound = max(1, halfW − halfWidth − margin)` (≈±1.9 di layar 9:16 — platform selalu full on-screen, dulu nongol 0.4). `halfWidth` dibaca dari collider prefab (1.375, tahan ganti art). `ReflectX(lastX, roll, bound)` pantul balik (bukan clamp yang 50% nempel + slam tiap ~8 spawn). Monte Carlo 500: edge-hit 0.6%, max run 1.
-- Art: `SpawnAt(x, y, color)` → Instantiate prefab (ukuran ikut art) atau fallback kotak + warning. Safety tambah-script + warning bila prefab lupa Platform.
-- Plan A: `nextSpawnId` → `OnSpawned` tiap spawn.
-- `Start`: lantai hijau + prewarm. `Update`: spawn guard 10/frame, destroy bawah kamera. Registry `live` sendiri.
-- `PickColor(y)`: `<30` hijau, `<80` hijau/merah 50/50, `<130` pola tutorial deterministik 12 langkah, `130+` 35/32/33 + bailout tiap 5 non-hijau. Zona/tutor TIDAK berubah oleh fix tepi.
-- Setiap spawn: `color` + `OnSpawned` + `RefreshVisual(mode)` → `live.Add`.
+### 3.7 `Core/Spawner.cs` — 398 baris, refleksi tepi + pooling
+Tuning scene: `prewarm=12`, `gapMinY=1.5`, `gapMaxY=2.4`, `maxGapX=2.5`, `greenBailoutEvery=5`, zona `greenOnlyUntilY=30`, `twoColorUntilY=60`, `tutorialUntilY=90`, `edgeFraction=0.15`, `maxEdgeStreak=2`, `prewarmPool=15`, `maxPoolSize=40`. `player` + `platformPrefab` ter-wire.
+- `bound = max(1, halfW − halfWidth − 0.2)` (platform full on-screen). `ReflectX(lastX, roll, bound)` pantul (bukan clamp). Anti-run tepi max 2x.
+- `OnValidate`: zona wajib menaik; `gapMaxY>2.55` warning (batas fisika lompat maks ~2.65).
+- `PickColor(y)`: `<30` hijau; `<60` hijau/merah 50/50; `<90` pola tutorial deterministik 12 langkah; `90+` 35/32/33 + bailout tiap 5 non-hijau.
+- Pooling Day 3: `Queue<Platform> pool`, `TotalCreated` (harus plateau) / `TotalSpawned` (naik terus), `CreatePlatformObject()` (prefab/fallback), `GetFromPool()` (skip hantu), `ReleaseToPool()` (nonaktif; overflow Destroy), `SpawnAt()` = ambil pool → `PrepareForSpawn()` → posisi → `OnSpawned(nextSpawnId++)` → `SetActive(true)` → `RefreshVisual(mode live, dash live, snap=true)` → `live.Add`. `Update`: spawn guard 10/frame, recycle di bawah kamera. `RefreshAllPlatformVisuals(mode, dash)` via registry `live` (no alloc, fix #2).
+- Fallback prosedural: kotak `2.2×0.4` + `MakeSquare` cache.
 
-### 3.8 `Core/CameraFollow.cs` — 55 baris, naik-only + death
-- `target=Player`, `deathBuffer=2.5` (sesuai GDD).
-- `highestY` + `startY`, `Height = max(0, highestY-startY)`. `LateUpdate`: kamera `y=highestY` (tidak pernah turun).
-- GameOver sekali (`gameOverSent`, reset via reload): jika `target.y < highestY-ortho-deathBuffer` → `SubmitHeight(Height)` + `UpdateState(GameOver)`.
+### 3.8 `Core/CameraFollow.cs` — 127 baris, Doodle GameOver
+Tuning scene: `target=Player/Ball Sprite`, `deathBuffer=1.0`, `gameOverAnchor=WorldspaceCanvas`, `panelOffset=8`, `fallSpeed=18.5`.
+- `Height = max(0, highestY-startY)` (tidak turun saat kamera turun).
+- `Playing`: naik-only + panel standby di `highestY - ortho*2 - panelOffset`.
+- Jatuh lewat `highestY-ortho-deathBuffer` → `fallStarted` → `UpdateState(Dying)` (score freeze).
+- `Dying`: panel STAY di `lockedPanelY`, kamera `MoveTowards` bola (`fallSpeed`) sampai sejajar → `SubmitHeight(Height)` → `UpdateState(GameOver)`.
+- Freeze total saat bukan Playing/Dying. `PositionAnchor` paksa `x=0`. Jangan paksa scale dari kode (sudah 0.01 di scene).
 
-### 3.9 `Core/FtueHints.cs` — 63 baris
-Bikin 3 Canvas world-space saat `Awake` (font `LegacyRuntime.ttf`, tanpa Raycaster agar tidak blokir input):
-- `HintMove` y=6 `"GESER KIRI-KANAN"`, `HintColor` y=36 `"INJAK YANG SENADA"`, `HintDash` y=86 `"TAP: DASH & GANTI WARNA"` (Plan B, dulu SWIPE BAWAH).
-- Teks cara main di `OverlayCanvas/MainMenuPanel/HowtoText` juga diganti ke `TAP: dash & ganti warna` (edit scene, sudah di-save).
-- `Update`: visible by `cam.y`: `<28`, `28-78`, `78-128`. Scale 0.005, size 1400x300.
+### 3.9 `Core/FtueHints.cs` — 133 baris
+Tuning scene: font `NanumPenScript-Regular`, `HintMoveY=6 "DRAG TO MOVE"`, `HintColorY=36 "STEP ON THE RIGHT COLOR"`, `HintDashY=66 "TAP TO SWITCH"`, tampil `move<28`, `color 28-78`, `dash 58-128`. Canvas world-space tanpa Raycaster (tidak blokir input), scale 0.005, size 1400x300.
+- `OnValidate` + `RepositionLiveHints()`: cegah rentang terbalik + posisi di luar rentang.
+- `Update`: hide total saat `Dying/GameOver` (kamera turun = hint lama bisa nongol lagi).
 
-### 3.10 `UI/UIManager.cs` — 179 baris
-Referensi sudah ter-wire semua di inspector (MainMenu/Pause/GameOver panel, PauseButton, 8 Text).
-- `OnEnable`: subscribe `OnStateChanged` + `OnStreakChanged` + `WireButtons()`. **Wiring wajib di OnEnable, bukan builder** — listener runtime tidak tersimpan di scene file (penyebab PlayButton mati Day 2).
-- `WireButtons`: cari `OverlayCanvas` (selalu aktif) → `GetComponentsInChildren<Button>(true)` → switch nama (Play/Pause/Resume/PauseRestart/PauseMenu/Retry/GOMenu/Mute). `Find` per tombol dilarang — buta terhadap inactive. `Rewire` = remove-then-add (idempoten).
-- `Update`: hanya saat Playing → `SubmitHeight(camFollow.Height)` + `heightText "Nm"` + `liveBest "Best: Nm"`.
-- `HandleStreak`: `"xN COMBO!"` atau kosong. `HandleState`: show/hide 4 elemen + isi GameOver (final/best/NewBest jika `IsNewBest && h>0.5`) + MainMenu best.
-- Tombol: Play/Resume→Playing, Pause→Paused, Restart→`GameManager.Retry()`, Menu→`ToMenu()`, Mute→toggle `pairjump_mute` + label `SUARA: ON/OFF` (stub — AudioManager Day 3).
+### 3.10 `UI/UIManager.cs` — 219 baris
+Semua ter-wire (lihat tabel): panel MainMenu/Pause (Overlay) + GameOver (Worldspace) + PauseButton; teks Height/LiveBest/MenuBest/FinalHeight/FinalBest/NewBest; `muteIcon=Sound Image` + `soundOn/OffSprite` wired; `muteText` LEGACY dikosongkan.
+- `Btn` consts (fix #1, SSOT-D): Play/Pause/Resume/PauseRestart/PauseMenu/Retry/GOMenu/Mute.
+- `OnEnable`: subscribe `OnStateChanged` + `WireButtons()` (idempoten remove-then-add). `WireButtons` sisir DUA canvas (Overlay + Worldspace) via `GetComponentsInChildren<Button>(true)` — JANGAN `Find` (buta inactive).
+- `Update`: hanya saat Playing → `SubmitHeight(Height)` + `heightText "Nm"` + `liveBest`.
+- `HandleState`: MainMenu/Pause/GameOver show-hide + isi skor dunia (final/best/NewBest jika `IsNewBest && h>0.5`) + best menu. `gameOverPanel` tidak di-SetActive dari kode (panel dunia standby di bawah kamera).
+- Tombol: Play/Resume→Playing, Pause→Paused, Restart→`Retry()`, Menu→`ToMenu()`, Mute→toggle `MuteKey` + `RefreshMuteVisual()` (ikon, bukan teks).
+- Streak TIDAK di sini lagi — pindah ke `ComboFxText` (single responsibility).
 
-### 3.11 `UI/SafeAreaPad.cs` — 120 baris, anchor-aware
-Notch/punch-hole handler, anchor-aware (fix bug simulator 12 Sep).
-- Bug lama: inset diterapkan ke `offsetMin` SEKALIGUS `offsetMax` di semua sumbu. Keempat HUD (Height/LiveBest/Streak/PauseButton) anchor-nya single-point (min==max) → size dimakan dua sisi sampai INVERSI. Bukti: LiveBest 800×70 di Punch Hole Left jadi height −53.19 (`70−2×61.6=−53.2` ✅ persis) + posY −210.6→−272. PauseButton (lebar 166.6, anchor kanan-atas) punya bug laten sama dari inset kiri — ketutup karena inactive di MainMenu.
-- Aturan baru `ComputePad` murni (static, unit-testable): sumbu stretch (0..1) → pad offset + clamp; sumbu single-point → size UTUH, `anchoredPosition` digeser menjauhi tepi (top→turun, dst.); center diam; partial → hanya sisi nempel tepi. Clamp + warning bila inset melebihi ruang (tak pernah inversi). Idempoten + no-op bila inset nol. Portrait-lock: rotate diabaikan.
-- Unit test 6/6 PASS (replay angka bug: size 800×70 utuh, maxY −237.2). Terpasang di: PauseButton, HeightText, LiveBestText, StreakText. Verifikasi visual simulator oleh King (MCP tak bisa buka Device Simulator).
+### 3.11 `UI/SafeAreaPad.cs` — 121 baris, anchor-aware (TETAP)
+`ComputePad` statik murni (unit-testable): stretch → pad offset + clamp; single-point → size UTUH + geser `anchoredPosition`; center diam; partial → sisi nempel saja. Idempoten + no-op bila inset nol. Terpasang di: PauseButton, HeightText, LiveBestText, StreakText.
+
+### 3.12 `Player/PlayerSfx.cs` — 78 baris (BARU vs TDD 12 Sep)
+- List inspector: `landGreen/landRed/landBlue`, `splash`. Scene: `landVolume=1`, `splashVolume=1` (list clip belum dibaca — null-safe).
+- `PlayLand(color)` pilih list per warna; `PlaySplash()` tiap ganti mode (dipanggil `PlayerSplashBurst`).
+- `Pick`: acak tanpa pengulangan langsung, slot null dilewati. `Play`: hormati `MuteKey`, `pitch=1` (piano — variasi murni dari list, tanpa pitch shift), `PlayOneShot`.
+
+### 3.13 `Player/PlayerSplashBurst.cs` — 51 baris (BARU)
+Juice tiap toggle: listen `OnModeChanged` (hanya fire dari cabang dash → otomatis dash-only) → tint `startColor` mode BARU (`redBurst/blueBurst`) → `Stop+Clear` → `Play()` → `sfx.PlaySplash()`. Refs auto: `player`, `splash` (child ParticleSystem, tahan rename), `sfx`.
+
+### 3.14 `Player/PlayerSquashStretch.cs` — 148 baris (BARU)
+Juice bola (DOTween, visual `Ball Sprite` saja — collider root tidak tersentuh). Scene: `visual=Ball Sprite`, `rb=Player`, `player=Player`, `velocityReference=12.5`, `maxStretchBonus=0.6`, `smoothSpeed=12`, `landSquashDuration=0.08`, `landRecoverDuration=0.22`, `maxSquashX=1.5`, `minSquashY=0.5`, `normalLandStrength=0.6` + curves.
+- `Update`: velocity stretch vertikal (`|vy|/ref` via curve + preserve volume `sx=1/sy` + clamp) — jalan saat Playing/Dying, balik base di luar itu.
+- `OnLanded(wasDash)`: squash horizontal (dash 100%, normal 60%) via Sequence + `KillSquash()` di `OnDisable`/ganti state.
+
+### 3.15 `UI/ComboFxText.cs` — 168 baris (BARU)
+Floating combo (`StreakText`): follow `Player` + `worldOffset (0,1.4,0)` via WorldToScreen → canvas local tiap `LateUpdate` (Overlay canvas, anchor wajib center 0.5).
+- `n>0`: snap ke atas bola → punch-scale (`idleScale=1` → `growScale=1.35`, `grow 0.15s OutBack` → `settle 0.25s`) + teks `xN`.
+- `n==0` (hanya bila sebelumnya kelihatan): fade + drop 60px (`0.4s`) → sembunyi. Semua parameter inspector-driven.
 
 ## 4. Alur Data & Event
 
 ```
-Touch/Mouse → PairJumpInput (dx px drag / tap) → PlayerController (queue drag, dash jika canDash)
+Touch/Mouse → PairJumpInput (dx px / OnTap) → PlayerController (queue drag, dash jika canDash)
 Platform trigger → PlayerController.TryLand → IsSolidFor? → toggle mode?
-  → OnModeChanged → RefreshAllPlatforms + UpdateColor
-  → OnDashChanged / OnStreakChanged → UIManager
-CameraFollow.Height → UIManager.Update → GameManager.SubmitHeight → Best
-CameraFollow jatuh → GameManager.UpdateState(GameOver) → UIManager.HandleState (streak reset)
-Tombol → UIManager → GameManager.UpdateState / Retry / ToMenu (reload scene)
+  → OnModeChanged → RefreshAllPlatformVisuals (registry live) + UpdateColor + SplashBurst
+  → OnDashChanged → refresh visual
+  → OnStreakChanged → ComboFxText (follow bola)
+  → OnLanded(wasDash) → SquashStretch + Boink + Sfx
+CameraFollow.Height → UIManager.Update (Playing saja) → GameManager.SubmitHeight → Best
+CameraFollow jatuh → Dying (freeze skor) → kamera susul bola → GameOver → UIManager isi teks dunia
+Spawner pool: Create → live → ReleaseToPool → GetFromPool (spawnId monoton, tidak reuse)
+Tombol → UIManager (2 canvas) → GameManager.UpdateState / Retry / ToMenu (reload scene)
 ```
 
-Mermaid (update Plan B — swipe → tap):
 ```mermaid
 graph TD
-  InputManager -->|Drag| PlayerController
-  InputManager -->|Tap| PlayerController
+  InputManager -->|Drag/Tap| PlayerController
   PlayerController -->|IsDashing?| Platform
   Platform -->|OnLanded Toggle| PlayerModeFSM[Red/Blue]
   PlayerModeFSM -->|OnModeChanged| Platform
+  PlayerModeFSM -->|OnModeChanged| SplashBurst
+  PlayerController -->|OnLanded| SquashStretch
   PlayerController -->|Height via Camera| GameManager
-  Spawner -->|Spawn + spawnId| Platform
-  Platform -->|spawnId beda/sama| PlayerController
+  Spawner -->|pool + spawnId| Platform
+  CameraFollow -->|Dying/GameOver| GameManager
+  GameManager -->|OnStateChanged| UIManager
 ```
 
 ## 5. Pattern & Skill Vault Terkait
 
-- ✅ Simple FSM Enum (`GameState`, `PlayerMode`) — [[Simple FSM Berbasis Enum (Game State Prototyping)]]
-- ✅ Centralized State Manager + SSOT (`GameManager` satu-satunya pemilik state/best) — [[Centralized State Manager (GameManager Singleton & Event)]] + [[Single Source of Truth (SSOT)]]
-- ✅ Observer (`OnStateChanged`, `OnModeChanged`, `OnDashChanged`, `OnStreakChanged`) — [[Observer Pattern Events]]
-- ✅ FTUE zonasi + hint in-world — [[Tutorial Level Building Blocks]] + [[Framework Kihon-Kata-Kumite (Learning Curve & Encounter Design)]]
-- ⚠️ Object Pooling **belum**: `Spawner` masih `Destroy` + `new GameObject` + `MakeSquare` cache. GDD minta pool ~20. Tech debt Day 3 kalau GC spike di HP (prioritas rendah untuk jam — alokasi hanya saat spawn, bukan per-frame).
+- ✅ Simple FSM Enum (`GameState` 5 state, `PlayerMode`) — [[Simple FSM Berbasis Enum (Game State Prototyping)]]
+- ✅ Centralized State Manager + SSOT (`GameManager` satu-satunya pemilik state/best; `MuteKey`, `Btn` consts) — [[Centralized State Manager (GameManager Singleton & Event)]] + [[Single Source of Truth (SSOT)]]
+- ✅ Observer (`OnStateChanged`, `OnModeChanged`, `OnDashChanged`, `OnStreakChanged`, `OnLanded`) — [[Observer Pattern Events]]
+- ✅ Object Pooling (`Spawner` queue + `PrepareForSpawn`, `TotalCreated/TotalSpawned`) — SELESAI Day 3 (dulu tech debt)
+- ✅ FTUE zonasi + hint in-world (inspector-driven, sinkron Spawner) — [[Tutorial Level Building Blocks]] + [[Framework Kihon-Kata-Kumite (Learning Curve & Encounter Design)]]
 
 ---
 
-## 6. Tech Debt & Risiko Day 3 (dari kode aktual)
+## 6. Tech Debt & Risiko (update 14 Sep)
 
-1. SELESAI (diganti): `maxGapX` disamakan 2.5 (scene + code) + spawn refleksi anti-tepi. Uji HP: pastikan feel gap baru + tutorial 80–130 tetap 1-toggle/lompatan.
-2. `WorldspaceCanvas/GameOverPanel` nganggur — hapus atau abaikan biar tidak bingung.
-3. `applicationIdentifier` masih `com.DefaultCompany` — ganti sebelum submit (catatan Blok F).
-4. Audio: `MuteButton` cuma flag. Butuh `AudioManager` + pool `AudioSource` + 5 SFX + BGM loop ogg (lihat checklist Day 3 di [[Projects/Ball Jumper/Ball Jumper]]).
-5. Visual sisa: player masih kotak/bulat polos (bulat + mata + squash-stretch next). Platform sudah art prefab + anim. Palette tetap `#FF6B6B/#4D96FF/#7BF59B/#1A1C2C`.
-6. Jangan edit code saat Play nyala + selalu `Assets/Refresh` habis edit (aturan tetap Blok F — file watcher skip = assembly basi).
-7. Plan B balance: tap + slam -2 + 1 dash/lompatan — zona tutorial 80-130 observasi ulang, retune bila terlalu gampang. Tes HP: misinput drag-vs-tap + multitouch.
-8. Selesai 12 Sep: streak ✅, tap dash ✅, spawn prefab + tint ✅, animasi `isSolid` ✅, apex konsisten (gate top-crossing + snap) ✅, spawn refleksi ✅ (tes ALL PASS, smoke Play bersih).
-9. Temuan audit prefab + controller: collider `isTrigger=false` di file (dipaksa `Awake`); SpriteRenderer kosong di root (harmless); posisi root leftover; collider ≈ visual (pas). Controller transisi bawaan mati → rebuild via API (verified 2 arah). Kalau King edit transisi di Animator window, tes ulang 2 arah.
-10. Snap landing (≤0.5 unit) + toleransi 0.1: awasi pop visual saat dash jatuh kencang di HP — kalau kelihatan, kecilkan `landSnapEps`, jangan hapus snap (itu penjamin apex).
+1. SELESAI: pooling ✅, Doodle GameOver ✅, refresh registry ✅, Btn consts ✅, MuteKey SSOT ✅, sole-writer teks dunia ✅, juice (squash/splash/combo/boink/sfx) ✅, font NanumPen ✅, ikon mute ✅.
+2. SISA / AWASI:
+   - `CameraFollow` scene (`deathBuffer=1.0`, `panelOffset=8`, `fallSpeed=18.5`) beda jauh dari default kode (2.5/3/12) — JANGAN revert tanpa feel-test King. Zona Spawner scene (`30/60/90`, `edgeFraction=0.15`) juga beda dari default kode (30/60/90 sama, tapi edge default kode 0.75) — scene yang menang.
+   - `PlayerController.landTol` scene 0.5 (TDD lama 0.1) — penjamin apex + snap; awasi pop visual saat dash kencang, kecilkan `landSnapEps` dulu jangan hapus snap.
+   - `applicationIdentifier` masih `com.DefaultCompany` — ganti sebelum submit.
+   - BGM loop belum terverifikasi di TDD ini (cek `Audio/` + `PlayerSfx` clip wiring bila perlu).
+   - Jangan edit code saat Play nyala + selalu Refresh habis edit (aturan anti assembly-basi).
+   - Kalau King edit transisi Animator manual, tes ulang 2 arah (transisi di-rebuild via API).
 
 ## 7. Verifikasi Kebenaran Dokumen Ini
 
-- Semua path + angka tuning dibaca via `unity_script_read` + `unity_component_get_properties` 12 Sep 2026. Prefab + controller + klip dibaca via YAML langsung. Fisika: ortho 8, radius bola 0.45, damping 0.
-- Hierarchy via `unity_scene_hierarchy` (46 objek) + `unity_scene_stats`.
-- Plan A: ALL PASS (beda +1, sama → 0, debounce, pause keep, GameOver/MainMenu → 0, pool-reuse beda).
-- Plan B: `IsTap` 5/5, dash naik + slam, 1/lompatan, strict pause, regresi streak — ALL PASS; smoke Play bersih, compile 0 error.
-- Prefab + animasi: 13/13 prefab ✅; transisi rebuild → 2 arah ✅; `RefreshVisual` round-trip (ghost + tint + alpha 1, balik solid) ✅.
-- FIX apex: `ShouldLand` 4/5 murni PASS (1 batas-presisi float diganti kasus jelas — by design, bukan bug) + `ReflectX` 6/6 PASS. `TryLand` live: side-deep DITOLAK (streak/vy utuh) ✅, shallow + diagonal SAMA-SAMA snap 0.77 + vy 12.5 ✅ (apex disatukan by construction). Smoke Play: bola bounce hidup.
-- FIX tepi: Monte Carlo 500 langkah — edge-hit 0.6% (dulu ~25%+), max run 1 (screenshot lama: 6+ beruntun). Play: 13 platform, max|x| 0.95, overhang ≤ 0 (full on-screen). Scene di-save (maxGapX 2.5 persist).
-- Tidak ada tebakan: kalau ragu, cek ulang via MCP sebelum ubah kode.
+- Dibaca 14 Sep 2026 via `unity_asset_list` (21 aset, 15 MonoScript), `unity_script_read` 15/15, `unity_component_get_properties` (Spawner, PlayerController, CameraFollow, PairJumpInput, FtueHints, Rigidbody2D, UIManager, PlayerSfx, PlayerSquashStretch), `unity_scene_hierarchy` (48 objek) + `unity_scene_stats` (48/169).
+- Semua angka tuning di §1/§3 adalah nilai SCENE (inspector), bukan default kode — bila beda, scene yang menang dan dicatat eksplisit.
+- Tidak ada tebakan: `pairjump_best/mute`, `_PairJump`, `PairJumpInput` dipertahankan sebagai identifier legacy (project display `Ball Jumper`).
