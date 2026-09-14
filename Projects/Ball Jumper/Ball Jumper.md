@@ -6,8 +6,8 @@
 
 ## 📋 Dokumen Proyek
 
-- [[GDD - Pair Jump]] — GDD mini v2.1 toggle bebas: drag move + wrap, swipe-down dash toggle, auto-jump, spawner solvable, arsitektur FSM + Observer + Pooling.
-- [[Projects/Ideas/Pair Jump/Pair Jump|Ide Awal]] — Konsep awal dari Ideas (tap-swap → dash convert evolution).
+- [[GDD - Ball Jumper]] — GDD mini v2.1 toggle bebas: drag move + wrap, swipe-down dash toggle, auto-jump, spawner solvable, arsitektur FSM + Observer + Pooling.
+- [[Projects/Ideas/Ball Jumper/Ball Jumper|Ide Awal]] — Konsep awal dari Ideas (tap-swap → dash convert evolution).
 
 ---
 
@@ -33,7 +33,7 @@
 
 | Info | Detail |
 |------|--------|
-| **Nama** | Pair Jump |
+| **Nama** | Ball Jumper (sebelumnya Pair Jump) |
 | **Event** | Gamejam Internal GT 2026 — Tema Unexpected Pair |
 | **Genre** | 2D Hyper-casual Vertical Platformer (Score-attack) |
 | **Platform** | Mobile Android Portrait (primary), PC build submit |
@@ -57,7 +57,7 @@ Fokus: input + fisika, no menu, no cantik.
 
 ###### DAY 2 — 12 Sep: Core Loop + Main Menu jadi game utuh
 - [x] Game states: MainMenu → Play → Pause → GameOver → Retry 1 tap (GameManager singleton + best PlayerPrefs)
-- [x] Main Menu: Judul Pair Jump, tombol Play gede, best height, mute toggle, cara main 3 ikon (geser / swipe bawah / hindari jatuh)
+- [x] Main Menu: Judul Ball Jumper, tombol Play gede, best height, mute toggle, cara main 3 ikon (geser / swipe bawah / hindari jatuh)
 - [x] Spawner solvable: 0-30m hijau doang, 30-80 Red+Hijau, 80-130 tutorial dash, 130+ campur wajib toggle. Ghost lawan 25%
 - [x] FTUE hint in-world: GESER, SWIPE BAWAH, panah. Gagal FTUE respawn di platform terakhir
 - [x] Score height (m) + best + toggle streak. Pause tombol kanan-atas

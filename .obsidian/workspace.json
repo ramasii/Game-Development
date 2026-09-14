@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Projects/Pair Jump/Pair Jump.md",
+                "file": "Projects/Ball Jumper/Ball Jumper.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Pair Jump"
+              "title": "Ball Jumper"
             }
           }
         ]
@@ -217,11 +217,14 @@
   },
   "active": "21ff75caf44fc2d0",
   "lastOpenFiles": [
+    "Projects/Ball Jumper/TDD - Ball Jumper.md",
+    "Projects/Ideas/Ball Jumper",
+    "Projects/Ball Jumper",
     "Projects/Pair Jump/TDD - Pair Jump.md",
-    "Projects/Pair Jump/Pair Jump.md",
+    "Projects/Ball Jumper/Ball Jumper.md",
     "Skills/03-Game-Architecture/Simple FSM Berbasis Enum (Game State Prototyping).md",
-    "Projects/Pair Jump/GDD - Pair Jump.md",
-    "Projects/Ideas/Pair Jump/Pair Jump.md",
+    "Projects/Ball Jumper/GDD - Ball Jumper.md",
+    "Projects/Ideas/Ball Jumper/Ball Jumper.md",
     "Projects/Pair Jump",
     "Projects/Projects.md",
     "Projects/Ideas/Pair Jump",
@@ -248,12 +251,9 @@
     "Projects/Rama's TD/Ideas/Router di Game _Mindustry_ (Sistem Distribusi 1x1 Terpusat).md",
     "Projects/Rama's TD/Ideas",
     "Skills/02-Economy-and-Balancing/Map Resource Flows.md",
-    "Skills/02-Economy-and-Balancing/Model Progress Curves.md",
     "Projects/Rama's TD",
     "Books/Chord Relationships and Emotion.pdf",
     "Skills/07-Audio-and-Music",
-    "Books/An Architectural Approach to Level Design.pdf",
-    "Images",
     "Skills/Game Balance/references/images/chapter5.png",
     "Skills/Game Balance/references/images/chapter3.png",
     "Skills/Game Balance/references/images/chapter2.png",

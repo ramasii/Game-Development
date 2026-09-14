@@ -21,9 +21,9 @@ Setiap konsep ide harus mencakup:
 > 
 > Konsep game aksi 2D dengan fokus pada arsitektur data modular (SSOT & Decoupling) dan performa tinggi (Object Pooling). Level awal dirancang dengan metode Kishōtenketsu untuk mengajarkan mekanik dasar secara intuitif.
 
-##### 🎮 [[Projects/Ideas/Pair Jump/Pair Jump|Pair Jump]] — GT Jam Internal 2026
+##### 🎮 [[Projects/Ideas/Ball Jumper/Ball Jumper|Ball Jumper]] — GT Jam Internal 2026
 > **Genre:** 2D Hyper-casual Vertical Platformer
 >
 > Red & Blue terjebak 1 badan. Drag untuk gerak + wrap, swipe-down dash toggle, auto-jump. Naik setinggi-tingginya. Unexpected Pair + mobile 1 jari.
 >
-> 🚀 **Dipromosikan menjadi proyek aktif:** [[Projects/Pair Jump/Pair Jump|Pair Jump]] — GDD aktif di [[Projects/Pair Jump/GDD - Pair Jump|GDD - Pair Jump]]
+> 🚀 **Dipromosikan menjadi proyek aktif:** [[Projects/Ball Jumper/Ball Jumper|Ball Jumper]] — GDD aktif di [[GDD - Ball Jumper|GDD - Ball Jumper]]
