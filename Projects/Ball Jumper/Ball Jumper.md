@@ -7,6 +7,8 @@
 ## 📋 Dokumen Proyek
 
 - [[GDD - Ball Jumper]] — GDD mini v2.1 toggle bebas: drag move + wrap, swipe-down dash toggle, auto-jump, spawner solvable, arsitektur FSM + Observer + Pooling.
+- [[TDD - Ball Jumper]] — TDD Day 3 sinkron engine 14 Sep 2026 (15 script, pooling, Doodle GameOver, juice).
+- [[Post Gamejam - Ball Jumper]] — Cerita pasca-jam: tim icikiwir top 2/20, 2 bug web, feedback + 6 fitur usulan + progresi tier.
 - [[Projects/Ideas/Ball Jumper/Ball Jumper|Ide Awal]] — Konsep awal dari Ideas (tap-swap → dash convert evolution).
 
 ---
