@@ -26,4 +26,4 @@ Setiap konsep ide harus mencakup:
 >
 > Red & Blue terjebak 1 badan. Drag untuk gerak + wrap, swipe-down dash toggle, auto-jump. Naik setinggi-tingginya. Unexpected Pair + mobile 1 jari.
 >
-> 🚀 **Dipromosikan menjadi proyek aktif:** [[Projects/Ball Jumper/Ball Jumper|Ball Jumper]] — GDD aktif di [[GDD - Ball Jumper|GDD - Ball Jumper]]
+> ✅ **Selesai (GT Jam Internal 2026):** [[Projects/Ball Jumper/Ball Jumper|Ball Jumper]] — GDD di [[GDD - Ball Jumper|GDD - Ball Jumper]] • TDD di [[TDD - Ball Jumper|TDD - Ball Jumper]]

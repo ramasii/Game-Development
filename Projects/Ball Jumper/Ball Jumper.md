@@ -39,7 +39,7 @@
 | **Platform** | Mobile Android Portrait (primary), PC build submit |
 | **Engine** | Unity 6 |
 | **Tim** | Solo Dev (Rama - Programmer) |
-| **Status** | 🔧 Aktif — Jam Day 1-3 |
+| **Status** | ✅ Selesai — GT Jam Internal 2026 |
 | **Kontrol Locked** | Drag = gerak + wrap, Swipe-down = dash toggle, Button = pause |
 
 ### 🚦 Progress Jam
@@ -81,6 +81,8 @@ Fokus: input + fisika, no menu, no cantik.
 - [ ] Rekam 30 detik gameplay buat halaman jam
 
 Prioritas potong: BGM > partikel > streak > skin. Jangan potong buffer kamera + tutorial dash.
+
+> ✅ **Selesai GT Jam Internal 2026** — sisa opsional pasca-jam: BGM loop + video gameplay 30 detik.
 
 ## 🐞 Bug Log — Day 1 (11 Sep 2026)
 

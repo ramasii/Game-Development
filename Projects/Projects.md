@@ -34,7 +34,9 @@ Halaman ini adalah **indeks semua proyek aktif dan arsip** yang sedang atau pern
 | **Status** | 🔧 Aktif — PBL Kuliah |
 | **Dokumen** | [[Projects/Solve Together/GDD - Solve Together\|GDD]] • [[Projects/Solve Together/Timeline\|Timeline]] • [[Projects/Solve Together/PBL Brief - NGO\|PBL Brief]] |
 
-###### 🎮 [[Projects/Ball Jumper/Ball Jumper|Ball Jumper]] — 🔧 Aktif - GT Jam 2026
+## 📦 Arsip Proyek
+
+### 🎮 [[Projects/Ball Jumper/Ball Jumper|Ball Jumper]] — ✅ Selesai
 > *2D Hyper-casual Vertical Platformer — Red & Blue 1 badan, swipe-down dash toggle — **Gamejam Internal GT 2026, Unexpected Pair** *
 
 | Info | Detail |
@@ -44,10 +46,8 @@ Halaman ini adalah **indeks semua proyek aktif dan arsip** yang sedang atau pern
 | **Platform** | Mobile Portrait |
 | **Engine** | Unity 6 |
 | **Tim** | Solo Dev |
-| **Status** | 🔧 Aktif — Jam sampai 13 Sep 2026 |
-| **Dokumen** | [[GDD - Ball Jumper\|GDD]] • [[Projects/Ball Jumper/Ball Jumper\|Hub]] |
-
-## 📦 Arsip Proyek
+| **Status** | ✅ Selesai — GT Jam Internal 2026 |
+| **Dokumen** | [[GDD - Ball Jumper\|GDD]] • [[Projects/Ball Jumper/Ball Jumper\|Hub]] • [[TDD - Ball Jumper\|TDD]] |
 
 ### 🎮 [[Projects/IFEST 2026/IFEST 2026|IFEST 2026 — Dukun Chain Reaction]] — ✅ Selesai
 > *Crafting Puzzle Chain Reaction — dukun urban meracik ramuan sesajen berurutan untuk penuhi pesanan customer*

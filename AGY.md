@@ -42,9 +42,9 @@ Berpengalaman dalam membuat game 2D & 3D secara tim serta aktif berpartisipasi d
 **Proyek Aktif:**
 - 🔧 **Rama's TD** — ManaForge: Overdrive (Roguelite Factory Defense, Unity 6, Solo Dev) — Aktif kembali setelah IFEST selesai — [[Projects/Rama's TD/Rama's TD|Lihat Detail]]
 - 🔧 **Solve Together** — Co-op Puzzle 2D Side Scroller (Unity 6 + NGO, PBL Kuliah Kelompok 4, Rama sebagai Programmer) — [[Projects/Solve Together/Solve Together|Lihat Detail]]
-- 🔧 **Ball Jumper** — 2D Vertical Platformer Hyper-casual (GT Jam Internal 2026, Unexpected Pair, Solo Dev, swipe-down dash toggle) — [[Projects/Ball Jumper/Ball Jumper|Lihat Detail]] (sebelumnya Pair Jump)
 
 **Proyek Selesai:**
+- ✅ **Ball Jumper** — 2D Vertical Platformer Hyper-casual (GT Jam Internal 2026, Unexpected Pair, Solo Dev) — Selesai — [[Projects/Ball Jumper/Ball Jumper|Lihat Detail]] (sebelumnya Pair Jump)
 - ✅ **Gameseed 2026** — TTT: Never Late Go to School (3D Platformer Parkour, Cel-shaded, Unity 6)
 - ✅ **IFEST 2026 — Dukun Chain Reaction** — Crafting Puzzle Chain Reaction (Dukun Urban Nusantara Modern, Unity 6, Team IFEST) — Submitted 04 Sep 2026 — [[Projects/IFEST 2026/IFEST 2026|Lihat Detail]]
 
