@@ -1,4 +1,4 @@
-# 🎮 Pair Jump — GDD Mini (GT Jam Internal 2026) v2 Dash Convert
+# 🎮 Ball Jumper — GDD Mini (GT Jam Internal 2026) v2 Dash Convert
 
 > Jam 3 hari (sampai 13 Sep 2026) | Solo Dev | Unity 6 | Mobile Portrait | Revisi: Poinpy-style
 

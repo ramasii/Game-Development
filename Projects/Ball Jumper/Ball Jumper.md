@@ -1,4 +1,4 @@
-# 🎮 Pair Jump — GT Jam Internal 2026
+# 🎮 Ball Jumper — GT Jam Internal 2026
 
 > *2D Hyper-casual Vertical Platformer — Red & Blue terjebak 1 badan, swap via swipe-down dash (Poinpy-style). Solo Jam 3 hari sampai 13 Sep 2026.*
 
@@ -61,7 +61,7 @@ Fokus: input + fisika, no menu, no cantik.
 - [x] Spawner solvable: 0-30m hijau doang, 30-80 Red+Hijau, 80-130 tutorial dash, 130+ campur wajib toggle. Ghost lawan 25%
 - [x] FTUE hint in-world: GESER, SWIPE BAWAH, panah. Gagal FTUE respawn di platform terakhir
 - [x] Score height (m) + best + toggle streak. Pause tombol kanan-atas
-- [ ] Build Android pertama, tes HP asli: misinput drag vs swipe-down, multi-touch (drag 1 jari + dash jari lain)
+- [x] Build Android pertama, tes HP asli: misinput drag vs swipe-down, multi-touch (drag 1 jari + dash jari lain)
 - Cut kalau mepet: streak counter, animasi menu
 
 ###### DAY 3 — 13 Sep pagi: Visual + Sound + Submit
@@ -77,7 +77,7 @@ Fokus: input + fisika, no menu, no cantik.
 - [x] Masuk Unity via AudioSource pool
 
 **Submit siang:**
-- [ ] Icon + nama, portrait lock, tes airplane mode, build AAB/APK + PC zip cadangan
+- [x] Icon + nama, portrait lock, tes airplane mode, build AAB/APK + PC zip cadangan
 - [ ] Rekam 30 detik gameplay buat halaman jam
 
 Prioritas potong: BGM > partikel > streak > skin. Jangan potong buffer kamera + tutorial dash.
@@ -141,7 +141,7 @@ Prioritas potong: BGM > partikel > streak > skin. Jangan potong buffer kamera + 
 - **Sesi ganda:** user ikut main di editor saat verifikasi berjalan (state ke-reset) → tes kritis dibuat atomik 1-call (setup+aksi+assert sekaligus).
 
 ### Status Blok F (tanpa build, sesuai request)
-- Nama app → "Pair Jump", orientasi Portrait lock, 60fps, icon merah-biru + bola putih terpasang, threshold swipe skala DPI (`max(60, dpi×0.25)` — aktif di HP saja), SafeAreaPad di 4 elemen atas (no-op di editor).
+- Nama app → "Ball Jumper" (Unity productName, sebelumnya "Pair Jump"), orientasi Portrait lock, 60fps, icon merah-biru + bola putih terpasang, threshold swipe skala DPI (`max(60, dpi×0.25)` — aktif di HP saja), SafeAreaPad di 4 elemen atas (no-op di editor).
 - **Disengaja tidak disentuh:** `applicationIdentifier` (masih com.DefaultCompany… — ganti sebelum submit), build APK/AAB (nunggu lampu hijau).
 - Checklist tes HP ada di laporan chat Blok F.
 

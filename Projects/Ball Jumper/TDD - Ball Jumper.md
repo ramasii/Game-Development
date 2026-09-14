@@ -1,4 +1,4 @@
-# 💻 TDD - Pair Jump (Technical Design Document)
+# 💻 TDD - Ball Jumper (Technical Design Document)
 
 > *Sumber kebenaran teknis per 12 Sep 2026 — dibaca langsung dari engine via MCP Unity (port 7891), bukan tebakan. Hub: [[Projects/Ball Jumper/Ball Jumper]] | GDD: [[GDD - Ball Jumper]]*
 > *Project: `C:/Users/Paganisium/Documents/Projects/Unity/Gamejam Internal GT 2026` | Unity `6000.6.0f1` | Scene: `SampleScene`*

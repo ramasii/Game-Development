@@ -1,4 +1,4 @@
-# 🎮 GDD - Pair Jump (GT Jam Internal 2026) v2.1 Toggle Bebas
+# 🎮 GDD - Ball Jumper (GT Jam Internal 2026) v2.1 Toggle Bebas
 
 > Jam 3 hari (sampai 13 Sep 2026) | Solo Dev | Unity 6 | Mobile Portrait | Revisi: Poinpy-style, toggle tidak ikut warna platform
 > Sumber ide: [[Projects/Ideas/Ball Jumper/Ball Jumper|Ide Awal]] | Hub: [[Projects/Ball Jumper/Ball Jumper]]
