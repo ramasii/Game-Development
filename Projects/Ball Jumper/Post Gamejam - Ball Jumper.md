@@ -36,3 +36,13 @@ Kalo dari aku sendiri, game ini butuh progresi selama bermain.
 4. Kunci portrait di WebGL template (canvas 9:16 + pillarbox) + `CanvasScaler` match → width — biar rasio/UI web desktop = rasa HP.
 5. Test matrix: Chrome desktop 16:9/4:3, Chrome Android, Safari iOS.
 6. Scope SFX hilang (jump/dash/UI-click/gameover belum ada clip) — putuskan bikin baru atau resmi cuma land+splash.
+
+### ✅ Web profile — diterapin King (14 Sep 2026, verif via MCP)
+- `defaultWebScreen` 960x600 (landscape) → **540x960 (portrait)** ✅ — sejalan sama game 1080x1920
+- Template masih Default, `runInBackground` masih False — disengaja / susulan
+- Bundle ID aktual `com.Paganisium.BallJumper` (bukan DefaultCompany), product `Ball Jumper` ✅
+
+### ✅ Build WebGL v2.1 — dibuild King, verif file 14 Sep 2026
+- Lokasi `Build/WebGL/`: `index.html` + `Build/` (loader, data, framework, wasm — Brotli `.br`) + `TemplateData/` + zip v2.1 & lama
+- `index.html`: canvas **540x960 portrait** ✅, desktop fixed 540x960, mobile fullscreen + viewport meta ✅, title + productVersion 2.1 ✅
+- Catatan hosting: file `.br` butuh server yang serve Brotli (itch.io OK; hosting lain cek dulu, kalau 404/decompress error → rebuild tanpa compression atau pakai `.gz`/fallback)

@@ -198,11 +198,11 @@ graph TD
 
 ## 6. Tech Debt & Risiko (update 14 Sep)
 
-1. SELESAI: pooling ✅, Doodle GameOver ✅, refresh registry ✅, Btn consts ✅, MuteKey SSOT ✅, sole-writer teks dunia ✅, juice (squash/splash/combo/boink/sfx) ✅, font NanumPen ✅, ikon mute ✅.
+1. SELESAI: pooling ✅, Doodle GameOver ✅, refresh registry ✅, Btn consts ✅, MuteKey SSOT ✅, sole-writer teks dunia ✅, juice (squash/splash/combo/boink/sfx) ✅, font NanumPen ✅, ikon mute ✅, bundle ID `com.Paganisium.BallJumper` ✅, webCanvas portrait 540x960 ✅.
 2. SISA / AWASI:
    - `CameraFollow` scene (`deathBuffer=1.0`, `panelOffset=8`, `fallSpeed=18.5`) beda jauh dari default kode (2.5/3/12) — JANGAN revert tanpa feel-test King. Zona Spawner scene (`30/60/90`, `edgeFraction=0.15`) juga beda dari default kode (30/60/90 sama, tapi edge default kode 0.75) — scene yang menang.
    - `PlayerController.landTol` scene 0.5 (TDD lama 0.1) — penjamin apex + snap; awasi pop visual saat dash kencang, kecilkan `landSnapEps` dulu jangan hapus snap.
-   - `applicationIdentifier` masih `com.DefaultCompany` — ganti sebelum submit.
+   - Web (King, 14 Sep): template masih Default + `runInBackground` False — pertimbangkan template portrait 9:16 + pillarbox + runInBackground True sebelum build web berikutnya.
    - BGM loop belum terverifikasi di TDD ini (cek `Audio/` + `PlayerSfx` clip wiring bila perlu).
    - Jangan edit code saat Play nyala + selalu Refresh habis edit (aturan anti assembly-basi).
    - Kalau King edit transisi Animator manual, tes ulang 2 arah (transisi di-rebuild via API).
