@@ -5,3 +5,9 @@ Aku ngerjain solo dengan nama tim "icikiwir" sebagai Special Team. Pas uda seles
 2. Main di web desktop (Windows) suaranya muncul, tapi rasio layar tidak sesuai, posisi UI juga berubah, kadang inputnya ngeblink.
 
 Aku juga nyobain game ini ke teman-teman. Kata mereka gameku feel uda kerasa, gamenya seru, combonya satisfying. Banyak juga yang ngasih saran untuk nambah fitur supaya bisa dijual. Fitur yang mereka minta adalah:
+1. Crumbling platform, platform sekali injak
+2. Spike platform, platform yang bisa munculin duri
+3. Moving platform, platform gerak kanan-kiri
+4. Score board, nampilin ketinggian player
+5. Booster item, seperti pegas atau jetpack untuk boost naik ke atas
+6. Enemy, objek gerak kanan-kiri harus dihindari, bisa dikalahkan dengan stomp seperti super mario
