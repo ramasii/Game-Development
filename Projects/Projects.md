@@ -47,7 +47,7 @@ Halaman ini adalah **indeks semua proyek aktif dan arsip** yang sedang atau pern
 | **Engine** | Unity 6 |
 | **Tim** | Solo Dev |
 | **Status** | ✅ Selesai — GT Jam Internal 2026 |
-| **Dokumen** | [[GDD - Ball Jumper\|GDD]] • [[Projects/Ball Jumper/Ball Jumper\|Hub]] • [[TDD - Ball Jumper\|TDD]] |
+| **Dokumen** | [[GDD - Ball Jumper\|GDD]] • [[Projects/Ball Jumper/Ball Jumper\|Hub]] • [[TDD - Ball Jumper\|TDD]] • [[Projects/Ball Jumper/Post Gamejam - Ball Jumper\|Post Gamejam]] |
 
 ### 🎮 [[Projects/IFEST 2026/IFEST 2026|IFEST 2026 — Dukun Chain Reaction]] — ✅ Selesai
 > *Crafting Puzzle Chain Reaction — dukun urban meracik ramuan sesajen berurutan untuk penuhi pesanan customer*
