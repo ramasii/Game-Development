@@ -1,135 +1,101 @@
-# 🗒️ Temporary Notes
+# my-rimworld-mcp — eksperimen AI main RimWorld 1.6 via MCP
 
-## 📋 Blok A — Complete the Loop (Detailed Anti-Bug Plan)
+  
 
-### ✅ Blok A IMPLEMENTATION COMPLETE ✅
+## Struktur
 
-**All code created, all manual setup done, scene ready for integration test.**
+```
 
----
+RimWorldMCP/        -> mod C# (bridge HTTP 127.0.0.1:8765)
 
-## 🎯 Step 7: Integration Test — FULL LOOP
+  About/About.xml   -> packageId pagani.rimworldmcp, supports 1.6, loadAfter Harmony
 
-**Scene verified:** Blueprint cards + managers + systems all wired correctly.
+  Source/*.cs       -> MCPMod, MCPGameComponent, StateSnapshot, Actions
 
-### Test Scenario: Build → Wave → Reward → Blueprint Selection → Modifiers Apply
+mcp-server/         -> MCP server Python (FastMCP)
 
-**Run this checklist in play mode:**
+  server.py         -> 9 tools MVP
 
-#### Phase 1: Build Phase (Start)
-- [x] Play game → no errors in console
-- [x] **Build Panel active** — see "Start Wave" button
-- [x] Place a **Miner** on grid (if Ore Deposit available) 
-- [x] Place a **Turret** nearby
-- [x] Miner countdown timer visible (console: "[Miner] Initialized")
-- [x] Turret initialized (console: "[Turret] initialized")
+scenarios/          -> skenario + metrik eksperimen
 
-#### Phase 2: Start Wave
-- [ ] Click "Start Wave" button
-- [ ] **Wave Panel appears** — wave counter shows "Wave 1"
-- [ ] Miner spawns resources continuously
-- [ ] Turret ready to fire
-- [ ] WaveManager countdown to wave end (look for enemies or wait for wave end trigger)
+```
 
-#### Phase 3: Wave Ends → Reward Phase
-- [ ] Wave completes (enemies defeated or timeout)
-- [ ] **Reward Panel appears** — shows "Wave 1 Cleared!"
-- [ ] **3 Blueprint cards visible** with names + descriptions
-- [ ] Card buttons interactable (not greyed out)
-- [ ] Example expected cards:
-  - Card 0: "Iron Miner Mk.II" / "Miner spawn resource 30% faster"
-  - Card 1: "Extended Range" / "Turret range +2 units"
-  - Card 2: "Overclocked Belt" / "Resource bergerak +1 unit/s"
+  
 
-#### Phase 4: Select Blueprint (Testing Modifiers)
-- [ ] Click Card 0 (Iron Miner Mk.II) → Console log: "[RunModifiers] Applied FasterMiner += 0.3"
-- [ ] **IMMEDIATE:** Existing Miner speed increases — console: "[Miner] Mining interval refreshed: X.XXXs"
-- [ ] Miner spawn rate noticeably faster
-- [ ] Click "Next Wave" button
-- [ ] Back to **Build Phase**
+## Cara build mod (sekali saja)
 
-#### Phase 5: Repeat + Test Stacking
-- [ ] Click "Start Wave" again → Wave 2 starts
-- [ ] Wait for wave end
-- [ ] Reward Phase → Select Card 1 (Extended Range) → Console: "[RunModifiers] Applied ExtendedRange += 2.0"
-- [ ] **IMMEDIATE:** Turret range increases — console: "[Turret] Range refreshed: X.Xf"
-- [ ] Turret can now hit enemies from farther away
-- [ ] Select "Next Wave"
+1. Install RimWorld 1.6 + Harmony (`brrainz.harmony`) dari Workshop.
 
-#### Phase 6: Test Cumulative Modifiers
-- [ ] Start Wave 3
-- [ ] Wave ends → Select Card 2 (Overclocked Belt) → Console: "[RunModifiers] Applied ConveyorSpeed += 1.0"
-- [ ] **IMMEDIATE:** Resource items move faster — console: "[ResourceItem] Speed refreshed: X.Xf"
-- [ ] All 3 modifiers active now: Miner faster, Turret range further, Belt speed higher
-- [ ] Restart game (or let Core die) → Game Over Panel
-- [ ] Click "Restart" → Console: "[RunModifiers] Reset all modifiers to default."
-- [ ] Scene reloads, modifiers back to base values (1.0, 0f, 0f)
+2. Set env var `RIMWORLD_DIR`, contoh:
 
-#### Phase 7: Anti-Bug Checks
-- [ ] **No double-submit:** Click blueprint card once → button disabled until next reward phase ✓
-- [ ] **No memory leak:** Play multiple waves → exit play mode → no console errors ✓
-- [ ] **Null guards:** No null reference exceptions ✓
-- [ ] **Event guard:** Modifiers only invoke event when value actually changed ✓
-- [ ] **Fallback values:** If any calculation goes negative, falls back to base (no crashes) ✓
+   `C:\Program Files (x86)\Steam\steamapps\common\RimWorld`
 
----
+3. Build:
 
-## 📊 Final Checklist (Before Marking Blok A Complete)
+   ```
 
-- [x] Run full game loop without errors
-- [x] Blueprints appear, display correct name + description
-- [x] Blueprint selection triggers RunModifiers correctly (console confirms ApplyModifier)
-- [x] Miner speed increases immediately (visible + console confirm)
-- [x] Turret range increases immediately (visible + console confirm)
-- [x] Resource speed increases immediately (visible + console confirm)
-- [x] Modifiers cumulative (select multiple blueprints → all bonuses stack)
-- [x] Restart game resets modifiers (console: "Reset all modifiers")
-- [x] No crashes, no memory leaks, no null references
+   cd RimWorldMCP\Source
 
----
+   dotnet build -c Release
 
-## ✅ Blok A Deliverables
+   ```
 
-### Code Artifacts (7 components)
-1. ✅ `RunModifiers.cs` — Static modifier store + event broadcast
-2. ✅ `BlueprintData.cs` — SO per blueprint with Inspector-adjustable values
-3. ✅ `BlueprintDraftManager.cs` — Draft, select, apply logic
-4. ✅ `HUDManager.cs` (updated) — Card display + onclick wiring
-5. ✅ `Miner.cs` (updated) — Subscribe RunModifiers, refresh mining interval
-6. ✅ `Turret.cs` (updated) — Subscribe RunModifiers, refresh range
-7. ✅ `ResourceItem.cs` (updated) — Subscribe RunModifiers, refresh speed
-8. ✅ `GameManager.cs` (updated) — Reset modifiers on restart, OnRewardPhaseStart event
+   Hasil `RimWorldMCP.dll` taruh di `RimWorldMCP\Assemblies\RimWorldMCP.dll`
 
-### Blueprint Assets (3 SOs)
-1. ✅ Iron Miner Mk.II (FasterMiner, 0.3)
-2. ✅ Extended Range (ExtendedRange, 2.0)
-3. ✅ Overclocked Belt (ConveyorSpeed, 1.0)
+4. Copy folder `RimWorldMCP` ke:
 
-### Architectural Patterns Applied
-- ✅ **Observer Pattern** — RunModifiers (Subject) + Miner/Turret/ResourceItem (Observers)
-- ✅ **Single Source of Truth (SSOT)** — RunModifiers sole owner of modifier state
-- ✅ **Event-Driven Communication** — Decoupled systems via OnModifiersChanged
-- ✅ **Guard Clauses** — Anti-bug with null checks, bounds checks, fallback values
+   `C:\Users\%USERNAME%\AppData\LocalLow\Ludeon Studios\RimWorld by Ludeon Studios\Mods\`
 
-### Test Coverage
-- ✅ Full game loop: Build → Wave → Reward → Blueprint → Modifiers applied
-- ✅ Cumulative modifiers (multiple selections stack)
-- ✅ Reset on restart
-- ✅ No memory leaks or crashes
+   atau Steam `...\RimWorld\Mods\`
 
----
+5. Aktifkan di menu Mods: Harmony di atas, RimWorldMCP di bawahnya. Restart.
 
-## 📌 Ready for Blok B
+6. Load save, cek log (`Ctrl+F12`): harus ada `[RimWorldMCP] listening on 127.0.0.1:8765`
 
-After integration test passes all checks, **Blok A is COMPLETE**. 
+7. Test: buka browser `http://127.0.0.1:8765/ping`
 
-Next phase: **Blok B** (additional blueprints, extended game systems, polish).
+  
 
----
+## Cara jalanin MCP server
 
-### 📌 Reference: Architectural Patterns Applied
+```
 
-- **Observer Pattern**: RunModifiers (Subject) + Miner/Turret/ResourceItem (Observers)
-  → [[Observer Pattern Events]]
-- **Single Source of Truth (SSOT)**: RunModifiers adalah satu-satunya pemilik modifier state
-  → [[Single Source of Truth (SSOT)]]
+cd mcp-server
+
+pip install -r requirements.txt
+
+python server.py
+
+```
+
+Lalu tambah ke Claude / opencode via `mcp.example.json`.
+
+  
+
+Urutan wajib: **RimWorld jalan + save loaded + unpaused sekali** baru MCP tools dipanggil. Kalau `/snapshot` kosong `{}`, tunggu 250 ticks in-game.
+
+  
+
+## Loop eksperimen
+
+`get_colony_status -> list_alerts -> act (max 3-4 actions) -> advance_ticks(5000) -> log`
+
+  
+
+Jangan kirim full map grid ke LLM, pakai snapshot simbolik dulu biar context tidak jebol.
+
+  
+
+## Kompatibel mod lain?
+
+Ya, selama tidak ganti `GameComponent` atau `WorkTypeDef` secara drastis. Untuk aman, test baseline tanpa mod lain dulu (lihat `scenarios/crashlanded_15d.md`). Kalau pakai mod besar (VE, SOS2, Combat Extended), Def lookup `bench/recipe` di `Actions.cs` mungkin perlu alias tambahan.
+
+  
+
+## Troubleshooting
+
+- `HttpListener Access Denied` -> jalankan RimWorld sekali sebagai admin, atau `netsh http add urlacl url=http://127.0.0.1:8765/ user=Everyone`
+
+- Port bentrok -> ganti di Mod Settings > RimWorldMCP, samakan `RIMWORLD_BRIDGE`
+
+- Snapshot `{}` terus -> belum ada `Find.CurrentMap` (masih di menu utama)
