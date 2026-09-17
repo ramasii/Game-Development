@@ -74,7 +74,6 @@ State ≥3? → Ya: IState per state → StateMachine pegang semua → Initializ
 ## 🔗 Lihat Juga
 
 - [[Books/Level Up Your Code With Design Pattern.pdf]] — sumber (hlm. 80-92)
-- [[Design Patterns & SOLID (Unity - Level Up Your Code)]] — hub master
 - [[Simple FSM Berbasis Enum (Game State Prototyping)]] — versi ringan sebelum naik ke penuh
 - [[Observer Pattern Events]] — transisi via event
 - [[Command Pattern (Unity Undo)]] — batasi command per state

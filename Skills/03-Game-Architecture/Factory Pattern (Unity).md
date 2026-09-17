@@ -69,7 +69,6 @@ Butuh spawn? → Produk beda init? → Ya: IProduct.Initialize() per produk → 
 ## 🔗 Lihat Juga
 
 - [[Books/Level Up Your Code With Design Pattern.pdf]] — sumber (hlm. 51-56)
-- [[Design Patterns & SOLID (Unity - Level Up Your Code)]] — hub master
 - [[Object Pool Pattern (Unity)]] — pasangan buat spawn massal tanpa GC spike
 - [[Flyweight Pattern (Unity Shared Data)]] — sharing data antar produk sejenis
 - [[SOLID Principles (Unity)]] — OCP + LSP di balik factory

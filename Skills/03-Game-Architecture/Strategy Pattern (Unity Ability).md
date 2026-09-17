@@ -63,7 +63,6 @@ Behavior perlu swap runtime? → Ya: abstract Ability + Use() → 1 SO per behav
 ## 🔗 Lihat Juga
 
 - [[Books/Level Up Your Code With Design Pattern.pdf]] — sumber (hlm. 121-127)
-- [[Design Patterns & SOLID (Unity - Level Up Your Code)]] — hub master
 - [[SOLID Principles (Unity)]] — OCP di balik Strategy
 - [[State Pattern (Unity FSM)]] — sepupu dekat (State = fase internal, Strategy = behavior tukar)
 - [[Flyweight Pattern (Unity Shared Data)]] — SO shared buat data, Strategy buat behavior

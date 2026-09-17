@@ -66,7 +66,6 @@ Input? → bungkus jadi ICommand (param via constructor) → Invoker.Execute + p
 ## 🔗 Lihat Juga
 
 - [[Books/Level Up Your Code With Design Pattern.pdf]] — sumber (hlm. 73-79)
-- [[Design Patterns & SOLID (Unity - Level Up Your Code)]] — hub master
 - [[Observer Pattern Events]] — gabungan jadi event queue tertib
 - [[State Pattern (Unity FSM)]] — state tentukan kapan command boleh jalan
 - [[Skills]] — indeks kategori

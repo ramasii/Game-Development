@@ -77,7 +77,6 @@ Input user (View) → event → Presenter → Model.Decrement/Increment → Heal
 ## 🔗 Lihat Juga
 
 - [[Books/Level Up Your Code With Design Pattern.pdf]] — sumber (hlm. 102-109)
-- [[Design Patterns & SOLID (Unity - Level Up Your Code)]] — hub master
 - [[MVVM Pattern (Unity 6 Binding)]] — upgrade otomatis via data binding
 - [[Observer Pattern Events]] — event di jantung MVP
 - [[SOLID Principles (Unity)]] — SRP per lapis

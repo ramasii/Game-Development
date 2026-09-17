@@ -103,7 +103,6 @@ if (interactableObject is IInteractable i) i.Interact();
 ## 🔗 Lihat Juga
 
 - [[Books/Level Up Your Code With Design Pattern.pdf]] — sumber (hlm. 12-47)
-- [[Design Patterns & SOLID (Unity - Level Up Your Code)]] — hub master semua pola
 - [[Single Source of Truth (SSOT)]] — 1 pemilik sah per data
 - [[Factory Pattern (Unity)]] — OCP praktis buat spawning
 - [[Strategy Pattern (Unity Ability)]] — OCP + composition buat behavior swap

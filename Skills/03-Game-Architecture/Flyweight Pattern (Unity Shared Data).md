@@ -58,7 +58,6 @@ Banyak objek sejenis? → field sama berulang? → Ya: split intrinsic→SO, ext
 ## 🔗 Lihat Juga
 
 - [[Books/Level Up Your Code With Design Pattern.pdf]] — sumber (hlm. 128-136)
-- [[Design Patterns & SOLID (Unity - Level Up Your Code)]] — hub master
 - [[Single Source of Truth (SSOT)]] — 1 pemilik data, anti duplikat
 - [[Factory Pattern (Unity)]] — factory yang inject shared data
 - [[Object Pool Pattern (Unity)]] — reuse instance + share data = dobel hemat

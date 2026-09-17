@@ -67,7 +67,6 @@ Operasi mahal? → Ya: kasih IsDirty → tiap frame cek murah (jarak/flag/event)
 ## 🔗 Lihat Juga
 
 - [[Books/Level Up Your Code With Design Pattern.pdf]] — sumber (hlm. 137-144)
-- [[Design Patterns & SOLID (Unity - Level Up Your Code)]] — hub master
 - [[Object Pool Pattern (Unity)]] — hemat GC, Dirty Flag hemat CPU — kombo optimasi
 - [[State Pattern (Unity FSM)]] — state yang tentukan kapan flag dikotori
 - [[Skills]] — indeks kategori

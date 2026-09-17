@@ -73,7 +73,6 @@ Model berubah → binding (ToTarget) → converter (int→color/string) → View
 ## 🔗 Lihat Juga
 
 - [[Books/Level Up Your Code With Design Pattern.pdf]] — sumber (hlm. 110-120)
-- [[Design Patterns & SOLID (Unity - Level Up Your Code)]] — hub master
 - [[MVP Pattern (Unity UI)]] — versi manual sebelum binding
 - [[Observer Pattern Events]] — yang digantikan binding otomatis
 - [[Skills]] — indeks kategori

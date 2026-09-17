@@ -76,7 +76,6 @@ Butuh global? → Bisa inject/reference/event? → Ya: jangan Singleton → Tida
 ## 🔗 Lihat Juga
 
 - [[Books/Level Up Your Code With Design Pattern.pdf]] — sumber (hlm. 66-72)
-- [[Design Patterns & SOLID (Unity - Level Up Your Code)]] — hub master
 - [[Centralized State Manager (GameManager Singleton & Event)]] — contoh GameManager Singleton + event
 - [[Object Pool Pattern (Unity)]] — pool global via Singleton
 - [[Observer Pattern Events]] — alternatif lepas vs global ketat

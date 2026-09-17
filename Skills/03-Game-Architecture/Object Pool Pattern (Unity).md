@@ -63,7 +63,6 @@ Spawn massal? → Pool di Awake/loading → Butuh? → Get() + taruh posisi/rota
 ## 🔗 Lihat Juga
 
 - [[Books/Level Up Your Code With Design Pattern.pdf]] — sumber (hlm. 57-65)
-- [[Design Patterns & SOLID (Unity - Level Up Your Code)]] — hub master
 - [[Factory Pattern (Unity)]] — factory ambil dari pool, bukan Instantiate
 - [[Singleton Pattern (Unity Generic)]] — pool global yang aksesibel
 - [[Decoupled Audio System (Event Channel & Pooling)]] — contoh pool buat SFX
