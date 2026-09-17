@@ -11,14 +11,12 @@
             "id": "21ff75caf44fc2d0",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "pdf",
               "state": {
-                "file": "Projects/Ball Jumper/GDD - Ball Jumper.md",
-                "mode": "source",
-                "source": false
+                "file": "Books/Level Up Your Code With Design Pattern.pdf"
               },
-              "icon": "lucide-file",
-              "title": "GDD - Ball Jumper"
+              "icon": "lucide-file-text",
+              "title": "Level Up Your Code With Design Pattern"
             }
           }
         ]
@@ -217,10 +215,15 @@
   },
   "active": "21ff75caf44fc2d0",
   "lastOpenFiles": [
+    "Books/Chord Relationships and Emotion.pdf",
+    "Books/An Architectural Approach to Level Design Second Edition.pdf",
+    "Books/Level Up Your Code With Design Pattern.pdf",
+    "Projects/Solve Together/GDD - Solve Together.md",
+    "Projects/Solve Together/PBL Brief - NGO.md",
+    "Projects/Ball Jumper/GDD - Ball Jumper.md",
     "Temporary.md",
     "Projects/Ball Jumper/Ball Jumper.md",
     "Projects/Ball Jumper/Post Gamejam - Ball Jumper.md",
-    "Projects/Ball Jumper/GDD - Ball Jumper.md",
     "Projects/Ball Jumper/TDD - Ball Jumper.md",
     "Projects/Projects.md",
     "Projects/Ideas/Ball Jumper",
@@ -232,9 +235,7 @@
     "Projects/Ideas/Pair Jump",
     "Research/Riset Pasar - Roguelite & Indie Steam 2026.md",
     "Research/Research.md",
-    "Projects/Solve Together/GDD - Solve Together.md",
     "Projects/Solve Together/Solve Together.md",
-    "Projects/Solve Together/PBL Brief - NGO.md",
     "AGY.md",
     "Projects/Solve Together/Timeline.md",
     "Projects/Solve Together",
@@ -249,11 +250,8 @@
     "Projects/Rama's TD/Roadmap.md",
     "Skills/03-Game-Architecture/Decoupled Audio System (Event Channel & Pooling).md",
     "Skills/03-Game-Architecture/Single Source of Truth (SSOT).md",
-    "Projects/Rama's TD/Ideas/Router di Game _Mindustry_ (Sistem Distribusi 1x1 Terpusat).md",
     "Projects/Rama's TD/Ideas",
     "Projects/Rama's TD",
-    "Books/Chord Relationships and Emotion.pdf",
-    "Skills/07-Audio-and-Music",
     "Skills/Game Balance/references/images/chapter5.png",
     "Skills/Game Balance/references/images/chapter3.png",
     "Skills/Game Balance/references/images/chapter2.png",
