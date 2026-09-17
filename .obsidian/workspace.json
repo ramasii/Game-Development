@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Projects/Solve Together/PBL Brief - NGO.md",
+                "file": "Projects/Solve Together/Timeline.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "PBL Brief - NGO"
+              "title": "Timeline"
             }
           }
         ]
@@ -218,6 +218,7 @@
   "active": "21ff75caf44fc2d0",
   "lastOpenFiles": [
     "Projects/Solve Together/GDD - Solve Together.md",
+    "Projects/Solve Together/PBL Brief - NGO.md",
     "Projects/Ball Jumper/TDD - Ball Jumper.md",
     "Skills/03-Game-Architecture/Singleton Pattern (Unity Generic).md",
     "Skills/Skills.md",
@@ -238,7 +239,6 @@
     "Books/Level Up Your Code With Design Pattern.pdf",
     "Books/Chord Relationships and Emotion.pdf",
     "Books/An Architectural Approach to Level Design Second Edition.pdf",
-    "Projects/Solve Together/PBL Brief - NGO.md",
     "Temporary.md",
     "Projects/Ball Jumper/Ball Jumper.md",
     "Projects/Ball Jumper/Post Gamejam - Ball Jumper.md",
