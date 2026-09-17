@@ -11,12 +11,14 @@
             "id": "21ff75caf44fc2d0",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "markdown",
               "state": {
-                "file": "Books/Level Up Your Code With Design Pattern.pdf"
+                "file": "Skills/03-Game-Architecture/Design Patterns & SOLID (Unity - Level Up Your Code).md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-file-text",
-              "title": "Level Up Your Code With Design Pattern"
+              "icon": "lucide-file",
+              "title": "Design Patterns & SOLID (Unity - Level Up Your Code)"
             }
           }
         ]
@@ -96,7 +98,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 338.5
+    "width": 485.5
   },
   "right": {
     "id": "da11180e6fb24c03",
@@ -213,9 +215,10 @@
       "graph:Open graph view": false
     }
   },
-  "active": "f42773d478bc473e",
+  "active": "21ff75caf44fc2d0",
   "lastOpenFiles": [
     "Books/Level Up Your Code With Design Pattern.pdf",
+    "Skills/03-Game-Architecture/Design Patterns & SOLID (Unity - Level Up Your Code).md",
     "Books/Chord Relationships and Emotion.pdf",
     "Books/An Architectural Approach to Level Design Second Edition.pdf",
     "Projects/Solve Together/GDD - Solve Together.md",
@@ -249,9 +252,7 @@
     "Projects/Rama's TD/Rama's TD.md",
     "Projects/Rama's TD/Roadmap.md",
     "Skills/03-Game-Architecture/Decoupled Audio System (Event Channel & Pooling).md",
-    "Skills/03-Game-Architecture/Single Source of Truth (SSOT).md",
     "Projects/Rama's TD/Ideas",
-    "Projects/Rama's TD",
     "Skills/Game Balance/references/images/chapter5.png",
     "Skills/Game Balance/references/images/chapter3.png",
     "Skills/Game Balance/references/images/chapter2.png",
