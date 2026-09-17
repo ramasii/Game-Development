@@ -33,4 +33,4 @@ Halaman ini adalah **indeks referensi buku/bacaan** yang dipakai sebagai bahan b
 
 > Kalau sudah baca salah satu buku, insight pentingnya bisa dirangkum di sini, atau dipecah jadi skill baru di [[Skills]].
 
-- [[Level Up Your Code With Design Pattern.pdf]] → diringkas jadi [[Design Patterns & SOLID (Unity - Level Up Your Code)]] (SOLID + 11 pola Unity, kategori [[💻 3. Game Architecture]]).
+- [[Level Up Your Code With Design Pattern.pdf]] → dipecah jadi 11 skill di [[💻 3. Game Architecture]]: [[SOLID Principles (Unity)]], [[Factory Pattern (Unity)]], [[Object Pool Pattern (Unity)]], [[Singleton Pattern (Unity Generic)]], [[Command Pattern (Unity Undo)]], [[State Pattern (Unity FSM)]], [[Strategy Pattern (Unity Ability)]], [[Flyweight Pattern (Unity Shared Data)]], [[Dirty Flag Pattern (Unity)]], [[MVP Pattern (Unity UI)]], [[MVVM Pattern (Unity 6 Binding)]].
