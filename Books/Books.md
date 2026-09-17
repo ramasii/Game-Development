@@ -26,6 +26,8 @@ Halaman ini adalah **indeks referensi buku/bacaan** yang dipakai sebagai bahan b
 | Judul | Catatan |
 |---|---| 
 | [[Level Up Your Code With Design Pattern.pdf]] | Unity 6 Preview, 148 hlm — sudah diringkas → [[Design Patterns & SOLID (Unity - Level Up Your Code)]]. |
+
+---
 ## 📝 Rangkuman & Insight
 *Belum ada rangkuman yang ditulis dari buku-buku di atas.*
 
