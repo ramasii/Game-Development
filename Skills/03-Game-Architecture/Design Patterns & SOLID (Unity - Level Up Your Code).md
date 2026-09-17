@@ -154,19 +154,19 @@ public class Sector : MonoBehaviour {
 
 ## 🧩 Properties (Inspector)
 
-| Pola | Pakai saat | Jangan pakai jika |
-|---|---|---|
-| SOLID | Selalu, sebagai kompas | Dipaksa mentah-mentah sampai over-engineer (ingat KISS) |
-| Factory | Spawn banyak varian produk + custom init | Cuma 1-2 prefab tanpa logika khusus |
-| Object Pool | Tembakan/partikel spawn-destroy tiap frame, GC spike | Objek jarang muncul, pool nganggur makan mem |
-| Singleton | 1 manager global (Game/Audio) | Tiap sistem minta global — itu code smell |
-| Command | Undo/redo, replay, input buffer, combo | Aksi sekali jalan tanpa histori |
-| State | Player/enemy/game punya ≥3 state + transisi | Cuma Idle/Walk — enum+switch cukup |
-| Observer | UI, achievement, analitik dengar event gameplay | Relasi 1-ke-1 sederhana (direct call lebih murah) |
-| MVP / MVVM | UI kompleks, tim besar, butuh test | UI 1 layar, prototyping cepat |
-| Strategy | Ability/senjata/AI/difficulty gonta-ganti runtime | Behavior statis, gak pernah swap |
-| Flyweight | Ratusan unit sharing stat/faction/skin | Objek sedikit & heterogen |
-| Dirty Flag | Kalkulasi mahal (load scene, pathfinding, layout) | Update murah tiap frame |
+| Pola        | Pakai saat                                           | Jangan pakai jika                                       |
+| ----------- | ---------------------------------------------------- | ------------------------------------------------------- |
+| SOLID       | Selalu, sebagai kompas                               | Dipaksa mentah-mentah sampai over-engineer (ingat KISS) |
+| Factory     | Spawn banyak varian produk + custom init             | Cuma 1-2 prefab tanpa logika khusus                     |
+| Object Pool | Tembakan/partikel spawn-destroy tiap frame, GC spike | Objek jarang muncul, pool nganggur makan mem            |
+| Singleton   | 1 manager global (Game/Audio)                        | Tiap sistem minta global — itu code smell               |
+| Command     | Undo/redo, replay, input buffer, combo               | Aksi sekali jalan tanpa histori                         |
+| State       | Player/enemy/game punya ≥3 state + transisi          | Cuma Idle/Walk — enum+switch cukup                      |
+| Observer    | UI, achievement, analitik dengar event gameplay      | Relasi 1-ke-1 sederhana (direct call lebih murah)       |
+| MVP / MVVM  | UI kompleks, tim besar, butuh test                   | UI 1 layar, prototyping cepat                           |
+| Strategy    | Ability/senjata/AI/difficulty gonta-ganti runtime    | Behavior statis, gak pernah swap                        |
+| Flyweight   | Ratusan unit sharing stat/faction/skin               | Objek sedikit & heterogen                               |
+| Dirty Flag  | Kalkulasi mahal (load scene, pathfinding, layout)    | Update murah tiap frame                                 |
 
 ## 🔄 Alur Lengkap
 

@@ -25,3 +25,5 @@ Halaman ini adalah **indeks referensi buku/bacaan** yang dipakai sebagai bahan b
 *Belum ada rangkuman yang ditulis dari buku-buku di atas.*
 
 > Kalau sudah baca salah satu buku, insight pentingnya bisa dirangkum di sini, atau dipecah jadi skill baru di [[Skills]].
+
+- [[Level Up Your Code With Design Pattern.pdf]] → diringkas jadi [[Design Patterns & SOLID (Unity - Level Up Your Code)]] (SOLID + 11 pola Unity, kategori [[💻 3. Game Architecture]]).
