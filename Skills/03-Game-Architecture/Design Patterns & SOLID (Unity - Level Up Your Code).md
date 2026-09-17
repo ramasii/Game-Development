@@ -202,3 +202,15 @@ Kalkulasi mahal? → Dirty Flag (MarkDirty → proses → Clean)
 - [[Single Source of Truth (SSOT)]] — lawan duplikasi data ala Flyweight
 - [[Advanced Architecture Patterns]] — infrastruktur trigger berbasis event
 - [[Skills]] — indeks semua kategori
+
+- [[SOLID Principles (Unity)]] — pecahan detail 5 prinsip.
+- [[Factory Pattern (Unity)]] — pecahan detail factory.
+- [[Object Pool Pattern (Unity)]] — pecahan detail pool.
+- [[Singleton Pattern (Unity Generic)]] — pecahan detail singleton.
+- [[Command Pattern (Unity Undo)]] — pecahan detail command.
+- [[State Pattern (Unity FSM)]] — pecahan detail state.
+- [[Strategy Pattern (Unity Ability)]] — pecahan detail strategy.
+- [[Flyweight Pattern (Unity Shared Data)]] — pecahan detail flyweight.
+- [[Dirty Flag Pattern (Unity)]] — pecahan detail dirty flag.
+- [[MVP Pattern (Unity UI)]] — pecahan detail MVP.
+- [[MVVM Pattern (Unity 6 Binding)]] — pecahan detail MVVM.
