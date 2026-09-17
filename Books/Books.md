@@ -24,8 +24,8 @@ Halaman ini adalah **indeks referensi buku/bacaan** yang dipakai sebagai bahan b
 ## 💻 Arsitektur Kode
 
 | Judul | Catatan |
-|---|---| 
-| [[Level Up Your Code With Design Pattern.pdf]] | Unity 6 Preview, 148 hlm — sudah diringkas → [[Design Patterns & SOLID (Unity - Level Up Your Code)]]. |
+|---|---|
+| [[Level Up Your Code With Design Pattern.pdf]] | Unity 6 Preview, 148 hlm — sudah dipecah jadi 11 skill di [[💻 3. Game Architecture]]: SOLID, Factory, Pool, Singleton, Command, State, Strategy, Flyweight, Dirty Flag, MVP, MVVM. |
 
 ---
 ## 📝 Rangkuman & Insight
