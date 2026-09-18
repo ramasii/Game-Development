@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Projects/Solve Together/GDD - Solve Together.md",
+                "file": "Projects/Ball Jumper/Post Gamejam - Ball Jumper.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "GDD - Solve Together"
+              "title": "Post Gamejam - Ball Jumper"
             }
           }
         ]
@@ -217,8 +217,10 @@
   },
   "active": "21ff75caf44fc2d0",
   "lastOpenFiles": [
-    "Projects/Solve Together/Timeline.md",
+    "Projects/Ball Jumper/GDD - Ball Jumper.md",
+    "Projects/Ball Jumper/Ball Jumper.md",
     "Projects/Solve Together/GDD - Solve Together.md",
+    "Projects/Solve Together/Timeline.md",
     "Projects/Solve Together/PBL Brief - NGO.md",
     "Projects/Ball Jumper/TDD - Ball Jumper.md",
     "Skills/03-Game-Architecture/Singleton Pattern (Unity Generic).md",
@@ -236,12 +238,10 @@
     "Skills/03-Game-Architecture/Command Pattern (Unity Undo).md",
     "Skills/03-Game-Architecture/Object Pool Pattern (Unity).md",
     "Skills/03-Game-Architecture/SOLID Principles (Unity).md",
-    "Projects/Ball Jumper/GDD - Ball Jumper.md",
     "Books/Level Up Your Code With Design Pattern.pdf",
     "Books/Chord Relationships and Emotion.pdf",
     "Books/An Architectural Approach to Level Design Second Edition.pdf",
     "Temporary.md",
-    "Projects/Ball Jumper/Ball Jumper.md",
     "Projects/Ball Jumper/Post Gamejam - Ball Jumper.md",
     "Projects/Projects.md",
     "Projects/Ideas/Ball Jumper",
