@@ -68,3 +68,64 @@ Project Status: Concept Locked / Pre-Production Lead Designer: (Anda) Date: [Har
 - sepatu boots cokelat tempur
 - silhouette sederhana dan mudah dibaca
 - proporsi karakter stylized ramping (5-6 kepala), cocok untuk sprite
+
+## 6. Prompt Log - Praktikum Minggu 3 (From Prompt to Consistent Character)
+
+### Prompt 2 - Context (beri peran dan dunia)
+```
+Create a young energy conductor character for a 2D Tower Defense Roguelite game set in The Great Conduit, a fractured interdimensional energy network threatened by entropy (The Void Recursion).
+The character maintains time-flow and carries Stabilizer Charge between conduit nodes, using Echo Reading to predict enemy patterns.
+```
+
+### Prompt 3 - Structured Production Prompt
+```
+Create a full-body character concept for a 2D Tower Defense Roguelite game.
+
+Character: Konduktor, a young energy conductor and time-flow maintainer.
+
+Role: carries Stabilizer Charge between conduit nodes, uses Echo Reading to sense enemy patterns, triggers Phase Shifting and Resonance Cascade in crisis.
+
+Visual characteristics:
+- short black hair
+- indigo mantle jacket with glowing teal piping
+- long teal scarf (time-stream visualization)
+- brown crossbody satchel with small conduit hose
+- small brass stabilizer compass core attached to the belt
+- brown combat boots
+
+Art style:
+stylized 2D game illustration, clean shapes, readable silhouette, hand-painted appearance with subtle glowing energy accents. Palette: Void Indigo, Stabilizer Gold, Aether Teal, Bone Cream, Entropic Terracotta.
+
+Composition:
+full body, neutral standing pose, front three-quarter view, simple light background.
+
+Keep the costume simple enough to later convert into a 2D sprite and readable among busy VFX.
+No text, no logo, no additional characters.
+```
+
+### Prompt 4 - Variasi (Visual Lock)
+```
+Generate three visual variations of the same character while keeping these attributes unchanged: short black hair, indigo mantle jacket with glowing teal piping, long teal scarf, brown crossbody satchel with conduit hose, brass stabilizer compass core on belt, and brown combat boots.
+
+Variation should only affect small costume details and accessories (belt pouches, glove details, satchel stitching, boot straps).
+
+Maintain the same visual style, palette (Void Indigo, Stabilizer Gold, Aether Teal, Bone Cream, Entropic Terracotta), silhouette, and role as Aether Conduit energy conductor.
+```
+
+### Prompt 5 - Reference Sheet
+```
+Create a character reference sheet for the same character.
+
+Show:
+- front view
+- side view
+- back view
+- three facial expressions (neutral, focused / crisis, happy / resolution)
+
+Preserve exactly:
+short black hair, indigo mantle jacket with glowing teal piping, long teal scarf, brown satchel with conduit hose, brass stabilizer compass core, brown boots.
+
+Use consistent proportions (slim stylized 5-6 heads tall), colors and costume details.
+Clean neutral background.
+No text, no logo.
+```
