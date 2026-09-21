@@ -46,3 +46,19 @@ Project Status: Concept Locked / Pre-Production Lead Designer: (Anda) Date: [Har
     1. Visual Complexity: Karena desain kita melibatkan interaksi sistem yang kompleks (fisika energi, _particle effects_ untuk _Resonance_, visualisasi _time stream_), Unity memiliki _toolset_ yang lebih matang untuk _VFX_ (Visual Effects) dan _Shader Programming_ yang kompleks.
     2. Cross-Platform: Unity menawarkan dukungan ekosistem yang sangat luas, memastikan kemudahan adaptasi ke platform lain jika diperlukan di masa depan.
     3. Community Support: Jumlah aset, tutorial, dan _developer_ siap pakai di Unity sangat besar, mempercepat fase prototipe untuk sistem mekanik yang rumit.
+
+
+
+| Elemen         | Keputusan Desain |
+| -------------- | ---------------- |
+| Game Brief     | Aether Conduit   |
+| World          |                  |
+| Main Character |                  |
+| Visual Style   |                  |
+| Palette        |                  |
+| Target         |                  |
+| Constraint     |                  |
+
+| Visual Lock |     |
+| ----------- | --- |
+|             |     |
