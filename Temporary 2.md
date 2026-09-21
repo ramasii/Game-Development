@@ -1,50 +1,78 @@
-# AWAN // Tukang Hujan - Concept Keep
+# AWAN // Tukang Hujan - Concept Keep (Revisi Sketsa)
 
-> Disimpan dari brainstorming 21 Sep 2026. Fun 80% Edu 20%. No angka & huruf. No chocolate-covered broccoli.
+> Update 21 Sep 2026 sesuai sketsa King. Fun 80% Edu 20%. No angka & huruf. No chocolate-covered broccoli.
 
 ## 1. Konsep & Identitas
-- **Premis:** Game ini adalah 2D chill-skill mobile di mana pemain jadi awan gendut untuk menyiram hutan kering dan bertahan dari matahari.
-- **Genre:** 2D Physics Sandbox / Casual Skill, Single Control
-- **Target Platform:** Mobile (Android), Portrait, 2D, 1 jari
-- **USP:** Lu BUKAN nyiram tanaman, lu JADI cuacanya. Tahan = hujan, lepas = nguap naik. Siklus air sebagai verb, bukan materi hafalan.
-- **Referensi:** Seperti Tamagotchi cuaca + Alto's Adventure + Tiny Wings vibe, tapi fluid sim sederhana.
+- **Premis:** Game ini adalah 2D santai mobile di mana pemain menggeser awan, menggabungkan awan jadi besar, dan menghujani tanah biar tanaman tumbuh & berbunga.
+- **Genre:** 2D Merge-Drag / Ecosystem Sandbox, Casual
+- **Target Platform:** Mobile, 2D, LANDSCAPE, 1 jari (single control: drag/geser doang)
+- **USP:** Siklus air dimainin langsung: Stay (evaporasi) > Merge (kondensasi) > Hujan (presipitasi) > Kecil lagi. Bukan teori, tapi verb.
+- **Referensi:** Seperti 2048 merge-feel + Tiny Wings chill + Tamagotchi ekosistem.
 
-## 2. Core Loop
-Isap air di atas danau (auto-isap) > ketiup angin > tahan untuk hujanin pohon kering > hindari / ngumpet dari matahari > pohon mekar > buka area baru yang lebih panas & berangin
+## 2. Core Loop (revisi)
+Geser awan ke atas genangan > diem di atas air (evaporasi) > geser + overlap 2 awan buat merge (kondensasi jadi besar & gelap) > awan gelap hujan otomatis (presipitasi) > awan menyusut jadi kecil putih > merge lagi atau biarin regen > tanah basah > tanaman tumbuh > subur berbunga
 
-- **Core Mechanic:** Tahan 1 jari = hujan (berat turun), Lepas = menguap (ringan naik). Massa awan = resource + fisika.
-- **Daya tarik 5 menit:** Langsung satisfying mainin hujan + liat pohon mekar satu-satu.
-- **Daya tarik panjang:** Mastery rute angin, kombo siram beruntun, selamatkan biome baru.
+- **Core Mechanic:** Cuma geser. Overlap = merge.
+- **Daya tarik 5 menit:** Merge pop satisfying + hujan deres langsung liat tanah berubah warna & tunas muncul.
+- **Daya tarik panjang:** Jaga tanah tetap basah, jaga tanaman jangan mati, kejar bunga sebanyak-banyaknya.
 
-## 3. Mekanik Utama (max 3-5)
-1. **Hujan / Nguap (Hold-Release):** Tahan turun + keluar air, lepas naik. Makin banyak air makin berat & gelap.
-2. **Angin Pasif:** Angin dorong horizontal beda tiap ketinggian. Pemain belajar baca arus, bukan melawan.
-3. **Matahari Predator:** Kena sinar langsung = susut. Ngumpet di bayangan tebing / balik jadi kecil biar cepat.
-4. **Pohon Haus (Win-state visual):** Pohon kering > disiram > mekar > kasih benih / buka jalan. No angka, cuma warna & animasi.
+## 3. Sistem Detail (sesuai sketsa)
+
+### LANDSCAPE / Siklus
+`Genangan -> (stay/evaporasi) -> Awan kecil -> MERGE (kondensasi) -> Awan besar gelap -> MERGED -> Presipitasi hujan -> jadi kecil lagi -> balik ke genangan`
+- Layout landscape: genangan kiri, tanah tanaman kanan, langit area main awan.
+
+### PLAYER
+- Player menggerakkan awan dengan cara menggeser awan (drag 1 jari).
+- Player menggabungkan awan dengan cara menempatkan dua awan atau lebih secara overlap.
+
+### AWAN
+- Awan yang sudah menjadi gelap, akan otomatis hujan.
+- Hujan berlangsung sampai awan menjadi kecil dan berwarna putih (awan kecil).
+- Awan kecil (putih kecil) memiliki waktu hidup sekian detik (pendek, harus cepat di-merge / dipakai).
+- Awan normal (putih sedang) memiliki jangka waktu yang lama (awan kerja utama).
+- Awan kecil bisa menjadi awan normal dengan cara digabungkan dengan awan lain.
+- Rumus: Awan + Awan = Awan lebih besar.
+
+### GENANGAN AIR
+- Menghasilkan awan (spawner pasif).
+- Fungsi: tempat evaporasi — stay in top of water = isi ulang / munculin awan baru.
+
+### TANAH
+- Tanah bisa kering dalam waktu tertentu.
+- Tanah bisa basah jika terkena hujan.
+- Visual only: kering (pucat/retak) vs basah (gelap). Tanpa angka, tanpa teks.
+
+### TANAMAN
+- Tanaman bisa kering dan mati dalam jangka tertentu (kalau tanah kering terus).
+- Tanaman bisa tumbuh di tanah yang selalu basah.
+- Tanaman bisa menumbuhkan bunga jika subur dalam waktu tertentu (reward mastery jaga kelembaban).
 
 ## 4. Kenapa Fun Dulu (80%)
-- Rasa jadi OP (jadi cuaca)
-- Risk/reward tiap hujan: mau nyiram tapi jadi berat & gampang kena matahari
-- Visual satisfying: hujan, mekar, pelangi tipis
+- Merge itu candu: geser-overlap-pop-besar.
+- Hujan otomatis sebagai reward, bukan hukuman — awan gelap = saatnya panen.
+- Urgency ringan: awan kecil cepat hilang, tanah cepat kering, tanaman bisa mati → mikir prioritas tanpa stres.
 
-## 5. Edukasi 20% (muncul alami, tanpa teks)
-- Siklus air: evaporasi (naik pas lepas/panas), kondensasi (membesar di atas danau/dingin), presipitasi (hujan pas berat)
-- Termodinamika intuitif: panas = susut, teduh/dingin = aman, ketinggian = angin beda
-- Ekologi dasar: hutan butuh air bertahap, bukan sekaligus
+## 5. Edukasi 20% (muncul alami)
+- Evaporasi: diem di atas air = dapat awan.
+- Kondensasi: merge 2 awan = jadi besar gelap.
+- Presipitasi: gelap = hujan sampe kecil lagi.
+- Ekologi: tanah basah ↔ tanaman hidup, tanah kering ↔ mati, subur terus ↔ berbunga.
 
 ## 6. Anti Chocolate-Covered Broccoli Check
-- BUKAN: jawab diagram siklus air untuk buka pintu.
-- INI: lu ngalamin jadi siklusnya. Kalau semua label edukasi dicabut, game tetap asik dimainin.
+- BUKAN: kuis siklus air buat buka hujan.
+- INI: siklusnya = cara mainnya. Cabut semua label edukasi, game tetap fun dimainin sebagai merge-hujan.
 
 ## 7. FTUE (tanpa angka/huruf, full visual)
-- Mulai: awan kecil di atas danau, auto-isap membesar + ikon jari tahan.
-- Tahan: hujan keluar, pohon bawah seneng. Lepas: naik lagi.
-- Matahari nongol: awan menyusut + bunyi desis, pemain reflek cari bayangan. Langsung paham tanpa tutorial teks.
+1. Awan kecil + panah jari: geser ke atas genangan → uap naik (evaporasi paham).
+2. Dua awan deketan + hint overlap → merge jadi sedang → merge lagi jadi gelap.
+3. Awan gelap digeser ke tanah kering → hujan otomatis → tanah gelap → tunas muncul.
+4. Biarin: tanah memucat lagi → pemain paham harus hujan rutin.
 
-## 8. Scope & Feasibility Cepat
-- **Prototype 2 minggu (solo Unity 6):** 1 biome, 1 awan blob (scale + alpha = air), angin sine, matahari patrol, 3 state pohon (kering/haus/mekar).
-- **Risiko teknis:** Fluid visual murah (particle + shader unlit), hindari sim beneran.
-- **Go/No-Go:** Dalam 5 menit playtest orang ketawa / bilang "lagi" tanpa disuruh = lanjut.
+## 8. Scope Prototype
+- **Solo Unity 6, 1-2 minggu:** 1 scene landscape, drag awan (raycast 2D), overlap check buat merge, state awan: kecil/normal/besar-gelap (scale + color), timer hidup, rain particle + soil wet/dry timer, plant state: benih/tumbuh/kering/mati/bunga.
+- **Risiko:** overlap merge terasa adil (magnet snap), balancing timer jangan bikin frustasi.
+- **Go/No-Go:** Playtest 5 menit tanpa teks, pemain bisa merge + hujan + numbuhin 1 bunga = lanjut.
 
 ---
-Next: kalau oke, bikin GDD mini ikut Format Game Design + TDD Object Pool untuk hujan & awan.
+Next: balancing timer (pakai skill Economy & Balancing) + TDD pola State untuk Awan/Tanah/Tanaman.
