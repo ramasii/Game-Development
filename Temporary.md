@@ -47,19 +47,24 @@ Project Status: Concept Locked / Pre-Production Lead Designer: (Anda) Date: [Har
     2. Cross-Platform: Unity menawarkan dukungan ekosistem yang sangat luas, memastikan kemudahan adaptasi ke platform lain jika diperlukan di masa depan.
     3. Community Support: Jumlah aset, tutorial, dan _developer_ siap pakai di Unity sangat besar, mempercepat fase prototipe untuk sistem mekanik yang rumit.
 
+## 5. Persiapan - Game Brief & Visual Lock (Praktikum Minggu 3 - disesuaikan dengan GDD)
 
+| Elemen         | Keputusan Desain (disesuaikan dengan GDD Aether Conduit)                                                              |
+| -------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Game Brief     | Aether Conduit                                                                                                        |
+| World          | The Great Conduit - jaringan arus energi antar-dimensi yang retak temporal, Aether vs The Void Recursion              |
+| Main Character | Konduktor - teknisi / kurir energi muda, pemelihara aliran waktu, pembawa Stabilizer Charge dan Echo Reader           |
+| Visual Style   | Stylized 2D game illustration; clean shapes; readable silhouette; mystical-tech hand-painted + glowing energy accents |
+| Palette        | Void Indigo (navy), Stabilizer Gold, Aether Teal, Bone Cream, Entropic Terracotta                                     |
+| Target         | Karakter mudah dikenali di tengah VFX ramai dan dapat diturunkan menjadi sprite 2D / portrait UI                      |
+| Constraint     | Tidak menggunakan logo, teks, atau karakter tambahan pada character concept; kostum sederhana, no photoreal           |
 
-persiapan - game brief dan visual lock
-
-| Elemen         | Keputusan Desain (silahkan sesuikan dengan GDD) |
-| -------------- | ----------------------------------------------- |
-| Game Brief     | Aether Conduit                                  |
-| World          |                                                 |
-| Main Character |                                                 |
-| Visual Style   |                                                 |
-| Palette        |                                                 |
-| Target         |                                                 |
-| Constraint     |                                                 |
-
-Visual Lock - Atribut yang tidak boleh berubah (sesuaikan dengan GDD)
-- 
+## Visual Lock - Atribut yang tidak boleh berubah (sesuai GDD)
+- rambut hitam pendek
+- jaket mantle indigo dengan piping teal menyala (Phase Shift gear)
+- scarf teal panjang (visualisasi time-stream / Echo Reading)
+- tas selempang cokelat dengan selang conduit kecil (pembawa Stabilizer Charge)
+- kompas kuningan kecil / stabilizer core pada belt
+- sepatu boots cokelat tempur
+- silhouette sederhana dan mudah dibaca
+- proporsi karakter stylized ramping (5-6 kepala), cocok untuk sprite
