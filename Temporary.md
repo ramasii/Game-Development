@@ -49,6 +49,8 @@ Project Status: Concept Locked / Pre-Production Lead Designer: (Anda) Date: [Har
 
 
 
+persiapan - game brief dan visual lock
+
 | Elemen         | Keputusan Desain (silahkan sesuikan dengan GDD) |
 | -------------- | ----------------------------------------------- |
 | Game Brief     | Aether Conduit                                  |
