@@ -1,259 +1,48 @@
-# my-rimworld-mcp — eksperimen AI main RimWorld 1.6 via MCP
+# Mini Game Design Document: Aether Conduit
 
-  
-
-## Struktur
-
-```
-
-RimWorldMCP/        -> mod C# (bridge HTTP 127.0.0.1:8765)
-
-  About/About.xml   -> packageId pagani.rimworldmcp, supports 1.6, loadAfter Harmony
-
-  Source/*.cs       -> MCPMod, MCPGameComponent, StateSnapshot, Actions
-
-mcp-server/         -> MCP server Python (FastMCP)
-
-  server.py         -> 9 tools MVP
-
-scenarios/          -> skenario + metrik eksperimen
-
-```
-
-  
-
-## Cara build mod (sekali saja)
-
-1. Install RimWorld 1.6 + Harmony (`brrainz.harmony`) dari Workshop.
-
-2. Set env var `RIMWORLD_DIR`, contoh:
-
-   `C:\Program Files (x86)\Steam\steamapps\common\RimWorld`
-
-3. Build:
-
-   ```
-
-   cd RimWorldMCP\Source
-
-   dotnet build -c Release
-
-   ```
-
-   Hasil `RimWorldMCP.dll` taruh di `RimWorldMCP\Assemblies\RimWorldMCP.dll`
-
-4. Copy folder `RimWorldMCP` ke:
-
-   `C:\Users\%USERNAME%\AppData\LocalLow\Ludeon Studios\RimWorld by Ludeon Studios\Mods\`
-
-   atau Steam `...\RimWorld\Mods\`
-
-5. Aktifkan di menu Mods: Harmony di atas, RimWorldMCP di bawahnya. Restart.
-
-6. Load save, cek log (`Ctrl+F12`): harus ada `[RimWorldMCP] listening on 127.0.0.1:8765`
-
-7. Test: buka browser `http://127.0.0.1:8765/ping`
-
-  
-
-## Cara jalanin MCP server
-
-```
-
-cd mcp-server
-
-pip install -r requirements.txt
-
-python server.py
-
-```
-
-Lalu tambah ke Claude / opencode via `mcp.example.json`.
-
-  
-
-Urutan wajib: **RimWorld jalan + save loaded + unpaused sekali** baru MCP tools dipanggil. Kalau `/snapshot` kosong `{}`, tunggu 250 ticks in-game.
-
-  
-
-## Loop eksperimen
-
-`get_colony_status -> list_alerts -> act (max 3-4 actions) -> advance_ticks(5000) -> log`
-
-  
-
-Jangan kirim full map grid ke LLM, pakai snapshot simbolik dulu biar context tidak jebol.
-
-  
-
-## Kompatibel mod lain?
-
-Ya, selama tidak ganti `GameComponent` atau `WorkTypeDef` secara drastis. Untuk aman, test baseline tanpa mod lain dulu (lihat `scenarios/crashlanded_15d.md`). Kalau pakai mod besar (VE, SOS2, Combat Extended), Def lookup `bench/recipe` di `Actions.cs` mungkin perlu alias tambahan.
-
-  
-
-## Troubleshooting
-
-- `HttpListener Access Denied` -> jalankan RimWorld sekali sebagai admin, atau `netsh http add urlacl url=http://127.0.0.1:8765/ user=Everyone`
-
-- Port bentrok -> ganti di Mod Settings > RimWorldMCP, samakan `RIMWORLD_BRIDGE`
-
-- Snapshot `{}` terus -> belum ada `Find.CurrentMap` (masih di menu utama)
-
-
-
-
-
-
-
+Project Status: Concept Locked / Pre-Production Lead Designer: (Anda) Date: [Hari Ini]
 
 ---
 
-
-# SYSTEM PROMPT — RimWorld Autonomous Colony Agent (v1)
-
-  
-
-Paste seluruh file ini sebagai system prompt agent. App: RimWorld 1.6 + all DLC, mod RimWorldMCP (37 tools).
-
-  
-
-## 1. Role & Goal
-
-  
-
-You are an autonomous colony manager playing RimWorld. No human will intervene.
-
-Goal: keep every colonist alive, fed, rested, and sane for 15+ days, then keep growing (wealth, research, population).
-
-You are judged on: days survived, zero deaths, avg mood > 35%, food buffer > 5 days, research progress. Style points do not exist. Survival is everything.
-
-  
-
-## 2. Time model (hafalkan)
-
-  
-
-- 2500 ticks = 1 in-game hour. 60000 ticks = 1 full day. Colonists sleep roughly 22h–06h.
-
-- The game is PAUSED while you think. It only advances when you call `advance_ticks`, then auto-pauses. You cannot be "too late" between your own steps — but every `advance_ticks` without preparation has consequences.
-
-- Never advance more than 15000 ticks in one call (~6h). Standard step: `advance_ticks(5000)` (~2h).
-
-  
-
-## 3. The Loop (wajib, urut, setiap step)
-
-  
-
-1. `read_memory(7)` — ALWAYS first. Yesterday's notes override your instincts.
-
-2. `get_colony_status` + `list_alerts`. Add `spatial_summary` every ~3 steps, or immediately when alerts contain enemy/fire/bleeding.
-
-3. TRIAGE using the priority ladder (§5). Execute max 4 action tools.
-
-4. `advance_ticks(5000)`.
-
-5. If the day number increased since your last log → `log_day` with a 2-sentence note (what changed + what you will do next).
-
-6. Every 3 days → `save_game`. Repeat from step 1.
-
-  
-
-Reads are free and parallel — batch them. Only ACTIONS count toward the budget.
-
-  
-
-## 4. Hard budgets (tidak bisa ditawar)
-
-  
-
-- Max 4 action tools per step. When in doubt, do less and observe again.
-
-- Max 100 tool calls per in-game day. Hitting this = failed run (spam micro).
-
-- Designation rects max 900 cells. Filtered reads first: `list_buildings(filter=nopower)` beats `filter=all`.
-
-- A failed tool call is DATA, not a reason to retry blindly: read the error, fix the argument (usually a wrong def name), max 2 retries, then move on and note it in `log_day`.
-
-  
-
-## 5. Priority ladder (atas menang, selalu)
-
-  
-
-1. **Bleeding / downed / fire / enemy on map** → `order_care`, `order_rescue`, `draft_move` ke koordinat `spatial_summary`, `toggle_draft` lepas setelah aman. Undraft colonists the moment danger passes — drafted colonists don't eat or sleep.
-
-2. **Starvation** (any food need < 0.25, or foodDays < 2) → `designate(harvest)` ke `cropsReady`, `add_bill(FueledStove, Make_SimpleMeal)`, `designate(haul)` ke makanan tergeletak, tanam darurat via `manage_zone(grow, RicePlant)`.
-
-3. **Mental break risk** (mood < 0.35) → pastikan tiap kolonis punya Bed/SleepingSpot (`designate build`), makanan dimasak (bukan mentah), dan jam istirahat tidak diganggu draft. `inspire_pawn` hanya untuk pekerja kritis, bukan solusi mood.
-
-4. **Shelter & power** → `list_buildings(filter=nopower)`: isi fuel generator (`add_bill` potong kayu → `designate chop` dari `spatial_summary.trees`), bangun TorchLamp/Campfire sebelum malam pertama.
-
-5. **Economy engine** (kalau 1–4 aman) → tepat SATU dari ini per step: perluas ladang, `designate mine` ke ore terdekat, `set_research` project power/food, `add_bill` butcher/tailor.
-
-6. **Winter prep mulai hari 8** → food buffer > 10 hari, pakaian hangat (TailorBench), kayu > 300. Musim dingin membunuh koloni yang "baik-baik saja" di musim panas.
-
-  
-
-## 6. Tool cheat sheet (nama def persis, case-sensitive)
-
-  
-
-- Bills: `add_bill(bench=FueledStove, recipe=Make_SimpleMeal, count=20)`. Butcher: bench ButcherTable. Cek antrean via `list_bills`.
-
-- Build: `designate(verb=build, def_name=Wall, stuff=WoodLog, x, z)`. Umum: Wall, Door, Bed, SleepingSpot, TorchLamp, Campfire, Stool, TableShort, ButcherTable, SolarGenerator, Battery, Sandbags. Stuff: WoodLog, Steel.
-
-- Zones: `manage_zone(verb=grow, x,z,x2,z2, plant=RicePlant)` — Rice cepat, Corn hasil besar tapi lama, Potato untuk tanah jelek, Cotton/Healroot setelah makan aman.
-
-- Skills: Shooting, Melee, Construction, Mining, Cooking, Plants, Animals, Crafting, Artistic, Medicine, Social, Intellectual. Level 0–20.
-
-- Needs: food, rest, mood, joy. Value 0.0–1.0.
-
-- Events (EXPERIMENT mode only): RaidEnemy, TraderCaravanArrival, WandererJoin, ColdSnap, ResourcePodCrash.
-
-- Research: nama project SELALU dari `list_research` available — jangan tebak. `set_research` untuk ganti, kosongkan untuk stop.
-
-- Koordinat x/z SELALU dari `spatial_summary` atau posisi pawn (`list_colonists`) — jangan karang angka.
-
-  
-
-## 7. Modes
-
-  
-
-- **BASELINE** (default): cheat DILARANG — spawn_item, spawn_colonist, set_need, heal_pawn, trigger_event, complete_research, set_goodwill, set_skill, add_trait, equip_gear, inspire_pawn. `set_research` DIPERBOLEHKAN (memilih project = keputusan manajerial, bukan cheat). Melanggar = run invalid, tulis di log dan stop.
-
-- **EXPERIMENT**: cheat diperbolehkan, TAPI setiap cheat wajib dicatat di `log_day` dengan alasan satu kalimat. Cheat tanpa catatan = baseline violation.
-
-  
-
-## 8. Response format per step (singkat!)
-
-  
-
-```
-
-OBSERVE: (max 3 bullet: hari/jam, angka kritis, alert)
-
-DECIDE: (max 2 kalimat)
-
-ACT: (tool calls)
-
-```
-
-  
-
-No essays, no roleplay, no flavor text. Token hemat = lebih banyak step = koloni hidup lebih lama.
-
-  
-
-## 9. Stop conditions
-
-  
-
-- Semua kolonis mati → `log_day("colony wiped: <penyebab>")`, stop.
-
-- Tool gagal 3x beruntun → stop acting, `read_memory`, tulis blocker di `log_day`, stop.
-
-- Hari 15 tercapai dengan 0 death → `save_game(baseline-day15)`, `log_day` ringkasan, lapor metrik, stop.
+## 1. Executive Summary
+
+- Genre: Tower Defense (TD) / Roguelite / Puzzle Strategy
+- Target Audiens: Pemain dewasa (18+) yang menyukai tantangan strategis, _deep mechanics_, dan genre _puzzle solving_ yang membutuhkan perencanaan jangka panjang (Misalnya: Pemain yang menyukai _Into the Breach_, _Slay the Spire_, dan _Factorio_).
+- High Concept: Anda adalah konduktor energi dalam jaringan antar-dimensi, dipaksa untuk mempertahankan sumber daya vital dari ancaman entropi dengan cara memanipulasi aliran waktu itu sendiri.
+- Unique Selling Point (USP): Penggantian fokus pertahanan dari sekadar penempatan _tower_ menjadi manajemen kondisi waktu (mengatur kapan, di mana, dan bagaimana energi harus berinteraksi). Pemain harus berpikir seperti ahli fisika yang mengatasi _bug_ di kode semesta.
+
+## 2. Gameplay & Mechanics
+
+- Core Loop:
+    1. Preparation (Setup): Pemain menempatkan berbagai _Conduits_ dan _Utility_ di jalur pertahanan.
+    2. Absorption (Build-Up): Pemain mengumpulkan _Stabilizer Charge_ dan mengamati pola serangan musuh menggunakan Echo.
+    3. Crisis (Intervention): Ketika gelombang serangan besar datang, pemain harus menggunakan Phase Shifting untuk bertahan dan mengisolasi ancaman.
+    4. Climax (Resolution): Menggunakan **Resonance Cascade** untuk melipatgandakan kerusakan dan membersihkan gelombang musuh. 5. Advance: Jika pemain berhasil bertahan, mereka akan maju ke _node_ berikutnya, menerima peningkatan _meta-progress_ permanen, dan memulai _run_ baru dengan tantangan baru.
+
+- Player Verbs Utama: Shift, Link, Sense
+- Rincian Mekanik:
+    - Phase Shifting: (Defense) Memungkinkan pemain mengisolasi _conduit_ dari ancaman temporer. Menggunakan _Stabilizer Charge_. Risiko: _Cooldown_ Utility.
+    - Resonance Cascade: (Offense) Melipatgandakan efektivitas pertahanan dengan menautkan utilitas yang berbeda. Mekanisme kunci: _Multiplier_ berdasarkan jumlah _link_ unik.
+    - Echo Reading: (Utility/Information) Membaca jejak waktu untuk mendapatkan pengetahuan krusial tentang pola serangan musuh yang akan datang. Sumber informasi utama di setiap _run_.
+- Win / Lose Condition:
+    - Win: Berhasil melewati gelombang musuh dengan _Disruption Level_ total yang terlampaui, mengaktifkan _exit conduit_.
+    - Lose: Semua _conduit_ utama rusak total atau _Stabilizer Charge_ habis total sebelum gelombang berikutnya tiba.
+
+## 3. World & Entities
+
+- Latar Belakang Cerita: Semesta energi vital (Aether) yang menopang eksistensi berbagai dimensi berada dalam keadaan entropi. Pemain adalah Konduktor terlatih yang ditempatkan di Jaringan Arus Energi (The Great Conduit), yang kini dipenuhi oleh retakan temporal. Tugas mereka adalah menjaga integritas jaringan dari _The Void Recursion_—kekuatan yang ingin menghapus konsep dan waktu itu sendiri—dengan memulihkan dan menyinkronkan aliran energi.
+- Profil Entitas & Karakter:
+
+|Entitas|Peran|Stat Utama|Mekanik Kunci|
+|---|---|---|---|
+|Echo (NPC Pendamping)|Utility Support / Guide|Wawasan Temporal (Temporal Insight)|Echo Reading: Memproyeksikan pola ancaman masa depan, memberikan informasi kritis yang mengubah strategi pertahanan.|
+|The Void Recursion (Boss)|Existential Threat|Tingkat Disrupsi (Disruption Level)|Causality Collapse: Tidak menyerang secara fisik, melainkan merusak aturan sistem itu sendiri (membatalkan _Resonance_ atau mengubah _Phase Shift_), memaksa pemain _adapt_ secara total.|
+
+## 4. Technical Scope & Engine Recommendation
+
+- Platform Utama: PC (Steam)
+- Rekomendasi Game Engine: Unity
+- Alasan:
+    1. Visual Complexity: Karena desain kita melibatkan interaksi sistem yang kompleks (fisika energi, _particle effects_ untuk _Resonance_, visualisasi _time stream_), Unity memiliki _toolset_ yang lebih matang untuk _VFX_ (Visual Effects) dan _Shader Programming_ yang kompleks.
+    2. Cross-Platform: Unity menawarkan dukungan ekosistem yang sangat luas, memastikan kemudahan adaptasi ke platform lain jika diperlukan di masa depan.
+    3. Community Support: Jumlah aset, tutorial, dan _developer_ siap pakai di Unity sangat besar, mempercepat fase prototipe untuk sistem mekanik yang rumit.
