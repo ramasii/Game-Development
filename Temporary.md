@@ -49,16 +49,15 @@ Project Status: Concept Locked / Pre-Production Lead Designer: (Anda) Date: [Har
 
 
 
-| Elemen         | Keputusan Desain |
-| -------------- | ---------------- |
-| Game Brief     | Aether Conduit   |
-| World          |                  |
-| Main Character |                  |
-| Visual Style   |                  |
-| Palette        |                  |
-| Target         |                  |
-| Constraint     |                  |
+| Elemen         | Keputusan Desain (silahkan sesuikan dengan GDD) |
+| -------------- | ----------------------------------------------- |
+| Game Brief     | Aether Conduit                                  |
+| World          |                                                 |
+| Main Character |                                                 |
+| Visual Style   |                                                 |
+| Palette        |                                                 |
+| Target         |                                                 |
+| Constraint     |                                                 |
 
-| Visual Lock |     |
-| ----------- | --- |
-|             |     |
+Visual Lock - Atribut yang tidak boleh berubah (sesuaikan dengan GDD)
+- 
