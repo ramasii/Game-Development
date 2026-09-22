@@ -1,7 +1,7 @@
 # GDD - Awan Tukang Hujan
 
 > GDD murni (What & Why). Untuk eksekusi kapan & siapa (How & When) lihat [[Planning - Awan Tukang Hujan]] terpisah. Sumber sketsa: [[Temporary 2]].
-> Update: satu planet memiliki 80 slot (64 soil + 16 water).
+> Update: satu planet memiliki 40 slot (34 soil + 6 water).
 
 ---
 
@@ -37,7 +37,7 @@ Maks 5, sesuai sketsa King. Detail angka di BalanceConfig (lihat Planning).
 - **Mekanik 2 — Merge Overlap (Kondensasi):** Tempatkan 2+ awan overlap >0.4 dtk → merge jadi tier lebih besar. Rumus: Awan + Awan = Awan lebih besar. Kecil (putih kecil, hidup pendek) bisa jadi Normal (putih sedang, hidup lama) → Besar Gelap (auto-hujan).
 - **Mekanik 3 — Hujan Otomatis (Presipitasi):** Awan gelap otomatis hujan sampai menyusut jadi kecil putih. Pemain tidak pencet hujan, cuma atur posisi + timing.
 - **Mekanik 4 — Putar Planet + Edge-Scroll:** Daratan lingkaran (planet). Dev muter rotasi Z, player ngerasa geser. Cara: drag tanah kosong horizontal, atau drag awan ke 15% edge kanan/kiri → planet auto-rotate + panah indikator. Awan tetap di langit, genangan/tanah/tanaman ikut muter.
-- **Mekanik 5 — Basah/Kering + Hidup/Mati (Opsi A Slot):** Opsi A dipilih: satu planet memiliki 80 slot (64 soil + 16 water), tiap slot 1 sprite (terlihat menyatu). Soil (64) kering sendiri dalam waktu tertentu, basah jika kena hujan 2 dtk. Tanaman (menempel di soil, maks 64, initial 32 tunable via BalanceConfig) tumbuh jika basah terus, kering/mati jika kering terus, berbunga visual jika subur terus (bukan win). Water (16) hasilkan awan + zone evaporasi (stay 1 dtk = tick uap).
+- **Mekanik 5 — Basah/Kering + Hidup/Mati (Opsi A Slot):** Opsi A dipilih: satu planet memiliki 40 slot (34 soil + 6 water), tiap slot 1 sprite (terlihat menyatu). Soil (34) kering sendiri dalam waktu tertentu, basah jika kena hujan 2 dtk. Tanaman (menempel di soil, maks 34, initial 17 tunable via BalanceConfig) tumbuh jika basah terus, kering/mati jika kering terus, berbunga visual jika subur terus (bukan win). Water (6) hasilkan awan + zone evaporasi (stay 1 dtk = tick uap).
 
 Lose: `AliveCount == 0` → GameOver. Tidak ada HUD bunga, tidak ada skor, HUD cuma tombol Pause.
 
@@ -46,15 +46,15 @@ Lose: `AliveCount == 0` → GameOver. Tidak ada HUD bunga, tidak ada skor, HUD c
 ## 💻 4. Arsitektur Data & Design Pattern
 
 - **Design Pattern Pilihan:**
-  - `SSOT` — `BalanceConfigSO` (termasuk soilCount=64, waterCount=16, initialPlantCount=32) + `Cloud/Soil/PlantVisualSO` (Flyweight). Tidak ada hardcode timer di script.
+  - `SSOT` — `BalanceConfigSO` (termasuk soilCount=34, waterCount=6, initialPlantCount=17) + `Cloud/Soil/PlantVisualSO` (Flyweight). Tidak ada hardcode timer di script.
   - `Centralized State Manager + Enum FSM` — `GameManager : Singleton<T>` + `GameState (Boot, MainMenu, Playing, Paused, GameOver)` + `OnStateChanged`.
   - `State Pattern` — `IState + StateMachine` untuk Cloud (Small/Normal/Dark), Soil (Dry/Wet), Plant (Seed/Growing/Thirsty/Dead/Blooming-visual).
   - `Observer` — `EventChannelSO`: `OnCloudMerged, OnRainTick, OnSoilChanged, OnPlantDied, OnPlantBloomed-visual, OnGameOver`. UI/Audio subscribe doang.
-  - `Factory + Object Pool` — `CloudFactory` + `UnityEngine.Pool` untuk Cloud/Rain/Uap/Puddle. Anti GC spike mobile. Wajib untuk 80 slot (Dirty Flag + pool, jangan Instantiate per frame).
+  - `Factory + Object Pool` — `CloudFactory` + `UnityEngine.Pool` untuk Cloud/Rain/Uap/Puddle. Anti GC spike mobile. Wajib untuk 40 slot (Dirty Flag + pool, jangan Instantiate per frame).
   - `MVP` — UI ikon-only: MainMenu / Pause / GameOver / HUD-PauseOnly. View animasi, Presenter dengar event.
-  - `Dirty Flag` — SoilSlot (64 biji) update warna cuma pas berubah, bukan tiap frame.
+  - `Dirty Flag` — SoilSlot (34 biji) update warna cuma pas berubah, bukan tiap frame.
   - `Singleton hemat` — hanya GameManager, PoolManager, AudioManager, PlantManager (AliveTracker).
-- **Arsitektur & Penyimpanan Data:** ScriptableObject-based SSOT untuk balance + visual + event channel. Runtime split: Persistent (FTUE flag PlayerPrefs) vs Run (soil wet timer x64, plant state, cloud tier, planet angle). Nanti save cukup PlayerPrefs untuk FTUE + best survival (waktu, tanpa tampilkan angka ke pemain? simpan internal saja).
+- **Arsitektur & Penyimpanan Data:** ScriptableObject-based SSOT untuk balance + visual + event channel. Runtime split: Persistent (FTUE flag PlayerPrefs) vs Run (soil wet timer x34, plant state, cloud tier, planet angle). Nanti save cukup PlayerPrefs untuk FTUE + best survival (waktu, tanpa tampilkan angka ke pemain? simpan internal saja).
 - **Mermaid Diagram:**
     ```mermaid
     graph TD
@@ -99,9 +99,9 @@ Assets/_Project/
 ├── UI/ (HUD-PauseOnly, MainMenu, Pause, GameOver - MVP)
 └── Audio/ (AudioManager, Event-SFX map)
 ```
-- **Rencana Optimisasi (penting untuk 80 slot mobile):**
-  - *CPU/Memori:* Object Pool semua spawn berulang, Dirty Flag untuk 64 soil (jangan update tiap frame), Flyweight VisualSO shared, planet layout via data (loop spawn, bukan drag manual 80x).
-  - *Rendering/UI:* 1 scene, kamera ortho fixed, sprite atlas untuk 80 slot + tanaman, Canvas split statis/dinamis nanti, sprite Unlit + SpriteMask untuk busur planet.
+- **Rencana Optimisasi (penting untuk 40 slot mobile):**
+  - *CPU/Memori:* Object Pool semua spawn berulang, Dirty Flag untuk 34 soil (jangan update tiap frame), Flyweight VisualSO shared, planet layout via data (loop spawn, bukan drag manual 40x).
+  - *Rendering/UI:* 1 scene, kamera ortho fixed, sprite atlas untuk 40 slot + tanaman, Canvas split statis/dinamis nanti, sprite Unlit + SpriteMask untuk busur planet.
 
 ---
 
@@ -109,8 +109,8 @@ Assets/_Project/
 
 - **Estimasi Durasi:** Prototype 2 minggu (solo). MVP 1-2 bulan jika lolos Go/No-Go.
 - **Ukuran Tim:** Solo Dev (Rama - Programmer, Unity 6 + Blender cadangan + FL Studio BGM).
-- **Risiko Teknis:** Merge overlap terasa adil (perlu magnet snap + hold 0.4 dtk), edge-scroll kepencet tidak sengaja (perlu deadzone + indikator), rotasi planet 80 slot bikin mabuk/berat (clamp 60 deg/dtk + easing + atlas + pool).
-- **Risiko Desain:** Core bertahan >3 menit harus fun tanpa teks dengan 80 slot (jangan terlalu sepi/susah). Validasi via playtest buta 5 menit.
+- **Risiko Teknis:** Merge overlap terasa adil (perlu magnet snap + hold 0.4 dtk), edge-scroll kepencet tidak sengaja (perlu deadzone + indikator), rotasi planet 40 slot bikin mabuk/berat (clamp 60 deg/dtk + easing + atlas + pool).
+- **Risiko Desain:** Core bertahan >3 menit harus fun tanpa teks dengan 40 slot (jangan terlalu sepi/susah, air cuma 6 jadi rebutan). Validasi via playtest buta 5 menit.
 - **Kriteria Go/No-Go:** Lolos jika pemain baru tanpa teks bisa merge + hujan + muter + bertahan >3 menit dan mau retry. Gagal jika edge-scroll salah trigger >3x, merge random, mati <1 menit (terlalu susah) atau >10 menit bosen (terlalu gampang) → tuning BalanceConfig dulu, jangan tambah fitur.
 
 ---
