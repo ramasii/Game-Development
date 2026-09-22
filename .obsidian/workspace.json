@@ -14,7 +14,7 @@
               "type": "markdown",
               "state": {
                 "file": "Projects/Awan Tukang Hujan/Prompts - Eksekusi.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
@@ -98,7 +98,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 294.5
+    "width": 587.3919563293457
   },
   "right": {
     "id": "da11180e6fb24c03",
@@ -196,11 +196,11 @@
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
-    "width": 300,
+    "width": 200,
     "collapsed": true
   },
   "left-ribbon": {
@@ -215,10 +215,11 @@
       "graph:Open graph view": false
     }
   },
-  "active": "21ff75caf44fc2d0",
+  "active": "f42773d478bc473e",
   "lastOpenFiles": [
-    "Projects/Awan Tukang Hujan/GDD - Awan Tukang Hujan.md",
+    "Books/Books.md",
     "Projects/Awan Tukang Hujan/Prompts - Eksekusi.md",
+    "Projects/Awan Tukang Hujan/GDD - Awan Tukang Hujan.md",
     "Projects/Awan Tukang Hujan/Planning - Awan Tukang Hujan.md",
     "Projects/Awan Tukang Hujan/Awan Tukang Hujan.md",
     "Temporary 2.md",
@@ -238,7 +239,6 @@
     "Skills/03-Game-Architecture/Design Patterns & SOLID (Unity - Level Up Your Code).md",
     "Skills/03-Game-Architecture/Decoupled Audio System (Event Channel & Pooling).md",
     "Skills/03-Game-Architecture/Factory Pattern (Unity).md",
-    "Books/Books.md",
     "Skills/03-Game-Architecture/MVVM Pattern (Unity 6 Binding).md",
     "Skills/03-Game-Architecture/MVP Pattern (Unity UI).md",
     "Skills/03-Game-Architecture/Dirty Flag Pattern (Unity).md",
