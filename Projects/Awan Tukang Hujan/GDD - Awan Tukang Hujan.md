@@ -36,7 +36,7 @@ Maks 5, sesuai sketsa King. Detail angka di BalanceConfig (lihat Planning).
 - **Mekanik 2 — Merge Overlap (Kondensasi):** Tempatkan 2+ awan overlap >0.4 dtk → merge jadi tier lebih besar. Rumus: Awan + Awan = Awan lebih besar. Kecil (putih kecil, hidup pendek) bisa jadi Normal (putih sedang, hidup lama) → Besar Gelap (auto-hujan).
 - **Mekanik 3 — Hujan Otomatis (Presipitasi):** Awan gelap otomatis hujan sampai menyusut jadi kecil putih. Pemain tidak pencet hujan, cuma atur posisi + timing.
 - **Mekanik 4 — Putar Planet + Edge-Scroll:** Daratan lingkaran (planet). Dev muter rotasi Z, player ngerasa geser. Cara: drag tanah kosong horizontal, atau drag awan ke 15% edge kanan/kiri → planet auto-rotate + panah indikator. Awan tetap di langit, genangan/tanah/tanaman ikut muter.
-- **Mekanik 5 — Basah/Kering + Hidup/Mati (Opsi A Slot):** Opsi A dipilih: tanah dipecah 12 slot sprite (terlihat menyatu). Tanah kering sendiri dalam waktu tertentu, basah jika kena hujan 2 dtk. Tanaman tumbuh jika tanah basah terus, kering/mati jika kering terus, berbunga visual jika subur terus (bukan win). Genangan hasilkan awan + zone evaporasi (stay 1 dtk = tick uap).
+- **Mekanik 5 — Basah/Kering + Hidup/Mati (Opsi A Slot):** Opsi A dipilih: tanah dipecah 64 slot sprite (terlihat menyatu). Tanah kering sendiri dalam waktu tertentu, basah jika kena hujan 2 dtk. Tanaman tumbuh jika tanah basah terus, kering/mati jika kering terus, berbunga visual jika subur terus (bukan win). Genangan hasilkan awan + zone evaporasi (stay 1 dtk = tick uap).
 
 Lose: `AliveCount == 0` → GameOver. Tidak ada HUD bunga, tidak ada skor, HUD cuma tombol Pause.
 

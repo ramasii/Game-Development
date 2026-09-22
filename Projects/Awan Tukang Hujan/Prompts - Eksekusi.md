@@ -12,7 +12,7 @@
  Unity: SELALU pakai MCP Unity (unity_*). JANGAN tebak isi scene/file.
  - Mulai dengan unity_list_instances > unity_select_instance > unity_editor_state > unity_scene_hierarchy.
  - Cek script via unity_script_read, edit via unity_script_create/update, verifikasi via unity_get_compilation_errors + unity_console_log + unity_play_mode.
- Batasan keras GDD: Mobile Landscape 2D, 1 jari drag saja, no angka/huruf di gameplay & UI (full ikon), no win, no HUD bunga, lose tunggal AliveCount==0, Opsi A 12 SoilSlot, max 5 awan, Unity 6 + URP 2D.
+ Batasan keras GDD: Mobile Landscape 2D, 1 jari drag saja, no angka/huruf di gameplay & UI (full ikon), no win, no HUD bunga, lose tunggal AliveCount==0, Opsi A 64 SoilSlot, max 5 awan, Unity 6 + URP 2D.
  Arsitektur wajib: SSOT BalanceConfigSO, GameManager Singleton + GameState enum (Boot,MainMenu,Playing,Paused,GameOver), State Pattern untuk Cloud/Soil/Plant, Observer EventChannelSO, Factory + Object Pool, MVP UI, SOLID, Runtime State Separation, Dirty Flag, Flyweight.
  Larangan: JANGAN tambah mekanik/sistem di luar GDD. JANGAN hardcode timer di script. JANGAN buat scene baru selain Game. Jika ragu, baca vault dulu.
 ```
@@ -37,7 +37,7 @@ DoD: folder + asmdef lengkap, GameManager bisa SetState via Inspector button/con
 JANGAN lanjut ke planet/awan. Hanya fondasi.
 ```
 
-## P1 - PlanetRoot + 20 SoilSlot Whitebox + Rotasi Drag
+## P1 - PlanetRoot + 64 SoilSlot Whitebox + Rotasi Drag
 
 ```
 Konteks: baca ATURAN GLOBAL + GDD bab 3 Mekanik 4+5 + Planning bab 2 via MCP.
@@ -45,12 +45,12 @@ Konteks: baca ATURAN GLOBAL + GDD bab 3 Mekanik 4+5 + Planning bab 2 via MCP.
 Tugas: dunia melingkar bisa diputar (Unity MCP only).
 
 1. Cek scene Game via unity_scene_hierarchy. Buat PlanetRotator.cs di Features/Planet/: rotate PlanetRoot di sumbu Z, maxSpeed dari BalanceConfigSO, easing + clamp, method Rotate(deltaX) + AutoRotate lambat untuk MainMenu.
-2. Buat SoilSlot.prefab whitebox (SpriteRenderer kotak, beda warna Dry pucat vs Wet gelap) + SoilStateMachine.cs (State Pattern: Dry <-> Wet, timer soilWetDuration, rainToWet 2 dtk untuk jadi Wet, Dirty Flag untuk visual). Spawn 20 slot melingkar sebagai child PlanetRoot (radius konsisten, terlihat menyatu).
-3. Buat WaterSpot.cs 2 biji (child PlanetRoot, zona evaporasi + visual biru) + EvaporasiZone detection (stay 1 dtk = tick).
+2. Buat SoilSlot.prefab whitebox (SpriteRenderer kotak, beda warna Dry pucat vs Wet gelap) + SoilStateMachine.cs (State Pattern: Dry <-> Wet, timer soilWetDuration, rainToWet 2 dtk untuk jadi Wet, Dirty Flag untuk visual). Spawn 64 slot melingkar sebagai child PlanetRoot (radius konsisten, terlihat menyatu).
+3. Buat WaterSpot.cs 16 biji (child PlanetRoot, zona evaporasi + visual biru) + EvaporasiZone detection (stay 1 dtk = tick).
 4. InputManager.cs tahap 1: drag tanah kosong horizontal = PlanetRotator.Rotate. Bedakan via raycast layer Tanah vs Awan (awan belum ada, siapkan saja). Support mouse (editor) + touch 1 jari.
 5. Verifikasi: Play mode, drag tanah muter 360° balik ke awal, kamera diam, slot ikut muter. Cek via unity_graphics_scene_capture jika perlu.
 
-DoD: 20 slot + 2 air muter mulus, tidak mabuk (clamp+easing), soil bisa Wet/Dry via debug hujan dummy, tidak ada awan dulu.
+DoD: 64 slot + 16 air muter mulus, tidak mabuk (clamp+easing), soil bisa Wet/Dry via debug hujan dummy, tidak ada awan dulu.
 ```
 
 ## P2 - Cloud Drag + Merge Overlap + Evaporasi + Hujan Placeholder
