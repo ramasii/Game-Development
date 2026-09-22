@@ -7,7 +7,7 @@
 ## ATURAN GLOBAL (tempel di tiap eksekusi)
 
 ```
- second brain: Obsidian MCP obsidian-gamedev. SELALU baca ulang via MCP sebelum coding:
+ second brain: Obsidian MCP obsidian-gamedev. Baca ulang via MCP sebelum coding:
  - Projects/Awan Tukang Hujan/GDD - Awan Tukang Hujan.md
  - Projects/Awan Tukang Hujan/Planning - Awan Tukang Hujan.md
  Unity: SELALU pakai MCP Unity (unity_*). JANGAN tebak isi scene/file.
