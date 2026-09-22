@@ -55,10 +55,12 @@ Geser awan ke atas genangan > diem di atas air (evaporasi) > geser + overlap 2 a
 - Genangan menempel di planet (ikut muter), jadi kadang harus muter dulu buat cari air.
 
 ### TANAH (Opsi A - Slot)
-- Dipilih Opsi A: tanah dipecah jadi N slot sprite (misal 12 slot) mengelilingi planet. Terlihat menyatu, logik per-slot.
-- Tanah bisa kering dalam waktu tertentu.
-- Tanah bisa basah jika terkena hujan.
+- Update: satu planet memiliki 80 slot (64 soil + 16 water), tiap slot 1 sprite Opsi A. Terlihat menyatu, logik per-slot.
+- Soil (64) bisa kering dalam waktu tertentu.
+- Soil bisa basah jika terkena hujan.
+- Water (16) menempel di planet ikut muter, jadi cari air = tantangan rotasi.
 - Visual only: kering (pucat/retak) vs basah (gelap). Tanpa angka, tanpa teks.
+- Tanaman menempel di soil (maks 64, initial 32 tunable). Sumber tunggal kini di GDD + Planning folder project.
 
 ### TANAMAN + LOSE CONDITION
 - Tanaman bisa kering dan mati dalam jangka tertentu (kalau tanah kering terus).
