@@ -37,7 +37,7 @@ DoD: folder + asmdef lengkap, GameManager bisa SetState via Inspector button/con
 JANGAN lanjut ke planet/awan. Hanya fondasi.
 ```
 
-## P1 - PlanetRoot + 12 SoilSlot Whitebox + Rotasi Drag
+## P1 - PlanetRoot + 20 SoilSlot Whitebox + Rotasi Drag
 
 ```
 Konteks: baca ATURAN GLOBAL + GDD bab 3 Mekanik 4+5 + Planning bab 2 via MCP.
@@ -45,12 +45,12 @@ Konteks: baca ATURAN GLOBAL + GDD bab 3 Mekanik 4+5 + Planning bab 2 via MCP.
 Tugas: dunia melingkar bisa diputar (Unity MCP only).
 
 1. Cek scene Game via unity_scene_hierarchy. Buat PlanetRotator.cs di Features/Planet/: rotate PlanetRoot di sumbu Z, maxSpeed dari BalanceConfigSO, easing + clamp, method Rotate(deltaX) + AutoRotate lambat untuk MainMenu.
-2. Buat SoilSlot.prefab whitebox (SpriteRenderer kotak, beda warna Dry pucat vs Wet gelap) + SoilStateMachine.cs (State Pattern: Dry <-> Wet, timer soilWetDuration, rainToWet 2 dtk untuk jadi Wet, Dirty Flag untuk visual). Spawn 12 slot melingkar sebagai child PlanetRoot (radius konsisten, terlihat menyatu).
+2. Buat SoilSlot.prefab whitebox (SpriteRenderer kotak, beda warna Dry pucat vs Wet gelap) + SoilStateMachine.cs (State Pattern: Dry <-> Wet, timer soilWetDuration, rainToWet 2 dtk untuk jadi Wet, Dirty Flag untuk visual). Spawn 20 slot melingkar sebagai child PlanetRoot (radius konsisten, terlihat menyatu).
 3. Buat WaterSpot.cs 2 biji (child PlanetRoot, zona evaporasi + visual biru) + EvaporasiZone detection (stay 1 dtk = tick).
 4. InputManager.cs tahap 1: drag tanah kosong horizontal = PlanetRotator.Rotate. Bedakan via raycast layer Tanah vs Awan (awan belum ada, siapkan saja). Support mouse (editor) + touch 1 jari.
 5. Verifikasi: Play mode, drag tanah muter 360° balik ke awal, kamera diam, slot ikut muter. Cek via unity_graphics_scene_capture jika perlu.
 
-DoD: 12 slot + 2 air muter mulus, tidak mabuk (clamp+easing), soil bisa Wet/Dry via debug hujan dummy, tidak ada awan dulu.
+DoD: 20 slot + 2 air muter mulus, tidak mabuk (clamp+easing), soil bisa Wet/Dry via debug hujan dummy, tidak ada awan dulu.
 ```
 
 ## P2 - Cloud Drag + Merge Overlap + Evaporasi + Hujan Placeholder
