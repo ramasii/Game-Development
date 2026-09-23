@@ -11,7 +11,7 @@
 - [[Planning - Awan Tukang Hujan]] — Planning eksekusi terpisah: flow MainMenu → InGame → Pause → GameOver, scene breakdown 40 slot, task 2 minggu, balancing anchors, Go/No-Go.
 - [[Prompts - Eksekusi]] — 8 prompt AI siap copy (P0–P7) ngunci GDD + wajib MCP Unity.
 
-Sumber konsep: [[Temporary 2]] (arsip brainstorming + sketsa King).
+Sumber konsep: [[GDD - Frog Life Cycle]] (arsip brainstorming + sketsa King).
 
 ---
 

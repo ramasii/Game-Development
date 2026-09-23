@@ -1,6 +1,6 @@
 # GDD - Awan Tukang Hujan
 
-> GDD murni (What & Why). Untuk eksekusi kapan & siapa (How & When) lihat [[Planning - Awan Tukang Hujan]] terpisah. Sumber sketsa: [[Temporary 2]].
+> GDD murni (What & Why). Untuk eksekusi kapan & siapa (How & When) lihat [[Planning - Awan Tukang Hujan]] terpisah. Sumber sketsa: [[GDD - Frog Life Cycle]].
 > Update: satu planet memiliki 40 slot (34 soil + 6 water).
 
 ---
