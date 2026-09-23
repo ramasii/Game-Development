@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Projects/Frog Life Cycle/GDD - Frog Life Cycle.md",
+                "file": "Projects/Frog Life Cycle/Planning - Frog Life Cycle.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "GDD - Frog Life Cycle"
+              "title": "Planning - Frog Life Cycle"
             }
           }
         ]
@@ -215,11 +215,12 @@
       "graph:Open graph view": false
     }
   },
-  "active": "128d5ba411da2e3d",
+  "active": "21ff75caf44fc2d0",
   "lastOpenFiles": [
+    "Projects/Frog Life Cycle/GDD - Frog Life Cycle.md",
+    "Projects/Frog Life Cycle/Planning - Frog Life Cycle.md",
     "Projects/Frog Life Cycle",
     "Projects/Projects.md",
-    "Projects/Frog Life Cycle/GDD - Frog Life Cycle.md",
     "Projects/Ideas/Format Game Design.md",
     "Temporary.md",
     "Projects/Awan Tukang Hujan/Prompts - Eksekusi.md",
@@ -253,7 +254,6 @@
     "Projects/Ideas/Pair Jump",
     "Projects/Solve Together",
     "Images/Chords Relationships.png",
-    "Projects/IFEST 2026",
     "Skills/Game Balance/references/images/chapter5.png",
     "Skills/Game Balance/references/images/chapter3.png",
     "Skills/Game Balance/references/images/chapter2.png",
