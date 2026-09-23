@@ -66,8 +66,8 @@ Kamera 2D/2.5D landscape mobile mengikuti player. Food & enemy di-spawn lewat Fa
 1. ✅ Core: GameManager + PlayerState FSM (mulai dari Tadpole saja) + EventChannel
 2. ✅ Analog movement + kamera follow
 3. ✅ Food spawn (Factory + Pool) + FeedingController + MetamorphosisMeter
-4. Predator spawn (Factory + Pool) + collision damage
-5. Playtest: apakah loop makan-hindari-meter naik terasa enak sebelum nambah stage lain?
+4. ✅ Predator spawn (Factory + Pool) + collision damage
+5. ✅ Playtest: apakah loop makan-hindari-meter naik terasa enak sebelum nambah stage lain?
 
 **Minggu 2 — Progresi & Tahap:**
 6. Tambah 4 state lanjutan (TadpoleLegs → Frog) via State Pattern, tiap state ganti size/sprite
