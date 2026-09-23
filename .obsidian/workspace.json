@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Projects/Ideas/Format Game Design.md",
+                "file": "Temporary 2.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Format Game Design"
+              "title": "Temporary 2"
             }
           }
         ]
@@ -217,6 +217,7 @@
   },
   "active": "21ff75caf44fc2d0",
   "lastOpenFiles": [
+    "Projects/Ideas/Format Game Design.md",
     "Projects/Projects.md",
     "Temporary.md",
     "Temporary 2.md",
@@ -243,7 +244,6 @@
     "Skills/03-Game-Architecture/MVVM Pattern (Unity 6 Binding).md",
     "Skills/03-Game-Architecture/MVP Pattern (Unity UI).md",
     "Skills/03-Game-Architecture/Dirty Flag Pattern (Unity).md",
-    "Skills/03-Game-Architecture/Flyweight Pattern (Unity Shared Data).md",
     "Books/Level Up Your Code With Design Pattern.pdf",
     "Books/Chord Relationships and Emotion.pdf",
     "Books/An Architectural Approach to Level Design Second Edition.pdf",
