@@ -19,3 +19,8 @@
 ## PENDING — butuh restart Unity dulu
 - Playtest fungsional (mover gerak, retak hilang pasca-injak) KEGAGALAN lingkungan: player loop stall — `Time.frameCount=1`, `Time.time` beku, ts=1, tidak pause, console bersih dari error game. Bukan salah kode (compile 0, tidak ada loop tak terbatas di kode). Dugaan: sesi editor wedge setelah 37+ menit + banyak hot reload hari ini.
 - Setelah restart: re-run tes spawn Gerak/Retak runtime + cek pool plateau, lalu update TDD.
+
+## Update — debug log varian + anomali player loop
+- Tambah `Spawner.logVariantSpawns` (default ON): log `[Spawner] Varian X spawn di (x, y)` tiap Gerak/Retak spawn. `PlatformCrumbler`: log `[Crumbler] ... diinjak` + `... rontok -> balik pool`. Compile 0 error.
+- Anomali: `Time.frameCount` stuck 1-2 + `Time.time` beku (ts=1, tidak pause, console bersih, uptime editor 57 mnt). Runtime test TETAP pending. Minta King restart Unity.
+- Hipotesis backlog kalau gap terbukti varian: (a) Retak rontok wajar meninggalkan lubang (by design, perlu konfirmasi rasa), (b) Mover range 2 + maxGapX 2.5 = gap efektif 4.5 → pertimbangkan kecilkan moveRange default.
