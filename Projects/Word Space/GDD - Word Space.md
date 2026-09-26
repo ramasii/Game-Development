@@ -1,90 +1,139 @@
-# 📄 GDD - Word Space (Ringkas)
+# 📋 GDD — Word Space
 
-> Tugas Kuliah — Gamifikasi Edukasi. Racing Quiz Bahasa Inggris, single player vs bot, Unity, target anak TK.
+> GDD dibuat mengikuti [[Projects/Ideas/Format Game Design|Format Game Design]]. Tugas Kuliah — Gamifikasi Edukasi (1 dari 3 tugas game edukasi kuliah).
 
-## 1. Identitas
+---
 
-| Info | Detail |
-|------|--------|
-| **Judul** | Word Space |
-| **Jenis** | Gamifikasi (1 dari 3 tugas game edukasi kuliah) |
-| **Target Subject** | B2B — Guru/sekolah TK swasta |
-| **End User** | Anak TK (belum fasih baca) |
-| **Engine** | Unity 6 (URP) |
-| **Mode** | Single player vs 3 bot, race, tanpa multiplayer |
-| **Visual** | Space race — pesawat luar angkasa |
+## 🎮 1. Konsep & Identitas Game
 
-## 2. Konsep Game
+- **Premis**: Game ini adalah Racing Quiz Gamifikasi di mana pemain mencocokkan kata Bahasa Indonesia ke pilihan kata Bahasa Inggris yang tepat untuk mempercepat pesawat luar angkasanya menuju garis finish.
+- **Genre**: Racing Quiz / Gamifikasi Edukasi
+- **Target Platform**: TV/proyektor kelas, dioperasikan langsung di sesi belajar
+- **Target Subject (B2B)**: Guru/sekolah TK swasta
+- **End User**: Anak TK, pra-literasi (belum fasih baca)
+- **USP**: Mekanik racing bikin drilling vocab kerasa kayak main, bukan kuis — dibantu voice over + gambar biar anak yang belum bisa baca tetap paham soalnya
+- **Referensi & Inspirasi**: Pola umum game quiz-race edukasi (jawab benar = boost, salah = slow, ranking di akhir)
 
-Balapan pesawat luar angkasa 4 peserta (1 pemain asli + 3 bot nama random). Sepanjang race, pemain dikasih soal cocok-kata: 1 kata Bahasa Indonesia (contoh "kursi") + beberapa pilihan kata Bahasa Inggris (contoh "chair", "table", "sofa"). Jawaban benar → pesawat dapet boost. Jawaban salah → pesawat melambat. Siapa yang sampai finish duluan, menang.
+---
 
-Karena target-nya anak TK yang belum fasih baca, semua soal dibantu **voice over** (kata dibacain) + **ilustrasi gambar**, teks cuma pelengkap, bukan satu-satunya jalur pemahaman.
+## 🔄 2. Core Gameplay Loop
 
-Tiap pembalap (pemain + 3 bot) punya **jalurnya masing-masing (lane terpisah)** — gak ada tabrakan antar pembalap sepanjang race. Posisi menang/kalah murni ditentuin dari siapa yang paling jauh/cepat nyampe finish, bukan dari senggolan fisik.
+- **Loop Utama**: `MAIN MENU → START → INPUT NAMA → NEXT → LOBBY → START → LEVEL → COUNTDOWN → BERMAIN → FINISH → RESULT → PLAY AGAIN → (kembali ke INPUT NAMA)`
+- **Core Mechanic**: Cocok-kata Indonesia → Inggris yang berpengaruh langsung ke kecepatan pesawat (jawaban benar = boost, salah = slowdown)
+- **Daya Tarik Jangka Pendek**: Race 4 lane melawan 3 bot dengan feedback instan (particle boost, screen-shake/slow-mo pas salah); kalau main lancar, race selesai ~50 detik — cepat dan bisa diulang
+- **Daya Tarik Jangka Panjang**: Kategori kata baru & variasi track/skin pesawat sebagai insentif main ulang (di luar scope MVP 1 bulan)
 
-## 3. Core Gameplay Loop
+---
 
-`MAIN MENU → START → INPUT NAMA → NEXT → LOBBY → START → LEVEL → COUNTDOWN → BERMAIN → FINISH → RESULT → PLAY AGAIN → (kembali ke INPUT NAMA)`
+## ⚔️ 3. Mekanik Utama
 
-- **Main Menu → Start:** entry point
-- **Input Nama:** pemain ketik nama sendiri (manual, bukan avatar-picker)
-- **Lobby:** nampilin 4 pembalap — 1 pemain asli + 3 bot dengan nama random
-- **Level → Countdown → Bermain:** race berjalan, soal muncul berkala; benar = boost, salah = slow down
-- **Finish → Result:** race selesai begitu semua pembalap nyampe / waktu abis
-- **Play Again:** balik ke input nama buat sesi baru
+- **Mekanik 1 — Cocok Kata Bahasa Inggris**: Soal muncul sebagai 1 kata Indonesia + beberapa pilihan Inggris; distractor dibuat semantically related (misal semua furniture) biar bener-bener nguji vocab, bukan tebak-tebakan
+- **Mekanik 2 — Boost/Slow Berdasarkan Jawaban**: Jawaban benar → speed boost sementara; salah → slowdown sementara; efek drop-off setelah durasi tertentu, bukan permanen
+- **Mekanik 3 — Multi-Lane Racing vs Bot**: 4 lane terpisah (pemain + 3 bot), gak ada tabrakan fisik; bot pakai rubber-banding biar race tetap seru sampai akhir
+- **Mekanik 4 — Voice Over + Gambar**: Soal dibacain + dibantu ilustrasi, teks cuma pelengkap — krusial buat target anak TK yang belum fasih baca
 
-## 4. Result Screen
+> 4 mekanik ini cukup buat MVP; belum nambah mekanik lain di scope 1 bulan pertama.
 
-Disederhanain, cuma 2 komponen:
+---
+
+## 💻 4. Arsitektur Data & Design Pattern *(Prioritas Utama)*
+
+- **Design Pattern Pilihan**:
+  - [[Simple FSM Berbasis Enum (Game State Prototyping)]] + [[Centralized State Manager (GameManager Singleton & Event)]] — state `MainMenu/NameInput/Lobby/Countdown/Racing/Finish/Result`
+  - [[Observer Pattern Events]] — broadcast `OnAnswerCorrect`/`OnAnswerWrong` ke sistem boost, UI, audio tanpa coupling langsung
+  - [[Flyweight Pattern (Unity Shared Data)]] — `WordBank` (SSOT bank kata) dipakai bareng semua instance soal
+  - [[Factory Pattern (Unity)]] — spawn 3 bot racer dengan nama random & profil kecepatan berbeda
+  - [[MVP Pattern (Unity UI)]] — pemisahan logic vs tampilan buat Lobby, HUD soal, Result
+  - [[Dirty Flag Pattern (Unity)]] — Result screen update cuma pas datanya berubah
+  - [[Decoupled Audio System (Event Channel & Pooling)]] — voice over & SFX lewat event channel
+- **Arsitektur & Penyimpanan Data**: `WordEntry`/`WordBank` sebagai ScriptableObject SSOT; `LaneTrackData` (arc-length table per lane) di-bake sekali dan disimpan sebagai asset; `GameManager` Singleton pegang state global
+
+```mermaid
+graph TD
+    GameManager -->|state change| UIPresenter
+    GameManager --> QuestionManager
+    WordBank -->|SSOT data| QuestionManager
+    QuestionManager -->|OnAnswerCorrect / OnAnswerWrong| EventChannel
+    EventChannel --> RacerController
+    EventChannel --> AudioSystem
+    EventChannel --> UIPresenter
+    LaneTrackData -->|arc-length lookup| RacerController
+    RacerController -->|posisi & progres| BotAI
+    RacerController -->|ranking & soal salah| ResultManager
+    ResultManager --> UIPresenter
+```
+
+---
+
+## 🏛️ 5. Desain FTUE
+
+- **Pendekatan FTUE**: Contextual + Voice-Guided — karena target anak TK pra-literasi, gak pakai tutorial popup teks panjang. Voice over kasih instruksi verbal sederhana pas soal pertama muncul (misal "pilih kata yang cocok!"), dan countdown 3-2-1 sebelum race berfungsi sekaligus sebagai sinyal implisit "sekarang mulai main". Flow `Input Nama → Lobby → Countdown` juga udah cukup pendek buat gak butuh onboarding terpisah.
+
+---
+
+## 🚀 6. Struktur Folder Modular & Optimisasi Performa
+
+**Struktur Folder (Feature-Based, Unity)**:
+
+```
+Assets/_Project/WordSpace/
+├── 01_Core/
+│   ├── GameManager.cs
+│   ├── GameState.cs (enum)
+│   └── EventChannels/ (AnswerEventChannel, GameStateEventChannel)
+├── 02_Track/
+│   ├── LaneTrackData.cs (ScriptableObject: positions[], cumulativeDistances[], totalLength)
+│   ├── TrackBaker.cs (Editor tool: bake spline → arc-length table)
+│   └── PathFollower.cs (runtime lookup posisi+tangent dari currentDistance)
+├── 03_Racer/
+│   ├── RacerController.cs (currentDistance, speedMultiplier)
+│   ├── SpeedModifier.cs (boost/slow drop-off logic)
+│   └── BotAI.cs (jawab probabilistik + rubber-banding)
+├── 04_Question/
+│   ├── WordEntry.cs (ScriptableObject)
+│   ├── WordBank.cs (ScriptableObject)
+│   └── QuestionManager.cs
+├── 05_Audio/
+│   ├── VoiceOverPlayer.cs
+│   └── SFXPool.cs
+├── 06_UI/
+│   ├── MainMenu/, NameInput/, Lobby/
+│   ├── HUD/ (soal aktif, indikator boost/slow)
+│   └── Result/ (ranking + list soal salah)
+└── 07_Data/
+    └── WordCategories/ (aset WordBank per kategori)
+```
+
+- Tiap folder fitur (`02_Track`, `03_Racer`, `04_Question`, `06_UI`) dipisah pakai Assembly Definition (`.asmdef`) sendiri-sendiri, biar compile time gak melebar tiap kali ubah 1 fitur
+- **Rencana Optimisasi**:
+  - *CPU/Memori*: Arc-length table di-bake sekali di Editor (bukan `EvaluatePosition` tiap frame); Object Pooling buat particle boost/slow-mo effect
+  - *Rendering/UI*: Canvas Splitting — HUD dinamis (soal, indikator boost) dipisah dari elemen statis (background lobby, dekorasi), biar rebuild layout gak sering ke-trigger pas soal berganti
+
+---
+
+## 📏 7. Scope & Feasibility
+
+- **Estimasi Durasi**: 1 bulan (4 minggu), solo dev
+- **Ukuran Tim**: Solo (Rama / King)
+- **Risiko Teknis**: Arc-length movement multi-lane di jalur belok (termasuk mastiin 4 lane `totalLength` konsisten); balancing bot rubber-banding; produksi aset voice over
+- **Risiko Desain**: Apakah loop cocok-kata + racing kerasa fun (bukan berasa kuis biasa) buat anak TK — belum divalidasi lewat playtest langsung ke kelas
+- **Kriteria "Go/No-Go"**: Prototype 1 lane + 1 kategori kata + boost/slow + Result screen (ranking + list soal salah) udah jalan mulus
+
+---
+
+## 📎 Appendix — Detail Tambahan
+
+### A. Isi Result Screen
 - **Ranking** 4 pembalap (posisi finish)
 - **List pertanyaan yang dijawab salah** — soal + semua pilihan jawaban, jawaban benar di-highlight
+- Waktu tempuh, akurasi, dan rata-rata soal/menit sengaja dihilangin biar result screen fokus, gak kebanyakan angka buat anak TK
 
-(Waktu tempuh, akurasi, dan rata-rata soal/menit sengaja dihilangin biar result screen fokus dan gak kebanyakan angka buat anak TK.)
-
-## 5. Desain Soal
-
-- Distractor **semantically related** (misal semua furniture: "chair", "table", "sofa") — biar bener-bener nguji vocab, bukan tebak-tebakan dari familiarity
-- **Progresi kesulitan** sepanjang race — awal kata umum/gampang, makin ke finish makin jarang dipakai
-- **Bot rubber-banding** — bot yang ketinggalan jauh dikasih sedikit speed-up, biar race tetep deg-degan sampai akhir
-- Feedback boost/slow harus kerasa instan: particle trail pas boost, screen-shake/slow-mo ringan pas salah
-
-## 6. Referensi
-
-- Racing-quiz mechanic (benar = boost, salah = slow, ranking di akhir) — pola umum game quiz-race edukasi
-- Voice over + gambar + teks sebagai jalur ganda pemahaman, dirancang khusus buat audiens pra-literasi (anak TK)
-
-## 7. Arsitektur & Skill Vault yang Dipakai
-
-### Game state & flow
-- [[Simple FSM Berbasis Enum (Game State Prototyping)]] — state Menu/InputNama/Lobby/Countdown/Playing/Finish/Result
-- [[Centralized State Manager (GameManager Singleton & Event)]] — single source kontrol transisi antar state di atas
-
-### Event & komunikasi antar sistem
-- [[Observer Pattern Events]] — broadcast event jawaban benar/salah ke sistem boost pesawat, UI, dan audio tanpa coupling langsung
-- [[Decoupled Audio System (Event Channel & Pooling)]] — voice over kata + SFX boost/slow dipicu lewat event channel, gampang di-reuse tiap soal
-
-### Data soal & bot
-- [[Flyweight Pattern (Unity Shared Data)]] — bank kata (pasangan Indonesia-Inggris + distractor) disimpan sebagai shared data (ScriptableObject), dipakai bareng oleh semua instance soal
-- [[Factory Pattern (Unity)]] — spawn 3 bot racer dengan nama random & profil kecepatan berbeda tiap sesi
-
-### UI
-- [[MVP Pattern (Unity UI)]] — pemisahan logic vs tampilan buat layar Lobby, HUD soal, dan Result
-- [[Dirty Flag Pattern (Unity)]] — update UI ranking/hasil cuma pas datanya berubah, hindari refresh tiap frame
-
-### Balancing
+### B. Balancing Reference
 - [[Model Progress Curves]] — kurva progresi kesulitan soal sepanjang race
 - [[Establish Math Anchors]] — angka dasar buat tuning kecepatan boost/slowdown & rubber-banding bot
-
-### Prinsip umum
-- [[SOLID Principles (Unity)]] — dipegang sebagai baseline semua sistem di atas
-
-## 8. Scope (1 Bulan, Solo Dev)
-
-- Fokus 1 kategori kata dulu (misal benda sehari-hari) — cukup buat validasi loop utama sebelum nambah kategori lain
-- 1 track race, tiap pembalap di lane terpisah, 3 bot dengan variasi kecepatan/rubber-banding sederhana
-- Voice over minimal: kata soal + feedback benar/salah, belum perlu full narasi cerita
+- [[SOLID Principles (Unity)]] — baseline prinsip semua sistem di atas
+- Target pacing: ~20 soal/menit, jawab benar semua → race selesai ~50 detik (detail matematika di [[Planning - Word Space]] §4)
 
 ## 🔗 Lihat Juga
 
-- Konsep dibahas dari sesi brainstorming gamifikasi kuliah (3 tipe game edukasi: serious game, gamifikasi, game edu)
-- [[Planning - Word Space]] — rencana teknis detail implementasi
+- [[Planning - Word Space]] — rencana teknis detail implementasi & timeline mingguan
