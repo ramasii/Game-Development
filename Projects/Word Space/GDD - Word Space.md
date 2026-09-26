@@ -20,6 +20,8 @@ Balapan pesawat luar angkasa 4 peserta (1 pemain asli + 3 bot nama random). Sepa
 
 Karena target-nya anak TK yang belum fasih baca, semua soal dibantu **voice over** (kata dibacain) + **ilustrasi gambar**, teks cuma pelengkap, bukan satu-satunya jalur pemahaman.
 
+Tiap pembalap (pemain + 3 bot) punya **jalurnya masing-masing (lane terpisah)** — gak ada tabrakan antar pembalap sepanjang race. Posisi menang/kalah murni ditentuin dari siapa yang paling jauh/cepat nyampe finish, bukan dari senggolan fisik.
+
 ## 3. Core Gameplay Loop
 
 `MAIN MENU → START → INPUT NAMA → NEXT → LOBBY → START → LEVEL → COUNTDOWN → BERMAIN → FINISH → RESULT → PLAY AGAIN → (kembali ke INPUT NAMA)`
@@ -79,9 +81,10 @@ Disederhanain, cuma 2 komponen:
 ## 8. Scope (1 Bulan, Solo Dev)
 
 - Fokus 1 kategori kata dulu (misal benda sehari-hari) — cukup buat validasi loop utama sebelum nambah kategori lain
-- 1 track race, 3 bot dengan variasi kecepatan/rubber-banding sederhana
+- 1 track race, tiap pembalap di lane terpisah, 3 bot dengan variasi kecepatan/rubber-banding sederhana
 - Voice over minimal: kata soal + feedback benar/salah, belum perlu full narasi cerita
 
 ## 🔗 Lihat Juga
 
 - Konsep dibahas dari sesi brainstorming gamifikasi kuliah (3 tipe game edukasi: serious game, gamifikasi, game edu)
+- [[Planning - Word Space]] — rencana teknis detail implementasi

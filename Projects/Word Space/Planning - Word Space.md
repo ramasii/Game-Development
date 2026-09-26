@@ -15,57 +15,67 @@
 | **UI (Lobby, HUD, Result)** | x | | x | x |
 | **Polishing & Playtesting** | | | | x |
 
-## 2. Sistem Jalur Balapan (Curved Track)
+## 2. Sistem Jalur Balapan (Curved Track, Multi-Lane)
 
 Karena jalur balapan **berbelok, bukan lurus**, gerakan pembalap gak bisa cuma lerp posisi A→B. Rencana:
 
-- **Authoring jalur:** pakai spline (Unity Splines package kalau tersedia, atau waypoint array manual sebagai fallback) — dibuat di scene, bisa belok bebas
-- **Pergerakan berbasis jarak, bukan waktu:** tiap pembalap punya `currentDistance` (float, satuan jarak sepanjang track). Tiap frame: `currentDistance += currentSpeed * Time.deltaTime`
-- **Masalah yang harus diantisipasi:** sampling spline langsung pakai parameter `t` (0-1) itu **gak seragam kecepatannya** — di bagian lurus kerasa cepat, di tikungan kerasa lambat (karena `t` gak proporsional sama jarak asli). Solusinya: precompute **arc-length lookup table** (detail implementasi di §3)
-- Kalau waktu mepet, fallback sederhana: waypoint array + `Vector3.MoveTowards` antar waypoint berurutan (kurang mulus di tikungan tapi jauh lebih cepat diimplementasi)
+- **Tiap pembalap (4 total: 1 pemain + 3 bot) punya jalurnya sendiri (lane terpisah)** — gak ada tabrakan fisik antar racer, sesuai GDD. Artinya butuh **4 spline berbeda**, bukan 1 spline dipakai bareng
+- **Authoring jalur:** pakai spline (Unity Splines package kalau tersedia, atau waypoint array manual sebagai fallback) — dibuat di scene, bisa belok bebas. 4 lane idealnya dibuat sejajar/mengikuti bentuk yang mirip (biar visual race-nya masih kerasa "bareng"), tapi secara data tetap independen per lane
+- **Pergerakan berbasis jarak, bukan waktu:** tiap pembalap punya `currentDistance` (float, satuan jarak sepanjang lane-nya sendiri). Tiap frame: `currentDistance += currentSpeed * Time.deltaTime`
+- **Masalah yang harus diantisipasi:** sampling spline langsung pakai parameter `t` (0-1) itu **gak seragam kecepatannya** — solusinya precompute **arc-length lookup table**, sekarang **satu tabel per lane** (detail implementasi di §3)
+- Kalau waktu mepet, fallback sederhana: waypoint array + `Vector3.MoveTowards` antar waypoint berurutan per lane (kurang mulus di tikungan tapi jauh lebih cepat diimplementasi)
 
-## 3. Arc-Length Table — Implementasi Detail
+## 3. Arc-Length Table — Implementasi Detail (Per Lane)
 
-**Bake (sekali aja pas track dibuat/di-load, bukan tiap frame):**
+Karena tiap racer jalan di lane sendiri, data arc-length table di-bake **4 kali** (satu per lane), disimpan sebagai array `LaneTrackData[4]`. Tiap racer di-assign 1 index lane pas masuk lobby (misal urutan slot 0-3), lalu selama race cuma query ke `LaneTrackData` miliknya sendiri.
 
-```
-N = 300-500 (makin banyak sample, makin halus, terutama di tikungan tajam)
-
-cumulativeDistances[0] = 0
-positions[0] = spline.EvaluatePosition(0)
-
-for i in 1..N:
-    t = i / N
-    positions[i] = spline.EvaluatePosition(t)
-    cumulativeDistances[i] = cumulativeDistances[i-1] + Distance(positions[i-1], positions[i])
-
-totalLength = cumulativeDistances[N]
-```
-
-Simpan `positions[]` dan `cumulativeDistances[]` sebagai data — idealnya di-bake jadi asset/ScriptableObject sekali di Editor, bukan dihitung ulang tiap kali game jalan (`EvaluatePosition` lumayan berat kalau dipanggil ratusan kali tiap frame).
-
-**Runtime lookup, dipanggil tiap racer tiap frame:**
+**Bake (sekali aja pas track dibuat/di-load, bukan tiap frame — diulang buat tiap lane):**
 
 ```
-GetPositionAtDistance(distance):
-    distance = clamp(distance, 0, totalLength)
-    (lo, hi) = binary search di cumulativeDistances buat range yang membungkus `distance`
+struct LaneTrackData:
+    positions[]
+    cumulativeDistances[]
+    totalLength
+
+BakeLane(spline, N = 300-500):
+    cumulativeDistances[0] = 0
+    positions[0] = spline.EvaluatePosition(0)
+
+    for i in 1..N:
+        t = i / N
+        positions[i] = spline.EvaluatePosition(t)
+        cumulativeDistances[i] = cumulativeDistances[i-1] + Distance(positions[i-1], positions[i])
+
+    totalLength = cumulativeDistances[N]
+    return LaneTrackData
+```
+
+Idealnya `LaneTrackData` untuk keempat lane di-bake sekali di Editor dan disimpan sebagai asset (array of ScriptableObject atau 1 ScriptableObject berisi array 4 lane), bukan dihitung ulang tiap kali game jalan.
+
+**Runtime lookup, dipanggil tiap racer tiap frame (pakai `LaneTrackData` milik lane-nya sendiri):**
+
+```
+GetPositionAtDistance(laneData, distance):
+    distance = clamp(distance, 0, laneData.totalLength)
+    (lo, hi) = binary search di laneData.cumulativeDistances buat range yang membungkus `distance`
     frac = (distance - cumulativeDistances[lo]) / (cumulativeDistances[hi] - cumulativeDistances[lo])
-    pos = Lerp(positions[lo], positions[hi], frac)
-    tangent = (positions[hi] - positions[lo]).normalized   // buat rotasi pesawat
+    pos = Lerp(laneData.positions[lo], laneData.positions[hi], frac)
+    tangent = (laneData.positions[hi] - laneData.positions[lo]).normalized   // buat rotasi pesawat
     return pos, tangent
 ```
 
-Binary search (`O(log N)`) — walau dengan cuma 4 racer, linear search juga gak akan kerasa berat, tapi binary search lebih rapi kalau track makin panjang/detail nantinya.
+Binary search (`O(log N)`) per lane — dengan cuma 4 racer/4 lane, biayanya masih kecil.
+
+**Catatan balancing:** kalau ke-4 lane panjangnya beda-beda (misal karena bentuk kurva berbeda), pastikan `totalLength` tiap lane dipakai konsisten pas hitung persentase progres soal (§5) dan pacing (§4) — biar gak ada lane yang "curang" karena jaraknya lebih pendek/panjang dari lane lain. Paling aman: desain 4 lane dengan `totalLength` yang sama persis (rute beda, jarak sama).
 
 ## 4. Matematika Pacing (Target Waktu Race)
 
 Target desain: main cepat, rata-rata **20 soal/menit**, jawab benar semua → race selesai **~50 detik**.
 
-Ini yang bikin arc-length approach worth-it: karena `currentDistance` itu abstraksi jarak sepanjang track (independen dari bentuk kurva), rumus timing di bawah berlaku sama aja mau tracknya lurus atau belok-belok — curve gak ngerusak balancing.
+Ini yang bikin arc-length approach worth-it: karena `currentDistance` itu abstraksi jarak sepanjang lane (independen dari bentuk kurva), rumus timing di bawah berlaku sama aja mau lane-nya lurus atau belok-belok — curve gak ngerusak balancing. (Rumus ini pakai `totalLength` lane pemain sendiri; lihat catatan di §3 soal kenapa semua lane sebaiknya sama panjang.)
 
 Variabel:
-- `L` = total panjang track (`totalLength` dari §3)
+- `L` = total panjang lane (`totalLength` dari §3)
 - `v_base` = kecepatan jelajah dasar (tanpa boost aktif)
 - `m` = 1.5 (boost multiplier)
 - `d` = 2 detik (durasi boost per jawaban benar)
@@ -85,13 +95,13 @@ Target: `avgSpeed × 50 = L`, jadi:
 v_base = L / (50 × 1.33) = L / 66.7
 ```
 
-**Contoh angka** (misal track panjangnya 400 unit): `v_base ≈ 6 unit/detik`. Ini titik awal buat playtest, bukan angka final — begitu track asli udah jadi dan `totalLength` kepake dari tabel §3, tinggal masukin ke rumus ini buat dapet `v_base` yang pas, daripada nebak-nebak dari nol.
+**Contoh angka** (misal lane panjangnya 400 unit): `v_base ≈ 6 unit/detik`. Ini titik awal buat playtest, bukan angka final — begitu track asli udah jadi dan `totalLength` kepake dari tabel §3, tinggal masukin ke rumus ini buat dapet `v_base` yang pas, daripada nebak-nebak dari nol.
 
 ## 5. Data & Sistem Soal
 
 - **`WordEntry` (ScriptableObject):** kata Indonesia, jawaban Inggris benar, list distractor (semantically related), tier kesulitan, audio clip voice over
 - **`WordBank` (ScriptableObject, Flyweight):** kumpulan `WordEntry` per kategori (mulai 1 kategori dulu sesuai scope GDD)
-- **`QuestionManager`:** ambil soal berdasarkan progres race (persentase `currentDistance` terhadap `totalLength`) → tier gampang di awal, makin susah mendekati finish, sesuai [[Model Progress Curves]]
+- **`QuestionManager`:** ambil soal berdasarkan progres race (persentase `currentDistance` racer terhadap `totalLength` lane-nya) → tier gampang di awal, makin susah mendekati finish, sesuai [[Model Progress Curves]]
 
 ## 6. Boost / Slow System
 
@@ -102,7 +112,7 @@ v_base = L / (50 × 1.33) = L / 66.7
 ## 7. Bot AI & Rubber-Banding
 
 - Bot gak perlu AI kompleks — tiap interval waktu random, bot "jawab" benar/salah berdasarkan probabilitas dasar
-- Rubber-banding: kalau bot posisinya jauh di belakang pemain, naikkan probabilitas benar bot itu sementara (dan sebaliknya kalau bot terlalu jauh di depan) — tuning angka dasarnya pakai [[Establish Math Anchors]]
+- Rubber-banding: kalau bot posisinya jauh di belakang pemain (dibandingkan lewat `currentDistance / totalLength` masing-masing, bukan posisi world-space — karena tiap lane beda jalur), naikkan probabilitas benar bot itu sementara (dan sebaliknya kalau bot terlalu jauh di depan) — tuning angka dasarnya pakai [[Establish Math Anchors]]
 
 ## 8. Voice Over & Audio
 
@@ -123,7 +133,7 @@ Dikontrol lewat satu [[Centralized State Manager (GameManager Singleton & Event)
 
 ## 11. Risiko Teknis (urutan prioritas ditangani)
 
-1. **Arc-length movement di jalur belok** — paling berisiko, kerjain di W1 duluan sebelum sistem lain nempel di atasnya
+1. **Arc-length movement multi-lane di jalur belok** — paling berisiko, kerjain di W1 duluan sebelum sistem lain nempel di atasnya; termasuk mastiin 4 lane punya `totalLength` yang konsisten/sama
 2. **Balancing bot rubber-banding** — race harus tetep seru walau pemain salah beberapa kali, butuh beberapa iterasi playtest
 3. **Voice over asset production** — kalau rekam sendiri makan waktu, siapkan fallback TTS sementara buat prototyping
 
