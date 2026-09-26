@@ -76,7 +76,7 @@ graph TD
 **Struktur Folder (Feature-Based, Unity)**:
 
 ```
-Assets/_Project/WordSpace/
+Assets/
 ├── 01_Core/
 │   ├── GameManager.cs
 │   ├── GameState.cs (enum)
