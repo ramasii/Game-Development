@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Projects/Word Space/GDD - Word Space.md",
+                "file": "Projects/Word Space/Planning - Word Space.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "GDD - Word Space"
+              "title": "Planning - Word Space"
             }
           }
         ]
@@ -218,6 +218,7 @@
   "active": "21ff75caf44fc2d0",
   "lastOpenFiles": [
     "Projects/Word Space/GDD - Word Space.md",
+    "Projects/Word Space/Planning - Word Space.md",
     "Projects/Word Space",
     "Projects/Ball Jumper/Plan - Platform Gerak-Retak.md",
     "Projects/Frog Life Cycle/Planning - Frog Life Cycle.md",
@@ -245,7 +246,6 @@
     "Skills/Skills.md",
     "Skills/03-Game-Architecture/Design Patterns & SOLID (Unity - Level Up Your Code).md",
     "Skills/03-Game-Architecture/Decoupled Audio System (Event Channel & Pooling).md",
-    "Skills/03-Game-Architecture/Factory Pattern (Unity).md",
     "Books/Level Up Your Code With Design Pattern.pdf",
     "Books/Chord Relationships and Emotion.pdf",
     "Books/An Architectural Approach to Level Design Second Edition.pdf",
