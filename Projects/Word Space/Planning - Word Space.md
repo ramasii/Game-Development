@@ -1,5 +1,36 @@
 # 🗺️ Planning — Word Space (1 Bulan, Solo Dev)
 
+### ✅ 0. Status Implementasi (26 Sep 2026, bareng Digidaw)
+
+Core loop sudah playable full: `MainMenu → NameInput → Lobby → Countdown → Racing → Finish → Result → Play Again`. Test live di SampleScene Unity 6000.6, 0 error.
+
+| § | Item | Status |
+|---|---|---|
+| §6 | Folder modular `01_Core`–`07_Data` + asmdef per fitur | ✅ Selesai |
+| §9 | `GameState` 7 state + `GameManager` Singleton+Event + `Answer`/`GameStateEventChannel` + asset | ✅ Selesai |
+| §2–3 | `LaneTrackData` + `TrackBaker` (Catmull-Rom/linear) + `PathFollower`, 4 lane baked (`L=16.0`, 400 sample) | ✅ Selesai |
+| §4 | Rumus pacing `v_base = L / 66.7` (`SetBaseSpeedFromLane`) — angka real belum tuning (masih 3 buat test) | 🟡 Parsial |
+| §5 | `WordEntry` + `WordBank` (30 kata / 6 bank dari JSON) + `QuestionManager` (tier by progres, distractor acak se-bank, `WrongList`) | ✅ Selesai |
+| §6 | Boost 1.5x/2s + Slow 0.6x/1.5s via `AnswerEventChannel` (drop-off) | ✅ Selesai |
+| §7 | `BotAI` probabilistik + rubber-band by progres | ✅ Selesai |
+| §8 | `VoiceOverPlayer` + `SFXPool` (tone prosedural fallback; VO + gambar asli per kata belum ada) | 🟡 Parsial |
+| §10 | HUD soal MVP + Countdown 3-2-1-GO + Result (ranking + list salah, dirty flag) | ✅ Selesai |
+| Loop | Menu + Play Again (balik `NameInput`), `PlayerName` ngalir ke rank | ✅ Selesai |
+| Fix | `EventSystem` → `InputSystemUIInputModule` (Unity 6 Input System) | ✅ Selesai |
+
+Belum dikerjakan:
+- ⬜ Track belok (sekarang 4 lane lurus; jaga `totalLength` sama saat desain belok)
+- ⬜ VO + gambar 30 kata (`AudioClip`/`Sprite` per `WordEntry`)
+- ⬜ TTS fallback buat prototyping
+- ⬜ Tuning `v_base` real + balancing rubber-band via playtest
+- ⬜ Polish: particle boost, shake/slow-mo saat salah, SFX final, art UI anak TK
+- ⬜ Optimisasi: canvas splitting, pooling particle
+- ⬜ Playtest kelas (risiko desain: fun atau tidak buat anak TK)
+
+Go/No-Go (§7 GDD): ✅ tercapai — malah 4 lane + 6 bank, bukan cuma 1 lane + 1 kategori.
+
+---
+
 > Rencana teknis detail implementasi Word Space, disusun sebagai pendamping [[GDD - Word Space]]. Fokus di bagian teknis (§4 Arsitektur Data & Design Pattern) yang belum masuk ringkas ke GDD.
 
 ---
