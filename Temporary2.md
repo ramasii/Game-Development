@@ -78,3 +78,5 @@ Tanggal: 2026-09-28. Scene: SampleScene, GO: Spawner.
 - [x] 1. PlatformIntro terekstrak (Spawner 856→798 baris). 0 error. Nilai 0.06/0.35/0.15 dipulihkan ke komponen baru, scene saved.
 - [x] 2. BoosterSpawner terekstrak (Spawner 798→644 baris). 0 error. Nilai booster dipulihkan, OnValidate pindah.
 - [x] 3. PlatformPool terekstrak (Spawner →548 baris). 0 error. Nilai 15/40 dipulihkan. Get() auto-create saat kosong.
+- [x] 4. ColorPicker + VariantPicker terekstrak, hidden coupling jadi return eksplisit (Spawner →432 baris). 0 error. 3 varian + zona 30/60/90/5 dipulihkan. Pelajaran: field class baru null di instance scene lama → guard `if null new` di Spawner.
+- [x] 5. LayoutGenerator terekstrak, ReflectX pindah (forwarder kompatibel di Spawner). (Spawner →332 baris). 0 error. Nilai layout 0.5/2/2.5/0.15/2 dipulihkan.
