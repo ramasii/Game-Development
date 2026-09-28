@@ -72,3 +72,9 @@ Tanggal: 2026-09-28. Scene: SampleScene, GO: Spawner.
 - logVariantSpawns=true, prewarmPool=15, maxPoolSize=40
 - introStepDelay=0.06, introPopDuration=0.35, ballExtraDelay=0.15
 - Git status bersih (HEAD c1a1774 Fix font conflict)
+
+## ✅ Progress Refactor
+- [x] 0. Nilai inspector dicatat (lihat atas), git bersih
+- [x] 1. PlatformIntro terekstrak (Spawner 856→798 baris). 0 error. Nilai 0.06/0.35/0.15 dipulihkan ke komponen baru, scene saved.
+- [x] 2. BoosterSpawner terekstrak (Spawner 798→644 baris). 0 error. Nilai booster dipulihkan, OnValidate pindah.
+- [x] 3. PlatformPool terekstrak (Spawner →548 baris). 0 error. Nilai 15/40 dipulihkan. Get() auto-create saat kosong.
