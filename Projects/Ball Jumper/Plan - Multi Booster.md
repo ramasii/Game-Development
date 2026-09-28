@@ -49,11 +49,11 @@ Keputusan: **maks 1 booster per platform** (entry pertama yang menang roll). Fla
 
 ## ✅ Urutan Kerja (tiap langkah dites dulu)
 
-- [ ] 0. Git bersih (tuning sudah tercatat)
-- [ ] 1. `Booster` abstract + `SpringBooster` warisi; `Platform.booster` → `Booster` (perilaku identik)
-- [ ] 2. `Player.TryBoost(Booster)` + `ApplyEffect` (spring bounce pindah; gate + streak tetap)
-- [ ] 3. `BoosterSpawner` → `List<BoosterEntry>` + migrasi nilai spring; whitebox fallback tetap
-- [ ] 4. Re-wire inspector, playtest checklist bawah
+- [x] 0. Git bersih (tuning sudah tercatat)
+- [x] 1. `Booster` abstract + `SpringBooster` warisi; `Platform.booster` → `Booster` (perilaku identik)
+- [x] 2. `Player.TryBoost(Booster)` + `ApplyEffect` (spring bounce pindah; gate + streak tetap) + helper `SnapToSurface`/`LaunchUp`
+- [x] 3. `BoosterSpawner` → `List<BoosterEntry>` + migrasi nilai spring; whitebox fallback tetap
+- [x] 4. Re-wire inspector, playtest checklist bawah
 - [ ] 5. (Nanti, per tipe baru) class + prefab + 1 entry — tanpa sentuh file lama
 
 ## 🧪 Cek Setelah Tiap Langkah
