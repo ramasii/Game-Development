@@ -80,3 +80,6 @@ Tanggal: 2026-09-28. Scene: SampleScene, GO: Spawner.
 - [x] 3. PlatformPool terekstrak (Spawner →548 baris). 0 error. Nilai 15/40 dipulihkan. Get() auto-create saat kosong.
 - [x] 4. ColorPicker + VariantPicker terekstrak, hidden coupling jadi return eksplisit (Spawner →432 baris). 0 error. 3 varian + zona 30/60/90/5 dipulihkan. Pelajaran: field class baru null di instance scene lama → guard `if null new` di Spawner.
 - [x] 5. LayoutGenerator terekstrak, ReflectX pindah (forwarder kompatibel di Spawner). (Spawner →332 baris). 0 error. Nilai layout 0.5/2/2.5/0.15/2 dipulihkan.
+- [x] 6. Facade rapi: ResolveRefs + ResetRunState satu tempat, prewarm→initialPlatforms(12). Spawner 332 baris.
+- [x] 7. Re-wire: semua nilai = catatan langkah 0, 3 ref publik terisi, scene saved. 0 error.
+Refactor selesai di sisi kode. Sisa playtest manusia: menu→play→pause→resume→gameover→retry + cek pool plateau, retak 1x, bailout hijau, booster>minY & bukan di retak, edge-run ≤2.
