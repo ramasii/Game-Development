@@ -58,3 +58,17 @@ Referensi: [[SOLID Principles (Unity)]], [[Object Pool Pattern (Unity)]], [[Runt
 - Platform retak tidak 2x beruntun, bailout hijau tetap normal
 - Booster hanya muncul di atas `boosterMinY`, tidak di platform retak
 - Tidak ada spawn pinggir beruntun > `maxEdgeStreak`
+
+## 📋 Nilai Inspector Spawner (dicatat sebelum refactor)
+Tanggal: 2026-09-28. Scene: SampleScene, GO: Spawner.
+- player=Player, platformPrefab=Platform
+- prewarm=12, gapMinY=0.5, gapMaxY=2, maxGapX=2.5
+- greenBailoutEvery=5, greenOnlyUntilY=30, twoColorUntilY=60, tutorialUntilY=90
+- edgeFraction=0.15, maxEdgeStreak=2
+- enableBooster=true, boosterMinY=140, boosterChance=0.1, boosterMultiplier=1.8
+- boosterPrefab=Booster Spring, boosterOnGreen/Red/Blue=true
+- boosterSpawnOffset=(0, 0.1), changeBoosterColor=false (King tes OFF)
+- variants: Gerak/PlatformGerak/minY90/ch0.1, Retak/PlatformRetak/minY110/ch0.08, Spike/Spike Platform/minY130/ch0.08
+- logVariantSpawns=true, prewarmPool=15, maxPoolSize=40
+- introStepDelay=0.06, introPopDuration=0.35, ballExtraDelay=0.15
+- Git status bersih (HEAD c1a1774 Fix font conflict)
