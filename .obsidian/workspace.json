@@ -86,7 +86,7 @@
               "state": {
                 "sortOrder": "alphabetical",
                 "autoReveal": false,
-                "showSearch": false,
+                "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-folder-closed",
@@ -258,7 +258,7 @@
       "graph:Open graph view": false
     }
   },
-  "active": "aba2cd489268aca2",
+  "active": "128d5ba411da2e3d",
   "lastOpenFiles": [
     "Response A.md",
     "Response B.md",
