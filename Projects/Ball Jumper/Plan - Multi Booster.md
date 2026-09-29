@@ -6,7 +6,7 @@
 
 Ubah `BoosterSpawner.boosterPrefab` tunggal jadi **daftar entry per tipe** — siap tambah booster baru (jetpack, magnet, shield, ...) tanpa ubah `Spawner`/`PlayerController`/`Platform` (OCP).
 Referensi: [[Skills/03-Game-Architecture/Strategy Pattern (Unity Ability)]], [[Skills/03-Game-Architecture/SOLID Principles (Unity)]], [[Skills/03-Game-Architecture/Object Pool Pattern (Unity)]], [[Skills/03-Game-Architecture/Single Source of Truth (SSOT)]].
-Nilai tuning booster sekarang sudah dicatat di [[Temporary2]] (140/0.1/1.8/offset 0.1/tint OFF).
+Nilai tuning booster sekarang sudah dicatat di [[Response C]] (140/0.1/1.8/offset 0.1/tint OFF).
 
 ## 🗺️ Peta Coupling Sekarang
 
