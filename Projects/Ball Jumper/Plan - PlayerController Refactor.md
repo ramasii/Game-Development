@@ -67,7 +67,7 @@ Total: **~730-980 baris** (naik dari 608 — overhead pemisah, tiap file <160).
 
 - [x] 0. Git bersih, catat tuning scene (inspector menang)
 - [x] 1. `PlayerConfig` SO + migrasi nilai (perilaku identik)
-- [ ] 2. `PlayerRuntimeState` (pindah field, tanpa ubah logika)
+- [x] 2. `PlayerRuntimeState` (pindah field, tanpa ubah logika)
 - [ ] 3. `PlayerLocomotion` + `PlayerBounce` (Core deterministik stabil dulu)
 - [ ] 4. `PlayerDash` sebagai Strategy (gate + timeout dipindah utuh)
 - [ ] 5. `PlayerLandingResolver` + `StreakTracker` + `ModeSwitcher` (gate vs efek pisah)
