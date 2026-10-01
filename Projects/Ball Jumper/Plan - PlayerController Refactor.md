@@ -83,7 +83,7 @@ Total: **~730-980 baris** (naik dari 608 — overhead pemisah, tiap file <160).
 - `Dying` jatuh tembus, input/land mati; mute patuh; pool plateau
 - Uji OCP: tambah dash/booster dummy = 0 edit file lama
 
-## 🧩 Dampak Prefab & Assign Ulang (cek engine 1 Okt 2026, port 7890)
+## 🧩 Dampak Prefab & Assign Ulang
 
 > `Player` di `Main` = instance `Assets/Prefabs/Player/Player 1.prefab` (`Connected`, `hasOverrides:false`). Duplikat nganggur: `Assets/Prefabs/Player/Player.prefab` — scene pakai yang `Player 1`.
 
