@@ -82,3 +82,31 @@ Total: **~730-980 baris** (naik dari 608 — overhead pemisah, tiap file <160).
 - Streak Plan A (beda +1 / sama 0, pool-safe `spawnId`), `Paused` tidak reset, `GameOver/MainMenu` reset
 - `Dying` jatuh tembus, input/land mati; mute patuh; pool plateau
 - Uji OCP: tambah dash/booster dummy = 0 edit file lama
+
+## 🧩 Dampak Prefab & Assign Ulang (cek engine 1 Okt 2026, port 7890)
+
+> `Player` di `Main` = instance `Assets/Prefabs/Player/Player 1.prefab` (`Connected`, `hasOverrides:false`). Duplikat nganggur: `Assets/Prefabs/Player/Player.prefab` — scene pakai yang `Player 1`.
+
+### Wajib assign 1x
+
+- Tambah 6-7 komponen baru ke `Player` = jadi override vs prefab sampai `Apply to Prefab` (`Player 1.prefab`). Tentukan 1 prefab kanonis, sinkronkan/hapus satunya.
+- `PlayerController.sr -> Player/Ball Sprite` pindah ke `ModeSwitcher/Lifecycle` — assign ulang ke `Ball Sprite` yang sama.
+- `PlayerConfig` SO baru — assign 1x ke facade + migrasi nilai scene (menang vs default kode): `3 / 3.5 / 0.85 / 1.2 / 0.15 / -2 / 3 / 0.1 / 0.5 / 0.02 / 6 / 7 / 0.6 / 0.35`.
+
+### Aman tanpa assign (selama facade `PlayerController` tetap di `Player`)
+
+- `PlayerSquashStretch.player/visual/rb` + `PlayerSplashBurst.player/splash/sfx` — sudah wired + fallback `if null GetComponent` + `RequireComponent`.
+- `PlatformSpawner.player: Transform Player` wired; `playerCtrl` (`PlatformSpawner.cs:34`) private non-serialized, resolve via `player.TryGetComponent` — aman.
+- `Enemy.cs:95`, `FlyingPatrolAI.cs:62`, `UIManager.cs:61`, `ComboFxText.cs:51,66`, `SimpleHazard.cs:41`, `Platform.cs:91`, `BoosterBase.cs:78` — semua `GetComponent/FindAnyObjectByType` runtime, aman.
+- `Platform.prefab`, `Booster Spring.prefab`, `PlatformSpawner.prefab`, `UIManager.prefab` tidak simpan `PlayerController` serialized.
+
+### Sebaiknya dibetulkan (rapuh sekarang)
+
+- `StreakText/ComboFxText.followTarget = null` — jalan via auto-find (`ComboFxText.cs:37`). Assign explicit ke `Player`.
+- `UIManager.player = null` (private, auto-find di `Awake`) — aman tapi rapuh bila ada 2 player.
+
+### Aturan nol prefab-break
+
+1. `PlayerController` tetap dengan nama sama di `Player` sebagai facade.
+2. Modul baru: `[RequireComponent]` + `if null GetComponent`; serialize `MonoBehaviour`, cast ke `IDashable/IBounceable` saat runtime (Unity tidak serialize interface).
+3. `Booster.ApplyEffect(PlayerController,...)` (`Booster.cs:21`) bila ganti ke interface = edit kode (`Booster.cs`, `BoosterBase.cs`, `SpringBooster.cs` + pemanggil `DieFrom`), bukan reassign prefab.
