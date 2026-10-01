@@ -68,9 +68,9 @@ Total: **~730-980 baris** (naik dari 608 — overhead pemisah, tiap file <160).
 - [x] 0. Git bersih, catat tuning scene (inspector menang)
 - [x] 1. `PlayerConfig` SO + migrasi nilai (perilaku identik)
 - [x] 2. `PlayerRuntimeState` (pindah field, tanpa ubah logika)
-- [ ] 3. `PlayerLocomotion` + `PlayerBounce` (Core deterministik stabil dulu)
-- [ ] 4. `PlayerDash` sebagai Strategy (gate + timeout dipindah utuh)
-- [ ] 5. `PlayerLandingResolver` + `StreakTracker` + `ModeSwitcher` (gate vs efek pisah)
+- [x] 3. `PlayerLocomotion` + `PlayerBounce` (Core deterministik stabil dulu)
+- [x] 4. `PlayerDash` sebagai Strategy (gate + timeout dipindah utuh)
+- [x] 5. `PlayerLandingResolver` + `StreakTracker` + `ModeSwitcher` (gate vs efek pisah)
 - [ ] 6. `PlayerLifecycle` + `IPlayerContracts` + tipiskan `PlayerController` jadi facade
 - [ ] 7. Re-wire inspector, playtest checklist bawah
 
