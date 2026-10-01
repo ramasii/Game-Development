@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DraftArsitekturEnemy.md",
+                "file": "Projects/Ball Jumper/Plan - PlayerController Refactor.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "DraftArsitekturEnemy"
+              "title": "Plan - PlayerController Refactor"
             }
           }
         ],
@@ -232,8 +232,9 @@
   },
   "active": "c18e22e892bad64d",
   "lastOpenFiles": [
-    "Projects/Word Space/GDD - Word Space.md",
     "DraftArsitekturEnemy.md",
+    "Projects/Ball Jumper/Plan - PlayerController Refactor.md",
+    "Projects/Word Space/GDD - Word Space.md",
     "Projects/Word Space/Planning - Word Space.md",
     "Temporary.md",
     "Response A.md",
@@ -260,7 +261,6 @@
     "Projects/Ball Jumper/TDD - Ball Jumper.md",
     "Projects/Ball Jumper/Post Gamejam - Ball Jumper.md",
     "Projects/Gameseed 2026/Gameseed 2026.md",
-    "Projects/Ball Jumper/Ball Jumper.md",
     "Books/Level Up Your Code With Design Pattern.pdf",
     "Books/Chord Relationships and Emotion.pdf",
     "Books/An Architectural Approach to Level Design Second Edition.pdf",
