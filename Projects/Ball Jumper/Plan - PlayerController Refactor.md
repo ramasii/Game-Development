@@ -71,8 +71,8 @@ Total: **~730-980 baris** (naik dari 608 — overhead pemisah, tiap file <160).
 - [x] 3. `PlayerLocomotion` + `PlayerBounce` (Core deterministik stabil dulu)
 - [x] 4. `PlayerDash` sebagai Strategy (gate + timeout dipindah utuh)
 - [x] 5. `PlayerLandingResolver` + `StreakTracker` + `ModeSwitcher` (gate vs efek pisah)
-- [ ] 6. `PlayerLifecycle` + `IPlayerContracts` + tipiskan `PlayerController` jadi facade
-- [ ] 7. Re-wire inspector, playtest checklist bawah
+- [x] 6. `PlayerLifecycle` + `IPlayerContracts` + tipiskan `PlayerController` jadi facade
+- [x] 7. Re-wire inspector, playtest checklist bawah
 
 ## 🧪 Cek Setelah Tiap Langkah
 

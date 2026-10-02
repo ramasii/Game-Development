@@ -54,7 +54,7 @@ Keputusan: **maks 1 booster per platform** (entry pertama yang menang roll). Fla
 - [x] 2. `Player.TryBoost(Booster)` + `ApplyEffect` (spring bounce pindah; gate + streak tetap) + helper `SnapToSurface`/`LaunchUp`
 - [x] 3. `BoosterSpawner` → `List<BoosterEntry>` + migrasi nilai spring; whitebox fallback tetap
 - [x] 4. Re-wire inspector, playtest checklist bawah
-- [ ] 5. (Nanti, per tipe baru) class + prefab + 1 entry — tanpa sentuh file lama
+- [x] 5. (Nanti, per tipe baru) class + prefab + 1 entry — tanpa sentuh file lama
 
 ## 🧪 Cek Setelah Tiap Langkah
 
