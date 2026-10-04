@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Projects/Ball Jumper/Audit - God Class dan Coupling.md",
+                "file": "Projects/Ball Jumper/TDD - Ball Jumper.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Audit - God Class dan Coupling"
+              "title": "TDD - Ball Jumper"
             }
           }
         ],
@@ -232,8 +232,10 @@
   },
   "active": "c18e22e892bad64d",
   "lastOpenFiles": [
-    "Skills/03-Game-Architecture/SOLID Principles (Unity).md",
+    "Projects/Ball Jumper/GDD - Ball Jumper.md",
+    "Projects/Ball Jumper/Ball Jumper.md",
     "Projects/Ball Jumper/Audit - God Class dan Coupling.md",
+    "Skills/03-Game-Architecture/SOLID Principles (Unity).md",
     "Skills/03-Game-Architecture/MVP Pattern (Unity UI).md",
     "Projects/Word Space/GDD - Word Space.md",
     "DraftArsitekturEnemy.md",
@@ -258,8 +260,6 @@
     "Projects/Awan Tukang Hujan/Prompts - Eksekusi.md",
     "Books/Books.md",
     "Projects/Awan Tukang Hujan/GDD - Awan Tukang Hujan.md",
-    "Projects/Awan Tukang Hujan/Planning - Awan Tukang Hujan.md",
-    "Projects/Awan Tukang Hujan/Awan Tukang Hujan.md",
     "Projects/Awan Tukang Hujan",
     "Books/Level Up Your Code With Design Pattern.pdf",
     "Books/Chord Relationships and Emotion.pdf",
