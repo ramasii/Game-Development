@@ -6,7 +6,8 @@
 
 - **Premis**: Game ini adalah Roguelite Factory di mana pemain membangun pabrik otomatis dari blueprint acak untuk memproduksi senjata magis dan mempertahankan inti energi (*Core*) dari serbuan monster yang datang bergelombang.
 - **Genre**: Roguelite + Automation / Factory Defense
-- **Target Platform**: PC / Steam (Early Access)
+- **View**: 3D top-down isometric
+- **Target Platform**: Website / Web Portal (browser, WebGL)
 - **USP**: Rasa candu *Factorio* dikemas dalam run 30–45 menit seperti *Vampire Survivors* — setiap run pabrikmu berbeda total karena blueprint mesin yang kamu dapat selalu acak. Bukan kamu yang menembak musuh, tapi pabrik yang kamu bangun.
 - **Referensi & Inspirasi**:
   - *Factorio* — loop otomasi input→proses→output
@@ -37,9 +38,7 @@
 
 - **Mekanik 1 — Grid Placement**: Arena berbentuk grid. Pemain menempatkan potongan conveyor belt (lurus, belok, splitter, merger) dan mesin di atas grid untuk membangun jalur logistik. Posisi tidak bisa diubah saat wave sedang berjalan.
 - **Mekanik 2 — Blueprint Drafting**: Setiap akhir wave, pemain memilih 1 dari 3 blueprint/perk acak. Blueprint bisa berupa mesin baru, upgrade conveyor, atau perk pasif yang mengubah aturan sistem (misal: "besi yang melewati belokan 3x bermuatan listrik").
-- **Mekanik 3 — Sinergi Item**: Perk dan mesin berinteraksi satu sama lain lewat sistem tag (`[listrik]`, `[panas]`, `[waste]`, dll). Kombinasi tag yang tepat menghasilkan efek berantai (*chain reaction*) yang jauh lebih kuat dari jumlah bagian-bagiannya.
-- **Mekanik 4 — Bottleneck & Permadeath**: Jika aliran resource ke turret tersumbat, turret berhenti menembak. Monster yang mencapai Core akan merusaknya. Core hancur = run berakhir, tapi koin dan komponen langka tetap tersimpan.
-- **Mekanik 5 — Ore Deposit & Miner**: Sumber daya mentah tidak langsung tersedia — pemain harus menemukan **Ore Deposit** yang sudah ada di map (pre-placed oleh level designer) dan menempatkan **Miner** di atasnya untuk mulai mengekstraksi resource secara otomatis.
+- **Mekanik 3 — Ore Deposit & Miner**: Sumber daya mentah tidak langsung tersedia — pemain harus menemukan **Ore Deposit** yang sudah ada di map (pre-placed oleh level designer) dan menempatkan **Miner** di atasnya untuk mulai mengekstraksi resource secara otomatis.
   - **Ore Deposit**: Tile khusus pre-placed di map. Tidak bisa dihapus. Menandai lokasi bahan mentah (`iron`, `copper`, dst).
   - **Miner**: Ditempatkan player tepat di atas Ore Deposit. Spawn resource item secara berkala (interval ditentukan `MinerData` ScriptableObject) ke satu arah output. Player bisa rotate arah output sebelum/sesudah placement.
   - **Upgrade Path**: `MinerData` mendukung chain upgrade (Basic → Fast → Multi-Output). Miner level tinggi bisa punya lebih dari satu output direction (round-robin per spawn).
@@ -134,8 +133,6 @@ Blueprint = bangunan placeable untuk Reward Draft. Perk pasif dibahas terpisah.
     3. Hubungkan ke Turret → turret mulai menembak otomatis
     4. Wave kecil datang → pemain merasakan loop penuh untuk pertama kali
   - Reward tutorial: 1 blueprint gratis pilihan pemain → langsung masuk run pertama yang sesungguhnya.
-  - Lihat [[Tutorial Level Building Blocks]] dan [[Framework Kihon-Kata-Kumite (Learning Curve & Encounter Design)]].
-
 ---
 
 ## 🎨 7. Visual Design & Art Direction
