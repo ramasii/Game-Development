@@ -53,6 +53,16 @@
 
 > Mekanik 7 (Underground Conveyor, multi-lantai, dsb.) ditambahkan setelah prototype mekanik 1–6 terbukti fun.
 
+##### Conveyor Tile Spec (5 Varian)
+
+| No | Nama | Size | I/O | Fungsi | Speed | Rarity |
+|---|---|---|---|---|---|---|
+| 1 | Lurus | 1x1 | 1 in -> 1 out lurus | Transport linear | 1 item/s, Mk.II 2.5/s | Common |
+| 2 | Belok | 1x1 | 1 in -> 1 out L | Belok 90° | sama spt lurus, +delay 0.1s | Common |
+| 3 | Splitter | 1x1 | 1 in -> 2 out | Bagi 1 jalur ke 2 bergantian | 1:1 round-robin | Common |
+| 4 | Merger | 1x1 | 2 in -> 1 out | Gabung 2 jalur ke 1 | prioritas bergantian | Common |
+| 5 | Balancer | 1x1 | 2 in -> 2 out | Seimbangkan load 2 jalur | balance + round-robin | Uncommon |
+
 ## 💻 4. Arsitektur Data & Design Pattern
 
 - **Design Pattern Pilihan**:
