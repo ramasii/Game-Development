@@ -98,6 +98,33 @@
         SO -->|ApplyPerk| Grid
     ```
 
+##### Blueprint Pool (20 Varian)
+
+Blueprint = bangunan placeable untuk Reward Draft. Perk pasif dibahas terpisah.
+
+| No | Nama | Kategori | Rarity | Fungsi | Input -> Output / Konsumsi |
+|---|---|---|---|---|---|
+| 1 | Miner Basic | Miner | Common | Ekstraksi dasar, 1 output | Deposit -> mentah, 3s/item |
+| 2 | Miner Fast | Miner | Uncommon | 2x lebih cepat | Deposit -> mentah, 1.5s/item |
+| 3 | Miner Multi | Miner | Rare | 2 output round-robin | Deposit -> mentah ke 2 arah |
+| 4 | Conveyor Mk.I | Logistik | Common | Transport dasar | 1 item/s |
+| 5 | Conveyor Mk.II | Logistik | Uncommon | Transport cepat | 2.5 item/s |
+| 6 | Splitter | Logistik | Common | 1 -> 2 bergantian | - |
+| 7 | Merger | Logistik | Common | 2 -> 1 | - |
+| 8 | Balancer | Logistik | Uncommon | Seimbangkan 2 jalur | 2 in -> 2 out |
+| 9 | Router | Logistik | Uncommon | Auto-distribusi multi I/O | round-robin |
+| 10 | Smelter Batu | Smelter | Common | Lebur lambat murah | mentah -> bar, 4s |
+| 11 | Smelter Arcane | Smelter | Uncommon | Lebur cepat | mentah -> bar, 2s `[panas]` |
+| 12 | Foundry Ganda | Smelter | Rare | 2 slot paralel | 2x mentah -> 2x bar |
+| 13 | Turret Iron | Turret | Common | DPS standar | Iron Bar, 1/tembakan |
+| 14 | Turret Copper | Turret | Uncommon | Fire-rate tinggi | Copper Bar, 0.5/tembakan |
+| 15 | Turret Gold | Turret | Rare | Splash AoE | Gold Bar, 2/tembakan `[panas]` |
+| 16 | Turret Diamond | Turret | Epic | Sniper dmg besar | Diamond, 1/3 tembakan |
+| 17 | Crafter Alloy | Crafter | Rare | Gabung bar jadi mix | Iron + Copper -> Alloy |
+| 18 | Storage Buffer | Utilitas | Uncommon | Tahan 20 item | anti-bottleneck |
+| 19 | Wall Rune | Defensif | Uncommon | Blokir 1 tile | HP 200 |
+| 20 | Pylon Overdrive | Utilitas | Epic | Buff 3x3 +30% speed | 1 Gold Bar/30s `[listrik]` |
+
 ## 🏛️ 5. Desain FTUE
 
 - **Pendekatan FTUE**: **Contextual UI Hint + Sandbox Room (Kihon)**
