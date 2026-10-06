@@ -74,6 +74,18 @@
 
 ---
 
+##### Enemy Varian (5)
+
+Wave datang dari beberapa arah. Urut mudah → sulit.
+
+| No | Nama | HP | Speed | Damage | Target prioritas | Ability | Muncul |
+|---|---|---|---|---|---|---|---|
+| 1 | Mite Crawler | 20 | 3.0 cepat | 5 ke Core | Core langsung | Gerombol 5-8 ekor | Wave 1-2 |
+| 2 | Shell Brute | 120 | 1.2 lambat | 20 ke bangunan | Wall / Turret terdekat | Armor -50% dmg kecil | Wave 2-4 |
+| 3 | Spit Wisp | 45 | 2.0 sedang | 10 jarak jauh | Conveyor / Miner | Tembak dari 4 tile | Wave 3-5 |
+| 4 | Phase Wraith | 70 | 3.5 sangat cepat | 15 ke Core | Tembus Wall | Ignore Wall/Barricade | Wave 4-6 |
+| 5 | Forge Titan | 800 | 0.8 sangat lambat | 100 AoE | Core | Boss, stomp hancurkan 3x3 | Wave final |
+
 ## 📦 4. Blueprint Pool (20 Varian)
 
 Blueprint = bangunan placeable untuk Reward Draft. Perk pasif dibahas terpisah.
