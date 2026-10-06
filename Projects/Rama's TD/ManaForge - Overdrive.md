@@ -63,6 +63,23 @@
 | 4 | Merger | 1x1 | 2 in -> 1 out | Gabung 2 jalur ke 1 | prioritas bergantian | Common |
 | 5 | Balancer | 1x1 | 2 in -> 2 out | Seimbangkan load 2 jalur | balance + round-robin | Uncommon |
 
+##### Ore Deposit & Resource (4 Varian)
+
+| No | Deposit | Size | Resource Mentah | Hasil Smelter (Bar) | Rarity Map |
+|---|---|---|---|---|---|
+| 1 | Iron Deposit | 1x1 | Raw Iron | Iron Bar | Common, dekat Core |
+| 2 | Copper Deposit | 1x1 | Raw Copper | Copper Bar | Common, mid |
+| 3 | Gold Deposit | 1x1 | Raw Gold | Gold Bar | Uncommon, jauh / sisi map |
+| 4 | Diamond Deposit | 1x1 | Rough Diamond | Diamond (langsung, tanpa smelt) | Rare, pojok / high-risk |
+
+##### Miner Varian (3)
+
+| No | Nama | Size | Output | Interval | Upgrade Dari | Rarity |
+|---|---|---|---|---|---|---|
+| 1 | Miner Basic | 1x1 | 1 arah | 3.0s/item | - (default craft) | Common |
+| 2 | Miner Fast | 1x1 | 1 arah | 1.5s/item | Basic + 10 Iron Bar | Uncommon |
+| 3 | Miner Multi | 1x1 | 2 arah round-robin | 2.0s/item | Fast + 10 Copper Bar | Rare |
+
 ## 💻 4. Arsitektur Data & Design Pattern
 
 - **Design Pattern Pilihan**:
