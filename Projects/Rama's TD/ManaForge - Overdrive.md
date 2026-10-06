@@ -29,6 +29,7 @@
   ```
 - **Core Mechanic**: Membangun jalur logistik (conveyor belt) yang mengalirkan bahan mentah → mesin pemroses → turret otomatis. Jika jalur macet (*bottleneck*), turret kehabisan peluru dan Core bisa hancur.
 - **Daya Tarik Jangka Pendek**: Momen ketika sinergi 2–3 blueprint menghasilkan combo tak terduga — misalnya pabrik yang sengaja "bocor" justru menghasilkan koin tak terbatas. Pemain ingin langsung coba lagi setelah menemukan hint kombo baru.
+- **Daya Tarik Jangka Panjang**: Membuka faksi teknologi baru (Steampunk / Cyberpunk), blueprint langka, dan upgrade Core permanen lewat metaprogression.
 
 ---
 
@@ -43,16 +44,8 @@
   - **Miner**: Ditempatkan player tepat di atas Ore Deposit. Spawn resource item secara berkala (interval ditentukan `MinerData` ScriptableObject) ke satu arah output. Player bisa rotate arah output sebelum/sesudah placement.
   - **Upgrade Path**: `MinerData` mendukung chain upgrade (Basic → Fast → Multi-Output). Miner level tinggi bisa punya lebih dari satu output direction (round-robin per spawn).
   - **Flow lengkap**: `Ore Deposit → Miner → Conveyor Belt → Mesin/Turret`
-- **Mekanik 6 — Router (Distribusi Logistik)**: Tile 1×1 yang mendistribusikan resource dari satu atau banyak input ke banyak output secara otomatis. Terinspirasi dari Router di Mindustry.
-  - **Auto-detect I/O**: Tidak perlu set arah manual — Router otomatis mendeteksi side mana yang jadi input (conveyor outputnya menuju Router) dan side mana yang jadi output.
-  - **Round-robin**: Resource didistribusikan bergantian ke semua output yang valid (tidak blocked).
-  - **Backpressure handling**: Kalau satu output penuh/blocked → skip ke output berikutnya. Kalau semua blocked → resource tunggu di Router.
-  - **Anti-clog**: Router tidak boleh output ke sesama Router (mencegah loop tak terbatas).
-  - **Use case utama**: Membagi resource dari satu Smelter ke beberapa Turret, atau menggabungkan dua jalur conveyor menjadi satu.
 
-> Mekanik 7 (Underground Conveyor, multi-lantai, dsb.) ditambahkan setelah prototype mekanik 1–6 terbukti fun.
-
-##### Conveyor Tile Spec (6 Varian)
+### Conveyor Tile Spec (6 Varian)
 
 | No | Nama | Size | I/O | Fungsi | Speed | Rarity |
 |---|---|---|---|---|---|---|
@@ -63,7 +56,7 @@
 | 5 | Balancer | 1x1 | 2 in -> 2 out | Seimbangkan load 2 jalur | balance + round-robin | Uncommon |
 | 6 | Filter | 1x1 | 1 in -> 2 out (lolos / tidak) | Blokir/izinkan resource per tipe, out1 = memenuhi kriteria, out2 = tidak | filter check tiap item | Uncommon |
 
-##### Ore Deposit & Resource (4 Varian)
+### Ore Deposit & Resource (4 Varian)
 
 | No | Deposit | Size | Resource Mentah | Hasil Smelter (Bar) | Rarity Map |
 |---|---|---|---|---|---|
@@ -72,7 +65,7 @@
 | 3 | Gold Deposit | 1x1 | Raw Gold | Gold Bar | Uncommon, jauh / sisi map |
 | 4 | Diamond Deposit | 1x1 | Rough Diamond | Diamond (langsung, tanpa smelt) | Rare, pojok / high-risk |
 
-##### Miner Varian (3)
+### Miner Varian (3)
 
 | No | Nama | Size | Output | Interval | Upgrade Dari | Rarity |
 |---|---|---|---|---|---|---|
@@ -80,7 +73,57 @@
 | 2 | Miner Fast | 1x1 | 1 arah | 1.5s/item | Basic + 10 Iron Bar | Uncommon |
 | 3 | Miner Multi | 1x1 | 2 arah round-robin | 2.0s/item | Fast + 10 Copper Bar | Rare |
 
-## 🏛️ 5. Desain FTUE
+---
+
+## 📦 4. Blueprint Pool (20 Varian)
+
+Blueprint = bangunan placeable untuk Reward Draft. Perk pasif dibahas terpisah.
+
+| No | Nama | Kategori | Rarity | Fungsi | Input -> Output / Konsumsi |
+|---|---|---|---|---|---|
+| 1 | Miner Basic | Miner | Common | Ekstraksi dasar, 1 output | Deposit -> mentah, 3s/item |
+| 2 | Miner Fast | Miner | Uncommon | 2x lebih cepat | Deposit -> mentah, 1.5s/item |
+| 3 | Miner Multi | Miner | Rare | 2 output round-robin | Deposit -> mentah ke 2 arah |
+| 4 | Conveyor Mk.I | Logistik | Common | Transport dasar | 1 item/s |
+| 5 | Conveyor Mk.II | Logistik | Uncommon | Transport cepat | 2.5 item/s |
+| 6 | Splitter | Logistik | Common | 1 -> 2 bergantian | - |
+| 7 | Merger | Logistik | Common | 2 -> 1 | - |
+| 8 | Balancer | Logistik | Uncommon | Seimbangkan 2 jalur | 2 in -> 2 out |
+| 9 | Router | Logistik | Uncommon | Auto-distribusi multi I/O | round-robin |
+| 10 | Smelter Batu | Smelter | Common | Lebur lambat murah | mentah -> bar, 4s |
+| 11 | Smelter Arcane | Smelter | Uncommon | Lebur cepat | mentah -> bar, 2s `[panas]` |
+| 12 | Foundry Ganda | Smelter | Rare | 2 slot paralel | 2x mentah -> 2x bar |
+| 13 | Turret Iron | Turret | Common | DPS standar | Iron Bar, 1/tembakan |
+| 14 | Turret Copper | Turret | Uncommon | Fire-rate tinggi | Copper Bar, 0.5/tembakan |
+| 15 | Turret Gold | Turret | Rare | Splash AoE | Gold Bar, 2/tembakan `[panas]` |
+| 16 | Turret Diamond | Turret | Epic | Sniper dmg besar | Diamond, 1/3 tembakan |
+| 17 | Crafter Alloy | Crafter | Rare | Gabung bar jadi mix | Iron + Copper -> Alloy |
+| 18 | Storage Buffer | Utilitas | Uncommon | Tahan 20 item | anti-bottleneck |
+| 19 | Wall Rune | Defensif | Uncommon | Blokir 1 tile | HP 200 |
+| 20 | Pylon Overdrive | Utilitas | Epic | Buff 3x3 +30% speed | 1 Gold Bar/30s `[listrik]` |
+
+---
+
+## 🏭 5. Machine Varian (12)
+
+| Nama | Kategori | Size | Fungsi | Rarity |
+|---|---|---|---|---|
+| Smelter Batu | Smelter | 1x1 | mentah -> bar, 4s lambat murah | Common |
+| Smelter Arcane | Smelter | 1x1 | mentah -> bar, 2s | Uncommon |
+| Foundry Ganda | Smelter | 2x1 | 2 slot paralel | Rare |
+| Crusher Scrap | Smelter | 1x1 | 1 mentah -> 2 shard 1s, 30% jadi waste | Uncommon |
+| Crafter Alloy | Crafter | 1x1 | Iron Bar + Copper Bar -> Alloy Pack | Rare |
+| Assembler Rune | Crafter | 2x2 | Gold Bar + Diamond -> Rune Core | Epic |
+| Cooler Mist | Utilitas | 1x1 | hilangkan panas, +10% speed keluar | Uncommon |
+| Coil Charger | Utilitas | 1x1 | tambah listrik ke bar lewat | Rare |
+| Recycler Waste | Utilitas | 1x1 | 3 waste -> 1 bar acak | Rare |
+| Turret Tesla | Turret | 1x1 | chain 3 musuh, butuh Alloy | Epic |
+| Turret Mortar | Turret | 2x2 | AoE jauh, lambat, butuh Gold | Rare |
+| Pylon Overdrive | Buffer | 1x1 | buff 3x3 +30% speed, makan Gold/30s | Epic |
+
+---
+
+## 🏛️ 6. Desain FTUE
 
 - **Pendekatan FTUE**: **Contextual UI Hint + Sandbox Room (Kihon)**
   - Sebelum run pertama, pemain masuk ke ruang tutorial terisolasi tanpa musuh dan tanpa batas waktu (*Kihon* — zero risk, zero pressure).
@@ -95,7 +138,7 @@
 
 ---
 
-## 🎨 8. Visual Design & Art Direction
+## 🎨 7. Visual Design & Art Direction
 
 ### Art Style
 - **Referensi**: Shapez 2 — minimalist low-poly geometric
@@ -116,47 +159,3 @@
 | Enemy               | Ungu `#8E44AD`              |
 | Core (Arcane Forge) | Cyan emissive + batu gelap  |
 
-### The Core — "The Arcane Forge"
-Core bukan crystal atau orb, melainkan **pabrik induk** tempat semua operasi berpusat. Secara tematik, pemain literally mempertahankan *The ManaForge* itu sendiri.
-
-**Bentuk Dasar (Low-Poly, Blender):**
-- Badan utama: trapezoid/kotak besar, sedikit lebih lebar di bawah
-- 2–3 cerobong di atas dengan ukuran bervariasi
-- Pintu forge di depan — glowing emissive cyan/oranye
-- Detail rune geometris di dinding (bevel edge + emissive material, tanpa texture)
-- Ukuran di grid: **2×2 tiles**
-
-**Color Palette Core:**
-| Bagian | Warna |
-|---|---|
-| Badan bangunan | Batu gelap `#1A1A2E` / abu tua |
-| Cerobong | Besi tua `#4A4A5A` |
-| Glow pintu | Cyan + putih emissive ("mana") |
-| Asap cerobong | Particle — ungu ke putih |
-| Rune | Emissive cyan tipis |
-
-**Visual Feedback HP (3 State):**
-- **HP Tinggi** → cerobong ngebul aktif, glow pintu terang
-- **HP Sedang** → asap melambat, glow meredup, warna bergeser ke oranye
-- **HP Kritis** → asap berhenti, glow merah berkedip (DOTween pulse)
-
-### Art Asset Pipeline per Phase
-| Phase | Target | Approach |
-|---|---|---|
-| Phase 1 (Prototype) | Placeholder 100% | ProBuilder primitives + colored Unlit materials. Tidak perlu Blender. |
-| Phase 2 (MVP) | Basic art | Low-poly Blender models, UI mockup di Figma dulu, basic Particle VFX |
-| Phase 3 (Early Access) | Polish | Full art pass 2 faksi, animated conveyor, UI DOTween, audio FL Studio |
-
-### Tool Stack Art
-| Kebutuhan | Tool |
-|---|---|
-| 3D Modeling | Blender (gratis) |
-| In-engine geometry | ProBuilder (sudah ada) |
-| UI Mockup | Figma (gratis) |
-| VFX | Unity Particle System + Shader Graph (URP) |
-| Audio | FL Studio (sudah ada) |
-
-### Tips Solo Dev — Art
-1. Beli asset pack untuk elemen non-core (environment tiles, enemy model) — fokus energi di mesin dan conveyor sebagai signature visual game.
-2. Audio setelah prototype lulus Go/No-Go — sound effect + musik drastis meningkatkan game feel, dan FL Studio sudah tersedia.
-3. Jangan perfectionist di Phase 1 & 2 — placeholder art cukup selama core loop belum validated.
