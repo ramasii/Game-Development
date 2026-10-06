@@ -29,7 +29,6 @@
   ```
 - **Core Mechanic**: Membangun jalur logistik (conveyor belt) yang mengalirkan bahan mentah → mesin pemroses → turret otomatis. Jika jalur macet (*bottleneck*), turret kehabisan peluru dan Core bisa hancur.
 - **Daya Tarik Jangka Pendek**: Momen ketika sinergi 2–3 blueprint menghasilkan combo tak terduga — misalnya pabrik yang sengaja "bocor" justru menghasilkan koin tak terbatas. Pemain ingin langsung coba lagi setelah menemukan hint kombo baru.
-- **Daya Tarik Jangka Panjang**: Membuka faksi teknologi baru (Steampunk / Cyberpunk), blueprint langka, dan upgrade Core permanen lewat metaprogression — plus rasa penguasaan sejati saat pabrik yang dibangun berjalan sempurna tanpa bottleneck.
 
 ---
 
@@ -53,7 +52,7 @@
 
 > Mekanik 7 (Underground Conveyor, multi-lantai, dsb.) ditambahkan setelah prototype mekanik 1–6 terbukti fun.
 
-##### Conveyor Tile Spec (5 Varian)
+##### Conveyor Tile Spec (6 Varian)
 
 | No | Nama | Size | I/O | Fungsi | Speed | Rarity |
 |---|---|---|---|---|---|---|
@@ -62,6 +61,7 @@
 | 3 | Splitter | 1x1 | 1 in -> 2 out | Bagi 1 jalur ke 2 bergantian | 1:1 round-robin | Common |
 | 4 | Merger | 1x1 | 2 in -> 1 out | Gabung 2 jalur ke 1 | prioritas bergantian | Common |
 | 5 | Balancer | 1x1 | 2 in -> 2 out | Seimbangkan load 2 jalur | balance + round-robin | Uncommon |
+| 6 | Filter | 1x1 | 1 in -> 2 out (lolos / tidak) | Blokir/izinkan resource per tipe, out1 = memenuhi kriteria, out2 = tidak | filter check tiap item | Uncommon |
 
 ##### Ore Deposit & Resource (4 Varian)
 
@@ -80,95 +80,6 @@
 | 2 | Miner Fast | 1x1 | 1 arah | 1.5s/item | Basic + 10 Iron Bar | Uncommon |
 | 3 | Miner Multi | 1x1 | 2 arah round-robin | 2.0s/item | Fast + 10 Copper Bar | Rare |
 
-## 💻 4. Arsitektur Data & Design Pattern
-
-- **Design Pattern Pilihan**:
-  - **Node/Graph System** — setiap tile grid adalah node; conveyor belt adalah edge; resource mengalir dari node ke node. Ini fondasi utama sistem pabrik.
-  - **Observer Pattern (Event Channel)** — mesin dan turret subscribe ke event resource-flow. Saat resource tiba, event dipicu otomatis tanpa polling tiap frame. Lihat [[Decoupled Audio System (Event Channel & Pooling)]] sebagai referensi implementasi pattern serupa.
-  - **Object Pooling** — item/resource di conveyor di-pool agar tidak ada GC spike saat ratusan objek bergerak bersamaan. Lihat [[Decoupled Audio System (Event Channel & Pooling)]].
-  - **ScriptableObject sebagai SSOT** — setiap blueprint/mesin/perk didefinisikan sebagai ScriptableObject. Satu asset = satu sumber kebenaran. `MinerData` adalah contoh pertama pattern ini. Lihat [[Single Source of Truth (SSOT)]].
-  - **State Pattern** — GameState (BuildPhase / WavePhase / RewardPhase / GameOver) dikelola lewat FSM terpusat. Lihat [[Simple FSM Berbasis Enum (Game State Prototyping)]] dan [[Centralized State Manager (GameManager Singleton & Event)]].
-  - **Factory Pattern** — spawning mesin dan resource menggunakan Factory agar tidak ada hardcode tipe objek di luar satu tempat.
-
-- **Arsitektur & Penyimpanan Data**:
-  - Blueprint dan Perk → `ScriptableObject` dengan sistem tag sinergi
-  - `MinerData` → `ScriptableObject` per tier Miner (interval, output count, upgrade chain)
-  - Resource flow data → runtime-only, tidak perlu disimpan ke disk
-  - Metaprogression (koin, unlock permanen) → `JSON` lokal atau `PlayerPrefs` untuk MVP
-  - Game state → Singleton `GameManager` dengan event broadcast
-
-- **Mermaid Diagram**:
-    ```mermaid
-    graph TD
-        GM[GameManager\nState Machine] -->|OnStateChanged| UI[UI Manager]
-        GM -->|OnStateChanged| WM[Wave Manager]
-        GM -->|OnStateChanged| BM[Build Manager]
-
-        BM -->|PlaceTile| Grid[Grid System\nNode Graph]
-        BM -->|PlaceMiner| Miner[Miner\nMinerData SO]
-        BM -->|PlaceRouter| Router[Router\nAuto-detect I/O]
-
-        OreDeposit[Ore Deposit\npre-placed di map] -->|DepositTag| Miner
-        Miner -->|Get dari pool| Pool[Object Pool\nResource Items]
-        Pool -->|ResourceItem bergerak| Conv[Conveyor Belt]
-        Conv -->|masuk| Router
-        Router -->|round-robin output| Conv
-        Router -->|round-robin output| Machine[Machine Node\nScriptableObject]
-        Conv -->|OnResourceArrived| Machine
-        Machine -->|OnOutputReady| Turret[Turret Node]
-        Turret -->|OnFire| ProjPool[Projectile Pool]
-
-        WM -->|SpawnWave| EnemyPool[Enemy Object Pool]
-        EnemyPool -->|OnEnemyReachCore| GM
-
-        RM[Reward Manager] -->|DraftBlueprint| SO[Blueprint\nScriptableObject]
-        SO -->|ApplyPerk| Grid
-    ```
-
-##### Blueprint Pool (20 Varian)
-
-Blueprint = bangunan placeable untuk Reward Draft. Perk pasif dibahas terpisah.
-
-| No | Nama | Kategori | Rarity | Fungsi | Input -> Output / Konsumsi |
-|---|---|---|---|---|---|
-| 1 | Miner Basic | Miner | Common | Ekstraksi dasar, 1 output | Deposit -> mentah, 3s/item |
-| 2 | Miner Fast | Miner | Uncommon | 2x lebih cepat | Deposit -> mentah, 1.5s/item |
-| 3 | Miner Multi | Miner | Rare | 2 output round-robin | Deposit -> mentah ke 2 arah |
-| 4 | Conveyor Mk.I | Logistik | Common | Transport dasar | 1 item/s |
-| 5 | Conveyor Mk.II | Logistik | Uncommon | Transport cepat | 2.5 item/s |
-| 6 | Splitter | Logistik | Common | 1 -> 2 bergantian | - |
-| 7 | Merger | Logistik | Common | 2 -> 1 | - |
-| 8 | Balancer | Logistik | Uncommon | Seimbangkan 2 jalur | 2 in -> 2 out |
-| 9 | Router | Logistik | Uncommon | Auto-distribusi multi I/O | round-robin |
-| 10 | Smelter Batu | Smelter | Common | Lebur lambat murah | mentah -> bar, 4s |
-| 11 | Smelter Arcane | Smelter | Uncommon | Lebur cepat | mentah -> bar, 2s `[panas]` |
-| 12 | Foundry Ganda | Smelter | Rare | 2 slot paralel | 2x mentah -> 2x bar |
-| 13 | Turret Iron | Turret | Common | DPS standar | Iron Bar, 1/tembakan |
-| 14 | Turret Copper | Turret | Uncommon | Fire-rate tinggi | Copper Bar, 0.5/tembakan |
-| 15 | Turret Gold | Turret | Rare | Splash AoE | Gold Bar, 2/tembakan `[panas]` |
-| 16 | Turret Diamond | Turret | Epic | Sniper dmg besar | Diamond, 1/3 tembakan |
-| 17 | Crafter Alloy | Crafter | Rare | Gabung bar jadi mix | Iron + Copper -> Alloy |
-| 18 | Storage Buffer | Utilitas | Uncommon | Tahan 20 item | anti-bottleneck |
-| 19 | Wall Rune | Defensif | Uncommon | Blokir 1 tile | HP 200 |
-| 20 | Pylon Overdrive | Utilitas | Epic | Buff 3x3 +30% speed | 1 Gold Bar/30s `[listrik]` |
-
-##### Machine Varian (12)
-
-| Nama | Kategori | Size | Fungsi | Rarity |
-|---|---|---|---|---|
-| Smelter Batu | Smelter | 1x1 | mentah -> bar, 4s lambat murah | Common |
-| Smelter Arcane | Smelter | 1x1 | mentah -> bar, 2s | Uncommon |
-| Foundry Ganda | Smelter | 2x1 | 2 slot paralel | Rare |
-| Crusher Scrap | Smelter | 1x1 | 1 mentah -> 2 shard 1s, 30% jadi waste | Uncommon |
-| Crafter Alloy | Crafter | 1x1 | Iron Bar + Copper Bar -> Alloy Pack | Rare |
-| Assembler Rune | Crafter | 2x2 | Gold Bar + Diamond -> Rune Core | Epic |
-| Cooler Mist | Utilitas | 1x1 | hilangkan panas, +10% speed keluar | Uncommon |
-| Coil Charger | Utilitas | 1x1 | tambah listrik ke bar lewat | Rare |
-| Recycler Waste | Utilitas | 1x1 | 3 waste -> 1 bar acak | Rare |
-| Turret Tesla | Turret | 1x1 | chain 3 musuh, butuh Alloy | Epic |
-| Turret Mortar | Turret | 2x2 | AoE jauh, lambat, butuh Gold | Rare |
-| Pylon Overdrive | Buffer | 1x1 | buff 3x3 +30% speed, makan Gold/30s | Epic |
-
 ## 🏛️ 5. Desain FTUE
 
 - **Pendekatan FTUE**: **Contextual UI Hint + Sandbox Room (Kihon)**
@@ -181,67 +92,6 @@ Blueprint = bangunan placeable untuk Reward Draft. Perk pasif dibahas terpisah.
     4. Wave kecil datang → pemain merasakan loop penuh untuk pertama kali
   - Reward tutorial: 1 blueprint gratis pilihan pemain → langsung masuk run pertama yang sesungguhnya.
   - Lihat [[Tutorial Level Building Blocks]] dan [[Framework Kihon-Kata-Kumite (Learning Curve & Encounter Design)]].
-
----
-
-## 🚀 6. Struktur Folder Modular & Optimisasi Performa
-
-- **Struktur Folder (Feature-Based)**:
-  ```
-  Assets/
-  ├── _Project/
-  │   ├── Scripts/
-  │   │   ├── Core/            ← GameManager, GameState, EventChannels
-  │   │   ├── Grid/            ← GridSystem, TileNode, ConveyorBelt
-  │   │   ├── Machines/        ← BaseMachine, Smelter, Turret, Splitter
-  │   │   ├── Resources/       ← ResourceItem, ObjectPool
-  │   │   ├── Waves/           ← WaveManager, EnemySpawner, EnemyAI
-  │   │   ├── Blueprints/      ← BlueprintDraft, PerkSystem, SynergyTags
-  │   │   ├── Metaprogression/ ← UnlockManager, SaveSystem
-  │   │   └── UI/              ← HUD, BuildMenu, RewardPanel
-  │   ├── ScriptableObjects/
-  │   │   ├── Blueprints/
-  │   │   ├── Machines/
-  │   │   └── Events/
-  │   ├── Prefabs/
-  │   ├── Art/
-  │   │   ├── Machines/        ← Low-poly geometric models
-  │   │   ├── Environment/
-  │   │   └── VFX/
-  │   └── Audio/
-  ```
-
-- **Rencana Optimisasi**:
-  - *CPU/Memori*: **Object Pooling** wajib untuk semua resource item di conveyor (bisa ratusan objek bergerak serentak). Pertimbangkan **Unity DOTS/ECS** jika jumlah tile mencapai 1000+.
-  - *Grid Update*: Jangan update semua tile setiap frame — gunakan **event-driven dirty flag**: tile hanya update saat ada perubahan input/output.
-  - *Rendering*: Semua mesin menggunakan **GPU Instancing** karena geometry sama, hanya posisi berbeda. Hemat draw call drastis.
-  - *UI*: **Canvas Splitting** — HUD statis (wave counter, Core HP) dipisah dari UI dinamis (build menu, perk draft) agar tidak trigger rebuild canvas setiap frame.
-
----
-
-## 📏 7. Scope & Feasibility
-
-- **Estimasi Durasi**:
-  - Prototype core mechanic (grid placement + conveyor flow): **2 minggu**
-  - MVP playable (3 jenis mesin, 10 blueprint, 5 wave, metaprogression dasar): **2 bulan**
-  - Early Access (20+ blueprint, 2 faksi, 15 wave, Steam page): **4–6 bulan**
-
-- **Ukuran Tim**: Ideal **2–3 orang** (1 programmer, 1 artist/generalist, 1 game designer). Bisa dimulai solo untuk fase prototype.
-
-- **Risiko Teknis**:
-  - **Grid + Node flow system** adalah komponen paling kompleks — harus dirancang dengan benar di awal karena semua sistem lain bergantung padanya.
-  - **Performa saat pabrik besar** — ratusan resource item bergerak bisa jadi bottleneck; Object Pooling + ECS harus disiapkan sejak MVP.
-  - **Balance sinergi** — terlalu banyak perk yang berinteraksi bisa menciptakan combo yang completely break game; butuh spreadsheet sinergi dan playtesting intensif.
-
-- **Risiko Desain**:
-  - Core loop belum divalidasi — apakah "tidak bisa menembak sendiri, hanya bisa membangun" terasa menyenangkan bagi pemain yang terbiasa action roguelite? Wajib diuji di playtest awal.
-  - Build Phase vs Wave Phase timing perlu dibalance — terlalu banyak waktu build = boring, terlalu sedikit = stressful tanpa arah.
-
-- **Kriteria "Go/No-Go"**:
-  - ✅ Prototype conveyor grid terasa *satisfying* dibangun (mekanisnya "klik") dalam 2 minggu pertama.
-  - ✅ Satu sinergi 2-perk menghasilkan momen "WOW/broken build" saat playtesting internal.
-  - ✅ Rata-rata run 30–45 menit — tidak terlalu pendek (tidak berasa), tidak terlalu panjang (tidak bisa restart cepat).
-  - ❌ Jika setelah 2 minggu mekanik grid belum fun → pivot ke konsep lain (Minesweeper Dungeon atau Chess Physics).
 
 ---
 
