@@ -21,150 +21,207 @@
 
 - **Loop Utama**:
   ```
-  Build Phase → Wave Phase → Reward Phase → (run berikutnya atau mati)
+  Build Phase (2 mnt, bisa Skip) → Wave Phase → Reward Phase → (run berikutnya atau mati)
 
-  Build Phase  : Susun conveyor belt, mesin, dan turret dari blueprint yang tersedia
-  Wave Phase   : Monster menyerang — pabrik bekerja otomatis, turret menembak sendiri
-  Reward Phase : Pilih 1 dari 3 blueprint/perk acak sebagai hadiah bertahan hidup
-  Mati         : Core hancur → koin/komponen tersimpan → buka upgrade permanen di menu
+  Build Phase  : Susun conveyor, mesin, turret dari blueprint. Lihat preview arah wave berikutnya. Bisa hapus/jual/rotate.
+  Wave Phase   : Monster menyerang — pabrik + turret jalan otomatis. Bangunan terkunci tidak bisa diubah.
+  Reward Phase : Pilih 1 dari 3 blueprint (1 bangunan) sebagai hadiah.
+  Mati         : Core HP 0 → run berakhir → koin tersimpan → upgrade permanen.
   ```
-- **Core Mechanic**: Membangun jalur logistik (conveyor belt) yang mengalirkan bahan mentah → mesin pemroses → turret otomatis. Jika jalur macet (*bottleneck*), turret kehabisan peluru dan Core bisa hancur.
-- **Daya Tarik Jangka Pendek**: Momen ketika sinergi 2–3 blueprint menghasilkan combo tak terduga — misalnya pabrik yang sengaja "bocor" justru menghasilkan koin tak terbatas. Pemain ingin langsung coba lagi setelah menemukan hint kombo baru.
-- **Daya Tarik Jangka Panjang**: Membuka faksi teknologi baru (Steampunk / Cyberpunk), blueprint langka, dan upgrade Core permanen lewat metaprogression.
+- **Core Mechanic**: Bangun jalur `Deposit → Miner → Conveyor → Smelter/Crafter → Turret`. Surplus bar yang masuk Core diubah jadi Energy.
+- **Daya Tarik Jangka Pendek**: Combo 2–3 blueprint menghasilkan broken build. Ingin coba lagi tiap run.
+- **Daya Tarik Jangka Panjang**: Blueprint langka, faksi Steampunk/Cyberpunk, upgrade Core permanen.
 
 ---
 
 ## ⚔️ 3. Mekanik Utama
 
-- **Mekanik 1 — Grid Placement**: Arena berbentuk grid. Pemain menempatkan potongan conveyor belt (lurus, belok, splitter, merger) dan mesin di atas grid untuk membangun jalur logistik. Posisi tidak bisa diubah saat wave sedang berjalan.
-- **Mekanik 2 — Blueprint Drafting**: Setiap akhir wave, pemain memilih 1 dari 3 blueprint/perk acak. Blueprint bisa berupa mesin baru, upgrade conveyor, atau perk pasif yang mengubah aturan sistem (misal: "besi yang melewati belokan 3x bermuatan listrik").
-- **Mekanik 3 — Ore Deposit & Miner**: Sumber daya mentah tidak langsung tersedia — pemain harus menemukan **Ore Deposit** yang sudah ada di map (pre-placed oleh level designer) dan menempatkan **Miner** di atasnya untuk mulai mengekstraksi resource secara otomatis.
-  - **Ore Deposit**: Tile khusus pre-placed di map. Tidak bisa dihapus. Menandai lokasi bahan mentah (`iron`, `copper`, dst).
-  - **Miner**: Ditempatkan player tepat di atas Ore Deposit. Spawn resource item secara berkala (interval ditentukan `MinerData` ScriptableObject) ke satu arah output. Player bisa rotate arah output sebelum/sesudah placement.
-  - **Upgrade Path**: `MinerData` mendukung chain upgrade (Basic → Fast → Multi-Output). Miner level tinggi bisa punya lebih dari satu output direction (round-robin per spawn).
-  - **Flow lengkap**: `Ore Deposit → Miner → Conveyor Belt → Mesin/Turret`
+- **Mekanik 1 — Grid & Build Rules**:
+  - Map 100x100 tile, procedural generation untuk posisi deposit. Core 2x2 di tengah (tile 49-50).
+  - Build Phase saja: bisa pasang, hapus, jual (refund 70%), rotate. Wave Phase terkunci.
+  - Biaya bangun pakai resource mentah/jadi (lihat kolom Biaya). Start inventory: 30 Raw Iron.
+  - Starter gratis saat run mulai: 1 Miner Basic, 5 Conveyor Mk.I, 1 Smelter Batu, 1 Turret Iron (pre-placed dekat Core, bisa dipindah saat Build).
+  - Bangunan bisa hancur (HP 0). Bisa repair selama HP > 0, cost 50% biaya bangun untuk +50% max HP, kapan saja, instant.
+- **Mekanik 2 — Blueprint Drafting (bangunan saja)**:
+  - Tiap akhir wave pilih 1 dari 3 blueprint. 1 blueprint = 1 bangunan.
+  - Blueprint TIDAK bisa jadi perk pasif. Perk/sinergy dibahas terpisah nanti, tidak masuk draft ini.
+  - Pool tunggal di section 4. Rarity: Common/Uncommon/Rare/Epic untuk bobot draft.
+- **Mekanik 3 — Ore Deposit & Miner**:
+  - Deposit pre-placed, tidak bisa dihapus. Miner ditaruh di atasnya, bisa rotate output.
+  - Penamaan konsisten:
+    - Mentah: Raw Iron, Raw Copper, Raw Gold, Diamond
+    - Olahan: Iron Bar, Copper Bar, Gold Bar, Diamond (tetap "Diamond", langsung pakai, tanpa smelt)
+    - Craft: Alloy Pack (Iron Bar + Copper Bar), Rune Core (Gold Bar + Diamond)
+  - Crusher TIDAK menghasilkan waste. Recycler dihapus dari GDD.
+  - Miner tier terpisah (Basic / Fast / Multi), masing-masing 1 blueprint sendiri, bukan auto-upgrade. Upgrade manual dengan biaya.
+  - Flow: `Deposit → Miner → Conveyor → Smelter/Crafter → Turret → (surplus → Core = Energy)`
+- **Mekanik 4 — Wave & Spawn**:
+  - Build Phase 2 menit, bisa Skip via tombol. Selama Build, UI tampilkan panah arah spawn wave berikutnya.
+  - Maksimal 4 spawn point (Utara/Selatan/Timur/Barat edge). Maksimal 2 spawn aktif bersamaan.
+  - Spawn bertahap dari pool, tidak sekaligus. Interval per tabel wave. Wave selesai saat semua pool habis + yang hidup mati.
+  - Komposisi dibuat agar Wave 1-2 mudah (lihat tabel).
+- **Mekanik 5 — Core HP & Ekonomi**:
+  - Core HP 500. Repair 5 Iron Bar = +50 HP, hanya saat Build Phase.
+  - Patokan: 2 Miner Basic cukup untuk 3 Turret Iron + surplus ke Core.
+    - Miner Basic 20 raw/mnt x2 = 40 raw/mnt. 3x Smelter Batu 15/mnt = 45 kapasitas → output ~40 bar/mnt.
+    - Turret Iron max 15 bar/mnt (1/4 detik), rata-rata tempur ~70% = ~10.5/mnt. 3 turret = ~31.5/mnt.
+    - Surplus = 40 - 31.5 = ~8.5 bar/mnt → masuk Core = 8.5 x 5 = ~42 Energy/mnt.
+    - 1 Miner → 1 Turret: 20 raw → 15 bar (bottleneck smelter) → turret 10.5/mnt → surplus ~4.5/mnt.
+  - Konversi Core: 1 Iron/Copper Bar = 5 Energy, 1 Gold Bar = 12 Energy, 1 Diamond/Alloy = 20 Energy, 1 Rune Core = 50 Energy.
 
-### Conveyor Tile Spec (6 Varian)
+### Conveyor Tile Spec (7 Varian)
 
-| No | Nama | Size | I/O | Fungsi | Speed | Rarity |
-|---|---|---|---|---|---|---|
-| 1 | Lurus | 1x1 | 1 in -> 1 out lurus | Transport linear | 1 item/s, Mk.II 2.5/s | Common |
-| 2 | Belok | 1x1 | 1 in -> 1 out L | Belok 90° | sama spt lurus, +delay 0.1s | Common |
-| 3 | Splitter | 1x1 | 1 in -> 2 out | Bagi 1 jalur ke 2 bergantian | 1:1 round-robin | Common |
-| 4 | Merger | 1x1 | 2 in -> 1 out | Gabung 2 jalur ke 1 | prioritas bergantian | Common |
-| 5 | Balancer | 1x1 | 2 in -> 2 out | Seimbangkan load 2 jalur | balance + round-robin | Uncommon |
-| 6 | Filter | 1x1 | 1 in -> 2 out (lolos / tidak) | Blokir/izinkan resource per tipe, out1 = memenuhi kriteria, out2 = tidak | filter check tiap item | Uncommon |
+Mk.I dan Mk.II tier terpisah (2 blueprint berbeda).
+
+| No | Nama | Size | I/O | Fungsi | Speed | Biaya | Rarity |
+|---|---|---|---|---|---|---|---|
+| 1 | Lurus Mk.I | 1x1 | 1 in -> 1 out lurus | Transport dasar | 1 item/s | 2 Raw Iron | Common |
+| 2 | Lurus Mk.II | 1x1 | 1 in -> 1 out lurus | Transport cepat | 2.5 item/s | 2 Iron Bar | Uncommon |
+| 3 | Belok | 1x1 | 1 in -> 1 out L | Belok 90°, ikut speed belt masuk +0.1s delay | - | 2 Raw Iron | Common |
+| 4 | Splitter | 1x1 | 1 in -> 2 out | Bagi bergantian | round-robin | 3 Iron Bar | Common |
+| 5 | Merger | 1x1 | 2 in -> 1 out | Gabung bergantian | - | 3 Iron Bar | Common |
+| 6 | Balancer | 1x1 | 2 in -> 2 out | Seimbangkan load | balance | 5 Iron Bar | Uncommon |
+| 7 | Filter | 1x1 | 1 in -> 2 out (lolos/tidak) | Blokir/izinkan per tipe | check/item | 5 Iron Bar + 2 Copper Bar | Uncommon |
 
 ### Ore Deposit & Resource (4 Varian)
 
-| No | Deposit | Size | Resource Mentah | Hasil Smelter (Bar) | Rarity Map |
+| No | Deposit | Size | Resource Mentah | Hasil | Rarity Map |
 |---|---|---|---|---|---|
-| 1 | Iron Deposit | 1x1 | Raw Iron | Iron Bar | Common, dekat Core |
-| 2 | Copper Deposit | 1x1 | Raw Copper | Copper Bar | Common, mid |
-| 3 | Gold Deposit | 1x1 | Raw Gold | Gold Bar | Uncommon, jauh / sisi map |
-| 4 | Diamond Deposit | 1x1 | Rough Diamond | Diamond (langsung, tanpa smelt) | Rare, pojok / high-risk |
+| 1 | Iron Deposit | 1x1 | Raw Iron | Iron Bar (smelt) | Common, dekat Core |
+| 2 | Copper Deposit | 1x1 | Raw Copper | Copper Bar (smelt) | Common, mid |
+| 3 | Gold Deposit | 1x1 | Raw Gold | Gold Bar (smelt) | Uncommon, jauh/sisi |
+| 4 | Diamond Deposit | 1x1 | Diamond | Diamond (langsung, bisa ke Crafter/Turret) | Rare, pojok high-risk |
 
-### Miner Varian (3)
+### Miner Varian (3, tier terpisah)
 
-| No | Nama | Size | Output | Interval | Upgrade Dari | Rarity |
+| No | Nama | Size | Output | Interval | Biaya | Rarity |
 |---|---|---|---|---|---|---|
-| 1 | Miner Basic | 1x1 | 1 arah | 3.0s/item | - (default craft) | Common |
-| 2 | Miner Fast | 1x1 | 1 arah | 1.5s/item | Basic + 10 Iron Bar | Uncommon |
-| 3 | Miner Multi | 1x1 | 2 arah round-robin | 2.0s/item | Fast + 10 Copper Bar | Rare |
+| 1 | Miner Basic | 1x1 | 1 arah | 3.0s (20/mnt) | 10 Raw Iron | Common |
+| 2 | Miner Fast | 1x1 | 1 arah | 1.5s (40/mnt) | 10 Iron Bar | Uncommon |
+| 3 | Miner Multi | 1x1 | 2 arah round-robin | 2.0s total (30/mnt) | 10 Copper Bar | Rare |
 
----
+### Enemy Varian (5, mudah → sulit)
 
-##### Enemy Varian (5)
-
-Wave datang dari beberapa arah. Urut mudah → sulit.
-
-| No | Nama | HP | Speed | Damage | Target prioritas | Ability | Muncul |
+| No | Nama | HP | Speed | Damage | Target | Ability | Bounty |
 |---|---|---|---|---|---|---|---|
-| 1 | Mite Crawler | 20 | 3.0 cepat | 5 ke Core | Core langsung | Gerombol 5-8 ekor | Wave 1-2 |
-| 2 | Shell Brute | 120 | 1.2 lambat | 20 ke bangunan | Wall / Turret terdekat | Armor -50% dmg kecil | Wave 2-4 |
-| 3 | Spit Wisp | 45 | 2.0 sedang | 10 jarak jauh | Conveyor / Miner | Tembak dari 4 tile | Wave 3-5 |
-| 4 | Phase Wraith | 70 | 3.5 sangat cepat | 15 ke Core | Tembus Wall | Ignore Wall/Barricade | Wave 4-6 |
-| 5 | Forge Titan | 800 | 0.8 sangat lambat | 100 AoE | Core | Boss, stomp hancurkan 3x3 | Wave final |
+| 1 | Mite Crawler | 20 | 3.0 cepat | 5 ke Core/bangunan | Core langsung | Gerombol | 2 Raw Iron |
+| 2 | Shell Brute | 120 | 1.2 lambat | 20 ke bangunan | Wall/Turret terdekat | Armor -50% dmg <10 | 4 Raw Iron |
+| 3 | Spit Wisp | 45 | 2.0 sedang | 10 jarak 4 tile | Conveyor/Miner | Ranged | 3 Raw Copper |
+| 4 | Phase Wraith | 70 | 3.5 sangat cepat | 15 | Tembus ke Core | Ignore Wall | 4 Raw Copper |
+| 5 | Forge Titan | 800 | 0.8 sangat lambat | 100 AoE 3x3 | Core | Boss stomp | 10 Gold Bar + 5 Diamond |
 
-## 📦 4. Blueprint Pool (20 Varian)
+### Wave Composition (7 Wave, 30-40 mnt/run)
 
-Blueprint = bangunan placeable untuk Reward Draft. Perk pasif dibahas terpisah.
+Spawn bertahap, max 2 spawn aktif. Wave 1 dijamin 1 arah saja agar mudah.
 
-| No | Nama | Kategori | Rarity | Fungsi | Input -> Output / Konsumsi |
+| Wave | Komposisi pool | Total HP | Spawn aktif | Interval | Catatan |
 |---|---|---|---|---|---|
-| 1 | Miner Basic | Miner | Common | Ekstraksi dasar, 1 output | Deposit -> mentah, 3s/item |
-| 2 | Miner Fast | Miner | Uncommon | 2x lebih cepat | Deposit -> mentah, 1.5s/item |
-| 3 | Miner Multi | Miner | Rare | 2 output round-robin | Deposit -> mentah ke 2 arah |
-| 4 | Conveyor Mk.I | Logistik | Common | Transport dasar | 1 item/s |
-| 5 | Conveyor Mk.II | Logistik | Uncommon | Transport cepat | 2.5 item/s |
-| 6 | Splitter | Logistik | Common | 1 -> 2 bergantian | - |
-| 7 | Merger | Logistik | Common | 2 -> 1 | - |
-| 8 | Balancer | Logistik | Uncommon | Seimbangkan 2 jalur | 2 in -> 2 out |
-| 9 | Router | Logistik | Uncommon | Auto-distribusi multi I/O | round-robin |
-| 10 | Smelter Batu | Smelter | Common | Lebur lambat murah | mentah -> bar, 4s |
-| 11 | Smelter Arcane | Smelter | Uncommon | Lebur cepat | mentah -> bar, 2s `[panas]` |
-| 12 | Foundry Ganda | Smelter | Rare | 2 slot paralel | 2x mentah -> 2x bar |
-| 13 | Turret Iron | Turret | Common | DPS standar | Iron Bar, 1/tembakan |
-| 14 | Turret Copper | Turret | Uncommon | Fire-rate tinggi | Copper Bar, 0.5/tembakan |
-| 15 | Turret Gold | Turret | Rare | Splash AoE | Gold Bar, 2/tembakan `[panas]` |
-| 16 | Turret Diamond | Turret | Epic | Sniper dmg besar | Diamond, 1/3 tembakan |
-| 17 | Crafter Alloy | Crafter | Rare | Gabung bar jadi mix | Iron + Copper -> Alloy |
-| 18 | Storage Buffer | Utilitas | Uncommon | Tahan 20 item | anti-bottleneck |
-| 19 | Wall Rune | Defensif | Uncommon | Blokir 1 tile | HP 200 |
-| 20 | Pylon Overdrive | Utilitas | Epic | Buff 3x3 +30% speed | 1 Gold Bar/30s `[listrik]` |
+| 1 | 6x Crawler | 120 | 1 (Utara) | 1/3s | 1 Turret Iron cukup (6 shot = 24s) |
+| 2 | 10x Crawler + 2x Brute | 440 | 1 | 1/2.5s | Kenalkan Brute |
+| 3 | 12x Crawler + 4x Brute + 2x Wisp | 810 | 2 | 1/2.5s | Kenalkan ranged, preview 2 arah |
+| 4 | 8x Brute + 6x Wisp + 4x Wraith | 1510 | 2 | 1/2s | Wraith cepat, butuh Wall/Filter |
+| 5 | 12x Wisp + 8x Wraith + 4x Brute | 1580 | 2 | 1/2s | Tekanan logistik, butuh Copper/Gold |
+| 6 | 16x Brute + 8x Wisp + 8x Wraith | 2840 | 2 | 1/1.5s | Gear check Epic |
+| 7 Final | 1x Titan + 10x Brute + 8x Wisp | 2360 | 2, Titan terakhir 30s | 1/1.5s, Titan tunggal | Boss + escort |
+
+Core 500 HP cukup untuk 2-3 bocor kecil per wave awal (W1 total 30 dmg jika semua bocor), tapi lethal di W6-7 jika jebol.
+
+### Building Stats (HP / Range / DPS)
+
+Repair: 50% biaya = +50% max HP, HP harus >0.
+
+| Bangunan | HP | Range | Damage / Rate / DPS | Konsumsi | Biaya |
+|---|---|---|---|---|---|
+| Turret Iron | 150 | 6 | 20 / 4s / 5 DPS | 1 Iron Bar/shot (15/mnt max) | 10 Iron Bar |
+| Turret Copper | 120 | 5 | 8 / 2s / 4 DPS | 0.5 Copper/shot (15/mnt max) | 12 Copper Bar |
+| Turret Gold | 150 | 5 | 30 AoE / 6s / 5 AoE | 2 Gold/shot (20/mnt max) | 20 Gold Bar |
+| Turret Diamond | 120 | 8 | 100 / 8s / 12.5 | 1 Diamond/3 shot (~2.5/mnt) | 10 Diamond |
+| Turret Tesla | 130 | 5 | 15 chain3 / 3s | 1 Alloy/2 shot | 15 Alloy Pack + 5 Diamond |
+| Turret Mortar | 180 | 9 | 40 AoE / 7s | 2 Gold/shot | 20 Gold Bar |
+| Smelter Batu | 200 | - | 1 Raw→1 Bar / 4s (15/mnt) | - | 8 Raw Iron |
+| Smelter Arcane | 200 | - | 1 Raw→1 Bar / 2s (30/mnt) | - | 15 Iron Bar |
+| Foundry Ganda 2x1 | 300 | - | 2 slot x 3s (40/mnt) | - | 25 Iron Bar + 10 Copper Bar |
+| Crusher | 200 | - | 1 Raw→1 Bar / 1s (60/mnt) | - | 12 Iron Bar |
+| Crafter Alloy 1x1 | 200 | - | 1 Iron+1 Copper→1 Alloy / 3s | - | 20 Iron Bar + 10 Copper Bar |
+| Assembler Rune 2x2 | 400 | - | 1 Gold Bar+1 Diamond→1 Rune / 5s | - | 30 Gold Bar + 10 Diamond |
+| Cooler Mist | 150 | - | hilangkan panas, +10% speed keluar | - | 10 Copper Bar |
+| Coil Charger | 150 | - | tambah listrik ke bar lewat | - | 15 Copper Bar + 5 Iron Bar |
+| Router | 150 | - | round-robin multi I/O | - | 5 Iron Bar |
+| Storage Buffer | 200 | - | tahan 20 item | - | 8 Iron Bar |
+| Wall Rune | 300 | - | blokir | - | 5 Raw Iron |
+| Pylon Overdrive | 150 | buff 3x3 | +30% speed sekitar | 1 Gold/30s | 15 Gold Bar |
 
 ---
 
-## 🏭 5. Machine Varian (12)
+## 📦 4. Blueprint Pool Tunggal (26 Bangunan)
 
-| Nama | Kategori | Size | Fungsi | Rarity |
-|---|---|---|---|---|
-| Smelter Batu | Smelter | 1x1 | mentah -> bar, 4s lambat murah | Common |
-| Smelter Arcane | Smelter | 1x1 | mentah -> bar, 2s | Uncommon |
-| Foundry Ganda | Smelter | 2x1 | 2 slot paralel | Rare |
-| Crusher Scrap | Smelter | 1x1 | 1 mentah -> 2 shard 1s, 30% jadi waste | Uncommon |
-| Crafter Alloy | Crafter | 1x1 | Iron Bar + Copper Bar -> Alloy Pack | Rare |
-| Assembler Rune | Crafter | 2x2 | Gold Bar + Diamond -> Rune Core | Epic |
-| Cooler Mist | Utilitas | 1x1 | hilangkan panas, +10% speed keluar | Uncommon |
-| Coil Charger | Utilitas | 1x1 | tambah listrik ke bar lewat | Rare |
-| Recycler Waste | Utilitas | 1x1 | 3 waste -> 1 bar acak | Rare |
-| Turret Tesla | Turret | 1x1 | chain 3 musuh, butuh Alloy | Epic |
-| Turret Mortar | Turret | 2x2 | AoE jauh, lambat, butuh Gold | Rare |
-| Pylon Overdrive | Buffer | 1x1 | buff 3x3 +30% speed, makan Gold/30s | Epic |
+Satu pool. 1 draft = 1 bangunan. Tidak ada perk pasif di sini.
+
+| No | Nama | Kategori | Rarity | Fungsi | Biaya |
+|---|---|---|---|---|---|
+| 1 | Miner Basic | Miner | Common | 20/mnt, 1 arah | 10 Raw Iron |
+| 2 | Miner Fast | Miner | Uncommon | 40/mnt, 1 arah | 10 Iron Bar |
+| 3 | Miner Multi | Miner | Rare | 30/mnt, 2 arah | 10 Copper Bar |
+| 4 | Lurus Mk.I | Logistik | Common | 1 item/s | 2 Raw Iron |
+| 5 | Lurus Mk.II | Logistik | Uncommon | 2.5 item/s | 2 Iron Bar |
+| 6 | Belok | Logistik | Common | Belok 90° | 2 Raw Iron |
+| 7 | Splitter | Logistik | Common | 1→2 | 3 Iron Bar |
+| 8 | Merger | Logistik | Common | 2→1 | 3 Iron Bar |
+| 9 | Balancer | Logistik | Uncommon | 2→2 balance | 5 Iron Bar |
+| 10 | Filter | Logistik | Uncommon | 1→2 lolos/tidak | 5 Iron Bar + 2 Copper Bar |
+| 11 | Router | Logistik | Uncommon | multi I/O | 5 Iron Bar |
+| 12 | Smelter Batu | Smelter | Common | 4s/bar | 8 Raw Iron |
+| 13 | Smelter Arcane | Smelter | Uncommon | 2s/bar | 15 Iron Bar |
+| 14 | Foundry Ganda | Smelter | Rare | 2 slot paralel | 25 Iron Bar + 10 Copper Bar |
+| 15 | Crusher | Smelter | Uncommon | 1s/bar, tanpa waste | 12 Iron Bar |
+| 16 | Turret Iron | Turret | Common | 20 dmg /4s | 10 Iron Bar |
+| 17 | Turret Copper | Turret | Uncommon | 8 dmg /2s | 12 Copper Bar |
+| 18 | Turret Gold | Turret | Rare | 30 AoE /6s | 20 Gold Bar |
+| 19 | Turret Diamond | Turret | Epic | 100 /8s sniper | 10 Diamond |
+| 20 | Turret Tesla | Turret | Epic | chain3 | 15 Alloy Pack + 5 Diamond |
+| 21 | Turret Mortar | Turret | Rare | 40 AoE jauh | 20 Gold Bar |
+| 22 | Crafter Alloy | Crafter | Rare | Iron+Copper→Alloy | 20 Iron Bar + 10 Copper Bar |
+| 23 | Assembler Rune | Crafter | Epic | Gold+Diamond→Rune | 30 Gold Bar + 10 Diamond |
+| 24 | Cooler Mist | Utilitas | Uncommon | anti-panas +10% | 10 Copper Bar |
+| 25 | Coil Charger | Utilitas | Rare | tambah listrik | 15 Copper Bar + 5 Iron Bar |
+| 26 | Storage / Wall / Pylon | Mixed | Uncommon-Rare-Epic | Buffer 20 / HP300 / buff 3x3 | 8 Iron Bar / 5 Raw Iron / 15 Gold Bar |
+
+Recycler dihapus. Crusher tanpa waste.
 
 ---
 
-## 🏛️ 6. Desain FTUE
+## 🏛️ 5. Desain FTUE
 
-- **Pendekatan FTUE**: **Contextual UI Hint + Sandbox Room (Kihon)**
-  - Sebelum run pertama, pemain masuk ke ruang tutorial terisolasi tanpa musuh dan tanpa batas waktu (*Kihon* — zero risk, zero pressure).
-  - UI hint muncul hanya di atas elemen yang relevan saat giliran pemain berinteraksi dengannya (bukan wall of text di awal).
-  - Urutan pengenalan mekanik mengikuti prinsip **Constructivist** (tiap mekanik baru menumpuk di atas yang sudah dikuasai):
-    1. Tempatkan satu conveyor lurus → resource mengalir sendiri (*"oh, begini cara kerjanya"*)
-    2. Tambahkan Smelter → resource berubah jadi output baru
-    3. Hubungkan ke Turret → turret mulai menembak otomatis
-    4. Wave kecil datang → pemain merasakan loop penuh untuk pertama kali
-  - Reward tutorial: 1 blueprint gratis pilihan pemain → langsung masuk run pertama yang sesungguhnya.
+- **Pendekatan**: Contextual UI Hint + Sandbox Kihon, zero risk.
+  1. Tempatkan conveyor lurus → resource mengalir
+  2. Tambah Smelter → jadi bar
+  3. Hubungkan Turret → menembak otomatis
+  4. Wave kecil (6 Crawler, 1 arah Utara, info preview) → loop penuh
+- Reward tutorial: 1 blueprint bangunan pilihan pemain → run pertama.
+
 ---
 
-## 🎨 7. Visual Design & Art Direction
+## 🎨 6. Visual Design & Art Direction
 
 ### Art Style
-- **Referensi**: Shapez 2 — minimalist low-poly geometric
-- **Prinsip**: *Readable dulu, pretty belakangan.* Pemain harus bisa baca alur resource dari conveyor → mesin → turret dalam sekejap. Clarity > Aesthetics.
+- Referensi Shapez 2 low-poly. Readable > pretty. Isometric 3D top-down.
 
 ### Color Language (Wajib Konsisten)
 
-| Elemen              | Warna                       |
-| ------------------- | --------------------------- |
-| Conveyor Belt       | Abu-abu gelap `#2C2C2C`     |
-| Ore Deposit         | Kuning `#F1C40F`            |
-| Miner               | Coklat tua / besi `#6B4F3A` |
-| Router              | Teal `#17A589`              |
-| Resource: Iron      | Biru `#4A90D9`              |
-| Resource: Iron Bar  | Oranye `#E8862A`            |
-| Smelter             | Merah bata `#C0392B`        |
-| Turret              | Hijau gelap `#27AE60`       |
-| Enemy               | Ungu `#8E44AD`              |
-| Core (Arcane Forge) | Cyan emissive + batu gelap  |
+| Elemen | Warna |
+|---|---|
+| Conveyor Mk.I / Mk.II | Abu `#2C2C2C` / Abu terang + strip kuning |
+| Iron Deposit / Raw Iron / Iron Bar | Biru `#4A90D9` / Biru muda / Oranye `#E8862A` |
+| Copper Deposit / Raw Copper / Copper Bar | Oranye tembaga `#B87333` |
+| Gold Deposit / Raw Gold / Gold Bar | Kuning emas `#F1C40F` |
+| Diamond Deposit / Diamond | Cyan putih `#AFF8FF` |
+| Miner | Coklat `#6B4F3A` |
+| Router / Filter / Balancer | Teal `#17A589` |
+| Smelter / Crusher / Foundry | Merah bata `#C0392B` |
+| Turret | Hijau `#27AE60` |
+| Enemy | Ungu `#8E44AD` |
+| Core 2x2 | Cyan emissive + batu gelap `#1A1A2E` |
 
+### The Core — "The Arcane Forge" 2x2
+- Trapesium + 2-3 cerobong + pintu emissive + rune tipis.
+- HP 500. Visual: Tinggi=asap aktif cyan terang, Sedang=oranye redup, Kritis=merah blink.
