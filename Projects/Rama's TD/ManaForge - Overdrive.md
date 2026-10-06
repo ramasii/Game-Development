@@ -23,12 +23,13 @@
   ```
   Build Phase (2 mnt, bisa Skip) → Wave Phase → Reward Phase → (run berikutnya atau mati)
 
-  Build Phase  : Susun conveyor, mesin, turret dari blueprint. Lihat preview arah wave berikutnya. Bisa hapus/jual/rotate.
-  Wave Phase   : Monster menyerang — pabrik + turret jalan otomatis. Bangunan terkunci tidak bisa diubah.
-  Reward Phase : Pilih 1 dari 3 blueprint (1 bangunan) sebagai hadiah.
+  Build Phase  : Susun conveyor, mesin, turret. Preview arah wave. Bisa hapus/jual/rotate. Starter kit gratis cukup untuk Wave 1.
+  Wave Phase   : Monster menyerang — pabrik + turret otomatis. Bangunan terkunci.
+  Reward Phase : Pilih 1 dari 3 blueprint (1 bangunan).
   Mati         : Core HP 0 → run berakhir → mulai dari awal
   ```
-- **Core Mechanic**: Bangun jalur `Deposit → Miner → Conveyor → Smelter/Crafter → Turret`. Surplus bar yang masuk Core diubah jadi Energy.
+- **Core Mechanic**: `Deposit → Miner → Conveyor → Smelter/Crafter → Turret`, dan `→ Core via conveyor = +Inventory` untuk bangun baru.
+- **Inventory Core**: Semua resource mentah/jadi yang dialirkan via conveyor ke 4 sisi Core masuk Inventory. Dipakai bayar bangunan/repair. Bounty enemy langsung masuk Inventory.
 - **Daya Tarik Jangka Pendek**: Combo 2–3 blueprint menghasilkan broken build. Ingin coba lagi tiap run.
 
 ---
@@ -36,16 +37,20 @@
 ## ⚔️ 3. Mekanik Utama
 
 - **Mekanik 1 — Grid & Build Rules**:
-  - Map 100x100 tile, procedural generation untuk posisi deposit. Core 2x2 di tengah (tile 49-50).
+  - Map 100x100 tile, procedural generation untuk posisi deposit. Core 2x2 di tengah (tile 49-50). Jamin 1 Iron Deposit dalam radius 8 tile dari Core (utara) agar Wave 1 selalu playable.
   - Build Phase saja: bisa pasang, hapus, jual (refund 70%), rotate. Wave Phase terkunci.
-  - Biaya bangun pakai resource mentah/jadi (lihat kolom Biaya). Start inventory: 30 Raw Iron.
-  - Starter gratis saat run mulai: 1 Miner Basic, 5 Conveyor Mk.I, 1 Smelter Batu, 1 Turret Iron (pre-placed dekat Core, bisa dipindah saat Build).
+  - Biaya bangun pakai resource dari Inventory Core (lihat kolom Biaya).
+  - **Starter Kit (cukup untuk Wave 1: 6x Crawler, 120 HP)** — diberikan gratis sebagai item di build menu, bukan potong inventory:
+    - Blueprint terbuka: Miner Basic, Lurus Mk.I, Belok, Smelter Batu, Turret Iron
+    - Item gratis: 1x Miner Basic, 12x Lurus Mk.I, 2x Belok, 1x Smelter Batu, 1x Turret Iron
+    - Resource awal di Inventory: 30 Raw Iron + 10 Iron Bar (untuk ammo buffer / repair / 5 conveyor ekstra)
+    - Alasan: 1 Miner (20/mnt) + 1 Smelter (15/mnt) → 15 bar/mnt. Turret Iron butuh max 15/mnt, bunuh 6 Crawler (20 HP) dalam 6 shot = 24 detik. 12 conveyor cukup untuk jarak deposit ≤10 tile + 1 belok cadangan.
   - Bangunan bisa hancur (HP 0). Bisa repair selama HP > 0, cost 50% biaya bangun untuk +50% max HP, kapan saja, instant.
 - **Mekanik 2 — Blueprint Drafting (bangunan saja)**:
   - Tiap akhir wave pilih 1 dari 3 blueprint. 1 blueprint = 1 bangunan.
   - Blueprint TIDAK bisa jadi perk pasif. Perk/sinergy dibahas terpisah nanti, tidak masuk draft ini.
-  - Pool tunggal di section 4. Rarity: Common/Uncommon/Rare/Epic untuk bobot draft.
-- **Mekanik 3 — Ore Deposit & Miner**:
+  - Pool tunggal di section 4. Rarity: Common/Uncommon/Rare/Epic untuk bobot draft. Starter 5 blueprint di atas sudah terbuka, tidak muncul lagi sebagai draft Common duplikat sampai Wave 3.
+- **Mekanik 3 — Ore Deposit & Miner + Core Input**:
   - Deposit pre-placed, tidak bisa dihapus. Miner ditaruh di atasnya, bisa rotate output.
   - Penamaan konsisten:
     - Mentah: Raw Iron, Raw Copper, Raw Gold, Diamond
@@ -53,7 +58,13 @@
     - Craft: Alloy Pack (Iron Bar + Copper Bar), Rune Core (Gold Bar + Diamond)
   - Crusher TIDAK menghasilkan waste. Recycler dihapus dari GDD.
   - Miner tier terpisah (Basic / Fast / Multi), masing-masing 1 blueprint sendiri, bukan auto-upgrade. Upgrade manual dengan biaya.
-  - Flow: `Deposit → Miner → Conveyor → Smelter/Crafter → Turret → (surplus → Core = Energy)`
+  - Flow dasar: `Deposit → Miner → Conveyor → Smelter/Crafter → Turret`
+  - **Core Input → Inventory**: Core 2x2 punya 4 sisi input (N/E/S/W). Conveyor apapun yang mengarah ke Core otomatis deposit item ke Inventory Core.
+    - 1 Raw/Bar yang masuk = +1 inventory resource tersebut (tanpa konversi hilang).
+    - Contoh: cabang via Splitter: 1 jalur ke Turret, 1 jalur ke Core. Saat turret idle/full, overflow via Filter/Merger diarahkan ke Core jadi tabungan.
+    - Inventory dipakai untuk bayar Biaya bangun + Repair. Tidak ada Energy terpisah — Energy = total nilai inventory untuk skor akhir (1 Iron/Copper Bar=5, Gold=12, Diamond/Alloy=20, Rune=50).
+    - Bounty enemy yang mati diantar? Drop langsung masuk Inventory (tidak perlu angkut).
+
 - **Mekanik 4 — Wave & Spawn**:
   - Build Phase 2 menit, bisa Skip via tombol. Selama Build, UI tampilkan panah arah spawn wave berikutnya.
   - Maksimal 4 spawn point (Utara/Selatan/Timur/Barat edge). Maksimal 2 spawn aktif bersamaan.
@@ -61,14 +72,15 @@
   - Komposisi dibuat agar Wave 1-2 mudah (lihat tabel).
 - **Mekanik 5 — Core HP & Ekonomi**:
   - Core HP 500. Repair 5 Iron Bar = +50 HP, hanya saat Build Phase.
+  - Core sebagai bank: semua surplus via conveyor masuk Inventory (lihat Mekanik 3). Inventory awal 30 Raw Iron + 10 Iron Bar.
   - Patokan: 2 Miner Basic cukup untuk 3 Turret Iron + surplus ke Core.
     - Miner Basic 20 raw/mnt x2 = 40 raw/mnt. 3x Smelter Batu 15/mnt = 45 kapasitas → output ~40 bar/mnt.
     - Turret Iron max 15 bar/mnt (1/4 detik), rata-rata tempur ~70% = ~10.5/mnt. 3 turret = ~31.5/mnt.
-    - Surplus = 40 - 31.5 = ~8.5 bar/mnt → masuk Core = 8.5 x 5 = ~42 Energy/mnt.
+    - Surplus = 40 - 31.5 = ~8.5 bar/mnt → masuk Core sebagai +8.5 inventory/mnt untuk bangunan baru.
     - 1 Miner → 1 Turret: 20 raw → 15 bar (bottleneck smelter) → turret 10.5/mnt → surplus ~4.5/mnt.
-  - Konversi Core: 1 Iron/Copper Bar = 5 Energy, 1 Gold Bar = 12 Energy, 1 Diamond/Alloy = 20 Energy, 1 Rune Core = 50 Energy.
+  - Nilai skor akhir: 1 Iron/Copper Bar=5, Gold=12, Diamond/Alloy=20, Rune=50.
 
-### Conveyor Tile Spec (7 Varian)
+##### Conveyor Tile Spec (7 Varian)
 
 Mk.I dan Mk.II tier terpisah (2 blueprint berbeda).
 
@@ -82,16 +94,16 @@ Mk.I dan Mk.II tier terpisah (2 blueprint berbeda).
 | 6 | Balancer | 1x1 | 150 | 2 in -> 2 out | Seimbangkan load | balance | 5 Iron Bar | Uncommon |
 | 7 | Filter | 1x1 | 150 | 1 in -> 2 out (lolos/tidak) | Blokir/izinkan per tipe | check/item | 5 Iron Bar + 2 Copper Bar | Uncommon |
 
-### Ore Deposit & Resource (4 Varian)
+##### Ore Deposit & Resource (4 Varian)
 
 | No | Deposit | Size | Resource Mentah | Hasil | Rarity Map |
 |---|---|---|---|---|---|
-| 1 | Iron Deposit | 1x1 | Raw Iron | Iron Bar (smelt) | Common, dekat Core |
+| 1 | Iron Deposit | 1x1 | Raw Iron | Iron Bar (smelt) | Common, dekat Core (jamin 1 dalam 8 tile) |
 | 2 | Copper Deposit | 1x1 | Raw Copper | Copper Bar (smelt) | Common, mid |
 | 3 | Gold Deposit | 1x1 | Raw Gold | Gold Bar (smelt) | Uncommon, jauh/sisi |
 | 4 | Diamond Deposit | 1x1 | Diamond | Diamond (langsung, bisa ke Crafter/Turret) | Rare, pojok high-risk |
 
-### Miner Varian (3, tier terpisah)
+##### Miner Varian (3, tier terpisah)
 
 | No | Nama | Size | HP | Output | Interval | Biaya | Rarity |
 |---|---|---|---|---|---|---|---|
@@ -99,9 +111,21 @@ Mk.I dan Mk.II tier terpisah (2 blueprint berbeda).
 | 2 | Miner Fast | 1x1 | 180 | 1 arah | 1.5s (40/mnt) | 10 Iron Bar | Uncommon |
 | 3 | Miner Multi | 1x1 | 220 | 2 arah round-robin | 2.0s total (30/mnt) | 10 Copper Bar | Rare |
 
-### Enemy Varian (5, mudah → sulit)
+##### Starter Kit (jamin Wave 1)
 
-| No | Nama | HP | Speed | Damage | Target | Ability | Bounty |
+| Item | Jumlah | Cara dapat | Untuk apa |
+|---|---|---|---|
+| Miner Basic | 1 | gratis build menu | taruh di Iron Deposit utara |
+| Lurus Mk.I | 12 | gratis | hubungkan Miner→Smelter→Turret→Core (cukup 10 tile) |
+| Belok | 2 | gratis | cadangan belokan |
+| Smelter Batu | 1 | gratis | Raw Iron→Iron Bar |
+| Turret Iron | 1 | gratis | 20 dmg/4s, bunuh 6 Crawler 24s |
+| Raw Iron | 30 | inventory awal | 5 conveyor ekstra / repair / tabungan |
+| Iron Bar | 10 | inventory awal | ammo buffer 10 shot pertama |
+
+##### Enemy Varian (5, mudah → sulit)
+
+| No | Nama | HP | Speed | Damage | Target | Ability | Bounty (langsung ke inventory) |
 |---|---|---|---|---|---|---|---|
 | 1 | Mite Crawler | 20 | 3.0 cepat | 5 ke Core/bangunan | Core langsung | Gerombol | 2 Raw Iron |
 | 2 | Shell Brute | 120 | 1.2 lambat | 20 ke bangunan | Wall/Turret terdekat | Armor -50% dmg <10 | 4 Raw Iron |
@@ -109,13 +133,13 @@ Mk.I dan Mk.II tier terpisah (2 blueprint berbeda).
 | 4 | Phase Wraith | 70 | 3.5 sangat cepat | 15 | Tembus ke Core | Ignore Wall | 4 Raw Copper |
 | 5 | Forge Titan | 800 | 0.8 sangat lambat | 100 AoE 3x3 | Core | Boss stomp | 10 Gold Bar + 5 Diamond |
 
-### Wave Composition (7 Wave, 30-40 mnt/run)
+##### Wave Composition (7 Wave, 30-40 mnt/run)
 
 Spawn bertahap, max 2 spawn aktif. Wave 1 dijamin 1 arah saja agar mudah.
 
 | Wave | Komposisi pool | Total HP | Spawn aktif | Interval | Catatan |
 |---|---|---|---|---|---|
-| 1 | 6x Crawler | 120 | 1 (Utara) | 1/3s | 1 Turret Iron cukup (6 shot = 24s) |
+| 1 | 6x Crawler | 120 | 1 (Utara) | 1/3s | Starter kit cukup, preview Utara |
 | 2 | 10x Crawler + 2x Brute | 440 | 1 | 1/2.5s | Kenalkan Brute |
 | 3 | 12x Crawler + 4x Brute + 2x Wisp | 810 | 2 | 1/2.5s | Kenalkan ranged, preview 2 arah |
 | 4 | 8x Brute + 6x Wisp + 4x Wraith | 1510 | 2 | 1/2s | Wraith cepat, butuh Wall/Filter |
@@ -125,9 +149,9 @@ Spawn bertahap, max 2 spawn aktif. Wave 1 dijamin 1 arah saja agar mudah.
 
 Core 500 HP cukup untuk 2-3 bocor kecil per wave awal (W1 total 30 dmg jika semua bocor), tapi lethal di W6-7 jika jebol.
 
-### Building Stats (HP / Range / DPS)
+##### Building Stats (HP / Range / DPS)
 
-Repair: 50% biaya = +50% max HP, HP harus >0. Conveyor/Miner ikut aturan sama, detail HP di tabel masing-masing.
+Repair: 50% biaya = +50% max HP, HP harus >0.
 
 | Bangunan | HP | Range | Damage / Rate / DPS | Konsumsi | Biaya |
 |---|---|---|---|---|---|
@@ -149,13 +173,6 @@ Repair: 50% biaya = +50% max HP, HP harus >0. Conveyor/Miner ikut aturan sama, d
 | Storage Buffer | 200 | - | tahan 20 item | - | 8 Iron Bar |
 | Wall Rune | 300 | - | blokir | - | 5 Raw Iron |
 | Pylon Overdrive | 150 | buff 3x3 | +30% speed sekitar | 1 Gold/30s | 15 Gold Bar |
-| Conveyor Mk.I / Belok | 100 | - | transport | - | 2 Raw Iron |
-| Conveyor Mk.II / Splitter / Merger | 120 | - | transport / bagi / gabung | - | 2-3 Iron Bar |
-| Balancer / Filter | 150 | - | balance / filter | - | 5 Iron Bar (+2 Copper) |
-| Miner Basic / Fast | 180 | - | 20/mnt / 40/mnt | - | 10 Raw Iron / 10 Iron Bar |
-| Miner Multi | 220 | - | 30/mnt 2 arah | - | 10 Copper Bar |
-
----
 
 ## 📦 4. Blueprint Pool Tunggal (26 Bangunan)
 
@@ -196,12 +213,13 @@ Recycler dihapus. Crusher tanpa waste.
 
 ## 🏛️ 5. Desain FTUE
 
-- **Pendekatan**: Contextual UI Hint + Sandbox Kihon, zero risk.
-  1. Tempatkan conveyor lurus → resource mengalir
-  2. Tambah Smelter → jadi bar
-  3. Hubungkan Turret → menembak otomatis
-  4. Wave kecil (6 Crawler, 1 arah Utara, info preview) → loop penuh
-- Reward tutorial: 1 blueprint bangunan pilihan pemain → run pertama.
+- **Pendekatan**: Contextual UI Hint + Sandbox Kihon, zero risk. Pakai Starter Kit gratis.
+  1. Taruh Miner Basic di Iron Deposit utara (jamin ≤8 tile) → Raw Iron keluar
+  2. Sambung 5-8 Lurus Mk.I → Smelter Batu → jadi Iron Bar
+  3. Cabang Splitter: 1 ke Turret Iron, 1 ke Core (ajarkan Core Input = Inventory)
+  4. Hubungkan Turret → tembak dummy → tunjukkan 10 Iron Bar ammo buffer
+  5. Wave kecil (6 Crawler Utara, preview panah) → rasakan loop penuh
+- Reward tutorial: 1 blueprint bangunan pilihan → run pertama.
 
 ---
 
