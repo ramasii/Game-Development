@@ -26,11 +26,10 @@
   Build Phase  : Susun conveyor, mesin, turret dari blueprint. Lihat preview arah wave berikutnya. Bisa hapus/jual/rotate.
   Wave Phase   : Monster menyerang — pabrik + turret jalan otomatis. Bangunan terkunci tidak bisa diubah.
   Reward Phase : Pilih 1 dari 3 blueprint (1 bangunan) sebagai hadiah.
-  Mati         : Core HP 0 → run berakhir → koin tersimpan → upgrade permanen.
+  Mati         : Core HP 0 → run berakhir → mulai dari awal
   ```
 - **Core Mechanic**: Bangun jalur `Deposit → Miner → Conveyor → Smelter/Crafter → Turret`. Surplus bar yang masuk Core diubah jadi Energy.
 - **Daya Tarik Jangka Pendek**: Combo 2–3 blueprint menghasilkan broken build. Ingin coba lagi tiap run.
-- **Daya Tarik Jangka Panjang**: Blueprint langka, faksi Steampunk/Cyberpunk, upgrade Core permanen.
 
 ---
 
@@ -73,15 +72,15 @@
 
 Mk.I dan Mk.II tier terpisah (2 blueprint berbeda).
 
-| No | Nama | Size | I/O | Fungsi | Speed | Biaya | Rarity |
-|---|---|---|---|---|---|---|---|
-| 1 | Lurus Mk.I | 1x1 | 1 in -> 1 out lurus | Transport dasar | 1 item/s | 2 Raw Iron | Common |
-| 2 | Lurus Mk.II | 1x1 | 1 in -> 1 out lurus | Transport cepat | 2.5 item/s | 2 Iron Bar | Uncommon |
-| 3 | Belok | 1x1 | 1 in -> 1 out L | Belok 90°, ikut speed belt masuk +0.1s delay | - | 2 Raw Iron | Common |
-| 4 | Splitter | 1x1 | 1 in -> 2 out | Bagi bergantian | round-robin | 3 Iron Bar | Common |
-| 5 | Merger | 1x1 | 2 in -> 1 out | Gabung bergantian | - | 3 Iron Bar | Common |
-| 6 | Balancer | 1x1 | 2 in -> 2 out | Seimbangkan load | balance | 5 Iron Bar | Uncommon |
-| 7 | Filter | 1x1 | 1 in -> 2 out (lolos/tidak) | Blokir/izinkan per tipe | check/item | 5 Iron Bar + 2 Copper Bar | Uncommon |
+| No | Nama | Size | HP | I/O | Fungsi | Speed | Biaya | Rarity |
+|---|---|---|---|---|---|---|---|---|
+| 1 | Lurus Mk.I | 1x1 | 100 | 1 in -> 1 out lurus | Transport dasar | 1 item/s | 2 Raw Iron | Common |
+| 2 | Lurus Mk.II | 1x1 | 120 | 1 in -> 1 out lurus | Transport cepat | 2.5 item/s | 2 Iron Bar | Uncommon |
+| 3 | Belok | 1x1 | 100 | 1 in -> 1 out L | Belok 90°, ikut speed belt masuk +0.1s delay | - | 2 Raw Iron | Common |
+| 4 | Splitter | 1x1 | 120 | 1 in -> 2 out | Bagi bergantian | round-robin | 3 Iron Bar | Common |
+| 5 | Merger | 1x1 | 120 | 2 in -> 1 out | Gabung bergantian | - | 3 Iron Bar | Common |
+| 6 | Balancer | 1x1 | 150 | 2 in -> 2 out | Seimbangkan load | balance | 5 Iron Bar | Uncommon |
+| 7 | Filter | 1x1 | 150 | 1 in -> 2 out (lolos/tidak) | Blokir/izinkan per tipe | check/item | 5 Iron Bar + 2 Copper Bar | Uncommon |
 
 ### Ore Deposit & Resource (4 Varian)
 
@@ -94,11 +93,11 @@ Mk.I dan Mk.II tier terpisah (2 blueprint berbeda).
 
 ### Miner Varian (3, tier terpisah)
 
-| No | Nama | Size | Output | Interval | Biaya | Rarity |
-|---|---|---|---|---|---|---|
-| 1 | Miner Basic | 1x1 | 1 arah | 3.0s (20/mnt) | 10 Raw Iron | Common |
-| 2 | Miner Fast | 1x1 | 1 arah | 1.5s (40/mnt) | 10 Iron Bar | Uncommon |
-| 3 | Miner Multi | 1x1 | 2 arah round-robin | 2.0s total (30/mnt) | 10 Copper Bar | Rare |
+| No | Nama | Size | HP | Output | Interval | Biaya | Rarity |
+|---|---|---|---|---|---|---|---|
+| 1 | Miner Basic | 1x1 | 180 | 1 arah | 3.0s (20/mnt) | 10 Raw Iron | Common |
+| 2 | Miner Fast | 1x1 | 180 | 1 arah | 1.5s (40/mnt) | 10 Iron Bar | Uncommon |
+| 3 | Miner Multi | 1x1 | 220 | 2 arah round-robin | 2.0s total (30/mnt) | 10 Copper Bar | Rare |
 
 ### Enemy Varian (5, mudah → sulit)
 
@@ -128,7 +127,7 @@ Core 500 HP cukup untuk 2-3 bocor kecil per wave awal (W1 total 30 dmg jika semu
 
 ### Building Stats (HP / Range / DPS)
 
-Repair: 50% biaya = +50% max HP, HP harus >0.
+Repair: 50% biaya = +50% max HP, HP harus >0. Conveyor/Miner ikut aturan sama, detail HP di tabel masing-masing.
 
 | Bangunan | HP | Range | Damage / Rate / DPS | Konsumsi | Biaya |
 |---|---|---|---|---|---|
@@ -150,6 +149,11 @@ Repair: 50% biaya = +50% max HP, HP harus >0.
 | Storage Buffer | 200 | - | tahan 20 item | - | 8 Iron Bar |
 | Wall Rune | 300 | - | blokir | - | 5 Raw Iron |
 | Pylon Overdrive | 150 | buff 3x3 | +30% speed sekitar | 1 Gold/30s | 15 Gold Bar |
+| Conveyor Mk.I / Belok | 100 | - | transport | - | 2 Raw Iron |
+| Conveyor Mk.II / Splitter / Merger | 120 | - | transport / bagi / gabung | - | 2-3 Iron Bar |
+| Balancer / Filter | 150 | - | balance / filter | - | 5 Iron Bar (+2 Copper) |
+| Miner Basic / Fast | 180 | - | 20/mnt / 40/mnt | - | 10 Raw Iron / 10 Iron Bar |
+| Miner Multi | 220 | - | 30/mnt 2 arah | - | 10 Copper Bar |
 
 ---
 
@@ -157,34 +161,34 @@ Repair: 50% biaya = +50% max HP, HP harus >0.
 
 Satu pool. 1 draft = 1 bangunan. Tidak ada perk pasif di sini.
 
-| No | Nama | Kategori | Rarity | Fungsi | Biaya |
-|---|---|---|---|---|---|
-| 1 | Miner Basic | Miner | Common | 20/mnt, 1 arah | 10 Raw Iron |
-| 2 | Miner Fast | Miner | Uncommon | 40/mnt, 1 arah | 10 Iron Bar |
-| 3 | Miner Multi | Miner | Rare | 30/mnt, 2 arah | 10 Copper Bar |
-| 4 | Lurus Mk.I | Logistik | Common | 1 item/s | 2 Raw Iron |
-| 5 | Lurus Mk.II | Logistik | Uncommon | 2.5 item/s | 2 Iron Bar |
-| 6 | Belok | Logistik | Common | Belok 90° | 2 Raw Iron |
-| 7 | Splitter | Logistik | Common | 1→2 | 3 Iron Bar |
-| 8 | Merger | Logistik | Common | 2→1 | 3 Iron Bar |
-| 9 | Balancer | Logistik | Uncommon | 2→2 balance | 5 Iron Bar |
-| 10 | Filter | Logistik | Uncommon | 1→2 lolos/tidak | 5 Iron Bar + 2 Copper Bar |
-| 11 | Router | Logistik | Uncommon | multi I/O | 5 Iron Bar |
-| 12 | Smelter Batu | Smelter | Common | 4s/bar | 8 Raw Iron |
-| 13 | Smelter Arcane | Smelter | Uncommon | 2s/bar | 15 Iron Bar |
-| 14 | Foundry Ganda | Smelter | Rare | 2 slot paralel | 25 Iron Bar + 10 Copper Bar |
-| 15 | Crusher | Smelter | Uncommon | 1s/bar, tanpa waste | 12 Iron Bar |
-| 16 | Turret Iron | Turret | Common | 20 dmg /4s | 10 Iron Bar |
-| 17 | Turret Copper | Turret | Uncommon | 8 dmg /2s | 12 Copper Bar |
-| 18 | Turret Gold | Turret | Rare | 30 AoE /6s | 20 Gold Bar |
-| 19 | Turret Diamond | Turret | Epic | 100 /8s sniper | 10 Diamond |
-| 20 | Turret Tesla | Turret | Epic | chain3 | 15 Alloy Pack + 5 Diamond |
-| 21 | Turret Mortar | Turret | Rare | 40 AoE jauh | 20 Gold Bar |
-| 22 | Crafter Alloy | Crafter | Rare | Iron+Copper→Alloy | 20 Iron Bar + 10 Copper Bar |
-| 23 | Assembler Rune | Crafter | Epic | Gold+Diamond→Rune | 30 Gold Bar + 10 Diamond |
-| 24 | Cooler Mist | Utilitas | Uncommon | anti-panas +10% | 10 Copper Bar |
-| 25 | Coil Charger | Utilitas | Rare | tambah listrik | 15 Copper Bar + 5 Iron Bar |
-| 26 | Storage / Wall / Pylon | Mixed | Uncommon-Rare-Epic | Buffer 20 / HP300 / buff 3x3 | 8 Iron Bar / 5 Raw Iron / 15 Gold Bar |
+| No | Nama | Kategori | HP | Rarity | Fungsi | Biaya |
+|---|---|---|---|---|---|---|
+| 1 | Miner Basic | Miner | 180 | Common | 20/mnt, 1 arah | 10 Raw Iron |
+| 2 | Miner Fast | Miner | 180 | Uncommon | 40/mnt, 1 arah | 10 Iron Bar |
+| 3 | Miner Multi | Miner | 220 | Rare | 30/mnt, 2 arah | 10 Copper Bar |
+| 4 | Lurus Mk.I | Logistik | 100 | Common | 1 item/s | 2 Raw Iron |
+| 5 | Lurus Mk.II | Logistik | 120 | Uncommon | 2.5 item/s | 2 Iron Bar |
+| 6 | Belok | Logistik | 100 | Common | Belok 90° | 2 Raw Iron |
+| 7 | Splitter | Logistik | 120 | Common | 1→2 | 3 Iron Bar |
+| 8 | Merger | Logistik | 120 | Common | 2→1 | 3 Iron Bar |
+| 9 | Balancer | Logistik | 150 | Uncommon | 2→2 balance | 5 Iron Bar |
+| 10 | Filter | Logistik | 150 | Uncommon | 1→2 lolos/tidak | 5 Iron Bar + 2 Copper Bar |
+| 11 | Router | Logistik | 150 | Uncommon | multi I/O | 5 Iron Bar |
+| 12 | Smelter Batu | Smelter | 200 | Common | 4s/bar | 8 Raw Iron |
+| 13 | Smelter Arcane | Smelter | 200 | Uncommon | 2s/bar | 15 Iron Bar |
+| 14 | Foundry Ganda | Smelter | 300 | Rare | 2 slot paralel | 25 Iron Bar + 10 Copper Bar |
+| 15 | Crusher | Smelter | 200 | Uncommon | 1s/bar, tanpa waste | 12 Iron Bar |
+| 16 | Turret Iron | Turret | 150 | Common | 20 dmg /4s | 10 Iron Bar |
+| 17 | Turret Copper | Turret | 120 | Uncommon | 8 dmg /2s | 12 Copper Bar |
+| 18 | Turret Gold | Turret | 150 | Rare | 30 AoE /6s | 20 Gold Bar |
+| 19 | Turret Diamond | Turret | 120 | Epic | 100 /8s sniper | 10 Diamond |
+| 20 | Turret Tesla | Turret | 130 | Epic | chain3 | 15 Alloy Pack + 5 Diamond |
+| 21 | Turret Mortar | Turret | 180 | Rare | 40 AoE jauh | 20 Gold Bar |
+| 22 | Crafter Alloy | Crafter | 200 | Rare | Iron+Copper→Alloy | 20 Iron Bar + 10 Copper Bar |
+| 23 | Assembler Rune | Crafter | 400 | Epic | Gold+Diamond→Rune | 30 Gold Bar + 10 Diamond |
+| 24 | Cooler Mist | Utilitas | 150 | Uncommon | anti-panas +10% | 10 Copper Bar |
+| 25 | Coil Charger | Utilitas | 150 | Rare | tambah listrik | 15 Copper Bar + 5 Iron Bar |
+| 26 | Storage / Wall / Pylon | Mixed | 200/300/150 | Uncommon-Rare-Epic | Buffer 20 / blokir / buff 3x3 | 8 Iron Bar / 5 Raw Iron / 15 Gold Bar |
 
 Recycler dihapus. Crusher tanpa waste.
 
