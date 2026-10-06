@@ -9,8 +9,7 @@
 - [[GDD - Solve Together]] — GDD ringkas: konsep, core loop, arsitektur sinkronisasi, roles, referensi
 - [[Timeline]] — Timeline 6 minggu: Ideation → Prototyping → Assets → Level → Integration → Polishing
 - [[PBL Brief - NGO]] — Panduan PBL: spesifikasi Unity 6 NGO, komponen wajib Netcode, deliverables Ethol
-
----
+- [[Plan - Level Failed Completed]] — Plan flow Failed (hazard) & Completed (GoalZone trigger), server-authoritative + MVP UI
 
 ## 🔗 Skill Vault yang Relevan
 
