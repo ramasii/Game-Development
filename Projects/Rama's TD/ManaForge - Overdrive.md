@@ -135,6 +135,23 @@ Blueprint = bangunan placeable untuk Reward Draft. Perk pasif dibahas terpisah.
 | 19 | Wall Rune | Defensif | Uncommon | Blokir 1 tile | HP 200 |
 | 20 | Pylon Overdrive | Utilitas | Epic | Buff 3x3 +30% speed | 1 Gold Bar/30s `[listrik]` |
 
+##### Machine Varian (12)
+
+| Nama | Kategori | Size | Fungsi | Rarity |
+|---|---|---|---|---|
+| Smelter Batu | Smelter | 1x1 | mentah -> bar, 4s lambat murah | Common |
+| Smelter Arcane | Smelter | 1x1 | mentah -> bar, 2s | Uncommon |
+| Foundry Ganda | Smelter | 2x1 | 2 slot paralel | Rare |
+| Crusher Scrap | Smelter | 1x1 | 1 mentah -> 2 shard 1s, 30% jadi waste | Uncommon |
+| Crafter Alloy | Crafter | 1x1 | Iron Bar + Copper Bar -> Alloy Pack | Rare |
+| Assembler Rune | Crafter | 2x2 | Gold Bar + Diamond -> Rune Core | Epic |
+| Cooler Mist | Utilitas | 1x1 | hilangkan panas, +10% speed keluar | Uncommon |
+| Coil Charger | Utilitas | 1x1 | tambah listrik ke bar lewat | Rare |
+| Recycler Waste | Utilitas | 1x1 | 3 waste -> 1 bar acak | Rare |
+| Turret Tesla | Turret | 1x1 | chain 3 musuh, butuh Alloy | Epic |
+| Turret Mortar | Turret | 2x2 | AoE jauh, lambat, butuh Gold | Rare |
+| Pylon Overdrive | Buffer | 1x1 | buff 3x3 +30% speed, makan Gold/30s | Epic |
+
 ## 🏛️ 5. Desain FTUE
 
 - **Pendekatan FTUE**: **Contextual UI Hint + Sandbox Room (Kihon)**
