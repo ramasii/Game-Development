@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Projects/Solve Together/Plan - Level Failed Completed.md",
+                "file": "Projects/Solve Together/Plan - Push Chain.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Plan - Level Failed Completed"
+              "title": "Plan - Push Chain"
             }
           }
         ],
@@ -232,13 +232,14 @@
   },
   "active": "c18e22e892bad64d",
   "lastOpenFiles": [
+    "Projects/Solve Together/Plan - Level Failed Completed.md",
+    "Projects/Solve Together/Plan - Push Chain.md",
     "Projects/Solve Together/PBL Brief - NGO.md",
     "Projects/Solve Together/GDD - Solve Together.md",
     "Projects/Solve Together/Solve Together.md",
     "Projects/Rama's TD/ManaForge - Overdrive.md",
     "Projects/Rama's TD/Rama's TD.md",
     "Projects/Ideas/Project Aegis/Project Aegis.md",
-    "Projects/Solve Together/Plan - Level Failed Completed.md",
     "Projects/Ball Jumper/Plan - Multi Booster.md",
     "Projects/Ball Jumper/TDD - Ball Jumper.md",
     "Projects/Ball Jumper/Ball Jumper.md",
@@ -257,7 +258,6 @@
     "Response A.md",
     "Response B.md",
     "Response C.md",
-    "Skills/01-System-Deconstruction/🎯 1. System Deconstruction.md",
     "Projects/Word Space",
     "Projects/Frog Life Cycle",
     "Projects/Awan Tukang Hujan",
