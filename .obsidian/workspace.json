@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Projects/Solve Together/Plan - Push Chain.md",
+                "file": "Temporary.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Plan - Push Chain"
+              "title": "Temporary"
             }
           }
         ],
@@ -232,8 +232,9 @@
   },
   "active": "c18e22e892bad64d",
   "lastOpenFiles": [
-    "Projects/Solve Together/Plan - Level Failed Completed.md",
     "Projects/Solve Together/Plan - Push Chain.md",
+    "DraftArsitekturEnemy.md",
+    "Projects/Solve Together/Plan - Level Failed Completed.md",
     "Projects/Solve Together/PBL Brief - NGO.md",
     "Projects/Solve Together/GDD - Solve Together.md",
     "Projects/Solve Together/Solve Together.md",
@@ -249,7 +250,6 @@
     "Skills/03-Game-Architecture/SOLID Principles (Unity).md",
     "Skills/03-Game-Architecture/MVP Pattern (Unity UI).md",
     "Projects/Word Space/GDD - Word Space.md",
-    "DraftArsitekturEnemy.md",
     "Skills/03-Game-Architecture/Decoupled Audio System (Event Channel & Pooling).md",
     "Projects/Ball Jumper/Plan - Platform Gerak-Retak.md",
     "Projects/Ball Jumper/Plan - PlayerController Refactor.md",

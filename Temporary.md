@@ -1,131 +1,98 @@
-# Mini Game Design Document: Aether Conduit
+# GDD Singkat: Drift Boss-Style Game
 
-Project Status: Concept Locked / Pre-Production Lead Designer: (Anda) Date: [Hari Ini]
+## 1. Konsep
 
----
+Game arcade endless 3D dengan kontrol satu tombol. Mobil jalan otomatis di atas jalur melayang berbelok-belok. Pemain harus ganti arah dengan timing tepat supaya tidak jatuh ke luar jalur. Makin jauh, makin tinggi skor.
 
-## 1. Executive Summary
+**Genre:** Arcade / hyper-casual, endless runner  
+**Platform:** WebGL dan Mobile  
+**Sesi main:** 30 detik sampai 3 menit
 
-- Genre: Tower Defense (TD) / Roguelite / Puzzle Strategy
-- Target Audiens: Pemain dewasa (18+) yang menyukai tantangan strategis, _deep mechanics_, dan genre _puzzle solving_ yang membutuhkan perencanaan jangka panjang (Misalnya: Pemain yang menyukai _Into the Breach_, _Slay the Spire_, dan _Factorio_).
-- High Concept: Anda adalah konduktor energi dalam jaringan antar-dimensi, dipaksa untuk mempertahankan sumber daya vital dari ancaman entropi dengan cara memanipulasi aliran waktu itu sendiri.
-- Unique Selling Point (USP): Penggantian fokus pertahanan dari sekadar penempatan _tower_ menjadi manajemen kondisi waktu (mengatur kapan, di mana, dan bagaimana energi harus berinteraksi). Pemain harus berpikir seperti ahli fisika yang mengatasi _bug_ di kode semesta.
+## 2. Pilar Gameplay
 
-## 2. Gameplay & Mechanics
+- **Mudah dipelajari:** satu input, tanpa tutorial panjang.
+- **Sulit dikuasai:** timing menentukan semuanya, dan ritme jalan makin cepat.
+- **Retry instan:** mati langsung bisa main lagi dalam kurang dari 2 detik.
 
-- Core Loop:
-    1. Preparation (Setup): Pemain menempatkan berbagai _Conduits_ dan _Utility_ di jalur pertahanan.
-    2. Absorption (Build-Up): Pemain mengumpulkan _Stabilizer Charge_ dan mengamati pola serangan musuh menggunakan Echo.
-    3. Crisis (Intervention): Ketika gelombang serangan besar datang, pemain harus menggunakan Phase Shifting untuk bertahan dan mengisolasi ancaman.
-    4. Climax (Resolution): Menggunakan **Resonance Cascade** untuk melipatgandakan kerusakan dan membersihkan gelombang musuh. 5. Advance: Jika pemain berhasil bertahan, mereka akan maju ke _node_ berikutnya, menerima peningkatan _meta-progress_ permanen, dan memulai _run_ baru dengan tantangan baru.
+## 3. Kontrol
 
-- Player Verbs Utama: Shift, Link, Sense
-- Rincian Mekanik:
-    - Phase Shifting: (Defense) Memungkinkan pemain mengisolasi _conduit_ dari ancaman temporer. Menggunakan _Stabilizer Charge_. Risiko: _Cooldown_ Utility.
-    - Resonance Cascade: (Offense) Melipatgandakan efektivitas pertahanan dengan menautkan utilitas yang berbeda. Mekanisme kunci: _Multiplier_ berdasarkan jumlah _link_ unik.
-    - Echo Reading: (Utility/Information) Membaca jejak waktu untuk mendapatkan pengetahuan krusial tentang pola serangan musuh yang akan datang. Sumber informasi utama di setiap _run_.
-- Win / Lose Condition:
-    - Win: Berhasil melewati gelombang musuh dengan _Disruption Level_ total yang terlampaui, mengaktifkan _exit conduit_.
-    - Lose: Semua _conduit_ utama rusak total atau _Stabilizer Charge_ habis total sebelum gelombang berikutnya tiba.
+|Input|Aksi|
+|---|---|
+|Tahan (klik / spasi / sentuh)|Mobil drift ke **kanan**|
+|Lepas|Mobil drift ke **kiri**|
 
-## 3. World & Entities
+Tidak ada gas dan rem. Kecepatan maju diatur sistem.
 
-- Latar Belakang Cerita: Semesta energi vital (Aether) yang menopang eksistensi berbagai dimensi berada dalam keadaan entropi. Pemain adalah Konduktor terlatih yang ditempatkan di Jaringan Arus Energi (The Great Conduit), yang kini dipenuhi oleh retakan temporal. Tugas mereka adalah menjaga integritas jaringan dari _The Void Recursion_—kekuatan yang ingin menghapus konsep dan waktu itu sendiri—dengan memulihkan dan menyinkronkan aliran energi.
-- Profil Entitas & Karakter:
+## 4. Core Mechanics
 
-|Entitas|Peran|Stat Utama|Mekanik Kunci|
-|---|---|---|---|
-|Echo (NPC Pendamping)|Utility Support / Guide|Wawasan Temporal (Temporal Insight)|Echo Reading: Memproyeksikan pola ancaman masa depan, memberikan informasi kritis yang mengubah strategi pertahanan.|
-|The Void Recursion (Boss)|Existential Threat|Tingkat Disrupsi (Disruption Level)|Causality Collapse: Tidak menyerang secara fisik, melainkan merusak aturan sistem itu sendiri (membatalkan _Resonance_ atau mengubah _Phase Shift_), memaksa pemain _adapt_ secara total.|
+**a. Auto-forward + diagonal drift**
 
-## 4. Technical Scope & Engine Recommendation
+- Mobil bergerak maju konstan. Input hanya mengganti arah diagonal (kanan atau kiri), jadi jalurnya zig-zag.
+- Ganti arah memicu animasi drift (body miring, efek asap, suara gesekan ban).
 
-- Platform Utama: PC (Steam)
-- Rekomendasi Game Engine: Unity
-- Alasan:
-    1. Visual Complexity: Karena desain kita melibatkan interaksi sistem yang kompleks (fisika energi, _particle effects_ untuk _Resonance_, visualisasi _time stream_), Unity memiliki _toolset_ yang lebih matang untuk _VFX_ (Visual Effects) dan _Shader Programming_ yang kompleks.
-    2. Cross-Platform: Unity menawarkan dukungan ekosistem yang sangat luas, memastikan kemudahan adaptasi ke platform lain jika diperlukan di masa depan.
-    3. Community Support: Jumlah aset, tutorial, dan _developer_ siap pakai di Unity sangat besar, mempercepat fase prototipe untuk sistem mekanik yang rumit.
+**b. Jalur melayang (platform track)**
 
-## 5. Persiapan - Game Brief & Visual Lock (Praktikum Minggu 3 - disesuaikan dengan GDD)
+- Jalur terdiri dari segmen/tile yang tersambung, dengan belokan tajam, tikungan beruntun, dan lebar jalur yang bervariasi.
+- Tidak ada pagar pembatas. Kalau roda keluar dari jalur, mobil jatuh dan **game over**.
 
-| Elemen         | Keputusan Desain (disesuaikan dengan GDD Aether Conduit)                                                              |
-| -------------- | --------------------------------------------------------------------------------------------------------------------- |
-| Game Brief     | Aether Conduit                                                                                                        |
-| World          | The Great Conduit - jaringan arus energi antar-dimensi yang retak temporal, Aether vs The Void Recursion              |
-| Main Character | Konduktor - teknisi / kurir energi muda, pemelihara aliran waktu, pembawa Stabilizer Charge dan Echo Reader           |
-| Visual Style   | Stylized 2D game illustration; clean shapes; readable silhouette; mystical-tech hand-painted + glowing energy accents |
-| Palette        | Void Indigo (navy), Stabilizer Gold, Aether Teal, Bone Cream, Entropic Terracotta                                     |
-| Target         | Karakter mudah dikenali di tengah VFX ramai dan dapat diturunkan menjadi sprite 2D / portrait UI                      |
-| Constraint     | Tidak menggunakan logo, teks, atau karakter tambahan pada character concept; kostum sederhana, no photoreal           |
+**c. Fail condition**
 
-## Visual Lock - Atribut yang tidak boleh berubah (sesuai GDD)
-- rambut hitam pendek
-- jaket mantle indigo dengan piping teal menyala (Phase Shift gear)
-- scarf teal panjang (visualisasi time-stream / Echo Reading)
-- tas selempang cokelat dengan selang conduit kecil (pembawa Stabilizer Charge)
-- kompas kuningan kecil / stabilizer core pada belt
-- sepatu boots cokelat tempur
-- silhouette sederhana dan mudah dibaca
-- proporsi karakter stylized ramping (5-6 kepala), cocok untuk sprite
+- Mobil keluar jalur lalu jatuh ke ruang kosong, kamera mengikuti sebentar, lalu muncul layar game over.
 
-## 6. Prompt Log - Praktikum Minggu 3 (From Prompt to Consistent Character)
+**d. Skor**
 
-### Prompt 2 - Context (beri peran dan dunia)
+- Skor naik per jarak tempuh atau per segmen yang dilewati.
+- Bonus kecil untuk koin yang diambil. Best score disimpan lokal.
+
+**e. Koin**
+
+- Koin diletakkan secara acak di sepanjang jalur, sebagian sengaja di dekat tepi sebagai risk/reward.
+- Koin dipakai untuk unlock kendaraan.
+
+**f. Kenaikan kesulitan**
+
+- Kecepatan naik bertahap per jarak tertentu.
+- Jalur makin sempit, dan belokan makin rapat dan beruntun.
+- Ada jeda "napas" berupa segmen lurus panjang supaya tidak melelahkan.
+
+## 5. Core Loop
+
 ```
-Create a young energy conductor character for a 2D Tower Defense Roguelite game set in The Great Conduit, a fractured interdimensional energy network threatened by entropy (The Void Recursion).
-The character maintains time-flow and carries Stabilizer Charge between conduit nodes, using Echo Reading to predict enemy patterns.
+Main → Jalan jauh & kumpulin koin → Jatuh (Game Over)
+  → Skor + koin masuk → Unlock/upgrade kendaraan → Main lagi
 ```
 
-### Prompt 3 - Structured Production Prompt
-```
-Create a full-body character concept for a 2D Tower Defense Roguelite game.
+## 6. Progression & Meta
 
-Character: Konduktor, a young energy conductor and time-flow maintainer.
+- **Kendaraan unlockable:** mobil biasa, taksi, polisi, truk es krim, dan lainnya. Pembedanya terutama visual, dan sebagian bisa punya handling berbeda (lebar drift, kecepatan belok).
+- **Daily reward:** hadiah login harian yang naik tiap hari berturut-turut.
+- **Booster:** double score, car insurance (revive sekali), coin rush.
+- **Spin wheel:** hadiah acak setelah selesai main.
 
-Role: carries Stabilizer Charge between conduit nodes, uses Echo Reading to sense enemy patterns, triggers Phase Shifting and Resonance Cascade in crisis.
+## 7. Level / Track Generation
 
-Visual characteristics:
-- short black hair
-- indigo mantle jacket with glowing teal piping
-- long teal scarf (time-stream visualization)
-- brown crossbody satchel with small conduit hose
-- small brass stabilizer compass core attached to the belt
-- brown combat boots
+- **Procedural endless:** segmen diambil dari pool prefab (lurus, belok kiri, belok kanan, zig-zag, jalur sempit) lalu disambung secara runtime.
+- Bobot pemilihan segmen mengikuti kurva kesulitan: makin jauh, makin banyak segmen sulit.
+- Segmen yang sudah dilewati dihapus atau di-recycle dengan object pooling.
 
-Art style:
-stylized 2D game illustration, clean shapes, readable silhouette, hand-painted appearance with subtle glowing energy accents. Palette: Void Indigo, Stabilizer Gold, Aether Teal, Bone Cream, Entropic Terracotta.
+## 8. Visual & Audio
 
-Composition:
-full body, neutral standing pose, front three-quarter view, simple light background.
+- Low-poly dengan warna cerah, platform berpola kotak-kotak dan berwarna-warni di atas latar kosong (space/void).
+- Kamera isometrik/third-person dari atas, mengikuti mobil dengan smoothing.
+- SFX drift, koin, dan jatuh. BGM energik tapi tidak mengganggu.
 
-Keep the costume simple enough to later convert into a 2D sprite and readable among busy VFX.
-No text, no logo, no additional characters.
-```
+## 9. UI Minimal
 
-### Prompt 4 - Variasi (Visual Lock)
-```
-Generate three visual variations of the same character while keeping these attributes unchanged: short black hair, indigo mantle jacket with glowing teal piping, long teal scarf, brown crossbody satchel with conduit hose, brass stabilizer compass core on belt, and brown combat boots.
+- **HUD:** skor, jumlah koin.
+- **Game Over:** skor, best score, tombol Retry, tombol ke garage.
+- **Garage:** pilih dan unlock kendaraan.
 
-Variation should only affect small costume details and accessories (belt pouches, glove details, satchel stitching, boot straps).
+## 10. Catatan Implementasi (Unity)
 
-Maintain the same visual style, palette (Void Indigo, Stabilizer Gold, Aether Teal, Bone Cream, Entropic Terracotta), silhouette, and role as Aether Conduit energy conductor.
-```
+- Gerak mobil: velocity maju konstan, arah diganti lewat rotasi/heading target dengan lerp supaya terasa drift.
+- Deteksi jatuh: raycast ke bawah dari mobil atau cek posisi Y. Kalau tidak ada ground, trigger game over.
+- Segmen jalur: prefab dengan titik sambung (entry/exit point) supaya mudah disusun.
+- Object pooling untuk segmen dan koin, penting untuk performa WebGL/mobile.
+- Parameter yang dibuat tweakable via ScriptableObject: kecepatan, sudut drift, kurva kesulitan.
 
-### Prompt 5 - Reference Sheet
-```
-Create a character reference sheet for the same character.
-
-Show:
-- front view
-- side view
-- back view
-- three facial expressions (neutral, focused / crisis, happy / resolution)
-
-Preserve exactly:
-short black hair, indigo mantle jacket with glowing teal piping, long teal scarf, brown satchel with conduit hose, brass stabilizer compass core, brown boots.
-
-Use consistent proportions (slim stylized 5-6 heads tall), colors and costume details.
-Clean neutral background.
-No text, no logo.
-```
+Kalau mau, aku bisa lanjutin ke breakdown task per sprint atau skrip dasar controller drift-nya. Mau dibikin jadi dokumen juga?
