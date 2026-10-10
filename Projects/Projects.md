@@ -21,7 +21,6 @@ Halaman ini adalah **indeks semua proyek aktif dan arsip** yang sedang atau pern
 | **Status** | 🔧 Aktif — Phase 1 |
 
 ### 🎮 [[Projects/Solve Together/Solve Together|Solve Together]] — 🔧 Aktif
-###### 🎮 [[Projects/Solve Together/Solve Together|Solve Together]] — 🔧 Aktif
 > *Co-op Puzzle 2D Side Scroller max 4 pemain — selesaikan puzzle bareng untuk buka pintu — **PBL Kuliah Kelompok 4** *
 
 | Info | Detail |
@@ -33,6 +32,19 @@ Halaman ini adalah **indeks semua proyek aktif dan arsip** yang sedang atau pern
 | **Tim** | Kelompok 4 (Rama - Programmer) |
 | **Status** | 🔧 Aktif — PBL Kuliah |
 | **Dokumen** | [[Projects/Solve Together/GDD - Solve Together\|GDD]] • [[Projects/Solve Together/Timeline\|Timeline]] • [[Projects/Solve Together/PBL Brief - NGO\|PBL Brief]] |
+
+### 🎮 [[Projects/Drift Master/Drift Master|Drift Master]] — 🔧 Aktif
+> *Arcade endless 3D satu tombol ala Drift Boss — drift kanan/kiri dengan timing, jangan jatuh*
+
+| Info | Detail |
+|---|---|
+| **Nama** | Drift Master |
+| **Genre** | Arcade / hyper-casual, endless runner 3D |
+| **Platform** | WebGL / Mobile |
+| **Engine** | Unity 6 (URP) |
+| **Tim** | Solo Dev |
+| **Status** | 🔧 Aktif — Prototyping |
+| **Dokumen** | [[Projects/Drift Master/GDD - Drift Master|GDD]] • [[Projects/Drift Master/Drift Master|Hub]] |
 
 ## 📦 Arsip Proyek
 
@@ -50,16 +62,6 @@ Halaman ini adalah **indeks semua proyek aktif dan arsip** yang sedang atau pern
 | **Dokumen** | [[GDD - Ball Jumper\|GDD]] • [[Projects/Ball Jumper/Ball Jumper\|Hub]] • [[TDD - Ball Jumper\|TDD]] • [[Projects/Ball Jumper/Post Gamejam - Ball Jumper\|Post Gamejam]] |
 
 ### 🎮 [[Projects/IFEST 2026/IFEST 2026|IFEST 2026 — Dukun Chain Reaction]] — ✅ Selesai
-> *Crafting Puzzle Chain Reaction — dukun urban meracik ramuan sesajen berurutan untuk penuhi pesanan customer*
-
-| Info | Detail |
-|---|---|
-| **Nama** | Dukun Chain Reaction |
-| **Tema Jam** | Chain Reaction |
-| **Genre** | Crafting Puzzle / Shop Management |
-| **Platform** | PC / WebGL |
-| **Engine** | Unity 6 |
-| **Tim** | Team IFEST |
 | **Status** | ✅ Selesai — Submitted 04 Sep 2026 |
 | **Dokumen** | [[Projects/IFEST 2026/GDD - Dukun Chain Reaction\|GDD]] • [[Projects/IFEST 2026/Roadmap\|Roadmap]] |
 
