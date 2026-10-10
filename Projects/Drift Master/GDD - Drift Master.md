@@ -1,11 +1,7 @@
 # GDD - Drift Master
-
-> *Drift Boss-style — arcade endless 3D satu tombol.
-> Hub proyek: [[Projects/Drift Master/Drift Master|Drift Master]]
-
 ## 1. Konsep
 
-Game arcade endless 3D dengan kontrol satu tombol. Mobil jalan otomatis di atas jalur melayang berbelok-belok. Pemain harus ganti arah dengan timing tepat supaya tidak jatuh ke luar jalur. Makin jauh, makin tinggi skor.
+Game arcade endless 3D dengan kontrol satu tombol. Mobil jalan otomatis di atas jalur melayang zig-zag 90 derajat. Pemain harus ganti arah dengan timing tepat supaya tidak jatuh ke luar jalur. Makin jauh, makin tinggi skor.
 
 **Genre:** Arcade / hyper-casual, endless runner  
 **Platform:** WebGL dan Mobile  
