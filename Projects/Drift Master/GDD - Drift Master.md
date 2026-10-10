@@ -1,6 +1,6 @@
 # GDD - Drift Master
 
-> *Drift Boss-style — arcade endless 3D satu tombol. Dipindah dari [[Temporary]] pada 2026-10-10.*
+> *Drift Boss-style — arcade endless 3D satu tombol.
 > Hub proyek: [[Projects/Drift Master/Drift Master|Drift Master]]
 
 ## 1. Konsep
@@ -62,7 +62,7 @@ Tidak ada gas dan rem. Kecepatan maju diatur sistem.
 
 ```
 Main → Jalan jauh & kumpulin koin → Jatuh (Game Over)
-  → Skor + koin masuk → Unlock/upgrade kendaraan → Main lagi
+  → Skor + koin masuk → Unlock kendaraan → Main lagi
 ```
 
 ## 6. Progression & Meta
